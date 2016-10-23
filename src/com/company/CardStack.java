@@ -28,9 +28,17 @@ public class CardStack{
     }
 
     public Card deal(){
-        System.out.printf("Rang:  %s und Farbe: %s\n",Card.Rank.ACE,Card.Suit.HEART);
-        System.out.printf("%d", STACK_SIZE);
+        System.out.printf("Rang:  %s und Farbe: %s\n",cards.get(0),cards.get(0));
         return cards.remove(0);
     }
 
+    public void print(){
+        int x=0;
+        for(int i=0; i < cards.size();i++){
+            System.out.print(cards.get(i));
+            System.out.printf("\n");
+            x++;
+            System.out.println(x);
+        }
+    }
 }

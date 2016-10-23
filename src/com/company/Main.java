@@ -6,9 +6,11 @@ public class Main {
         CardStack stack1 = new CardStack();
         stack1.shuffleDeck();
 
+
         System.out.println("Karten entfernt");
         for(int i = 0; i<5; i++){
             stack1.deal();
         }
+        stack1.print();
     }
 }
