@@ -1,25 +1,35 @@
 package com.company;
 
 public class Card {
-    private final Suit suit;
-    private final Rank rank;
+    public Suit suit;
+    public Rank rank;
 
+    //Konstruktor
+    public Card(Rank rank, Suit suit){
+        this.rank = rank;
+        this.suit = suit;
+    }
 
+    //Farben
     public enum Suit{
         CLUB, SPADE, HEART, DIAMOND;
     }
+    //Werte
     public enum Rank{
         TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
-
         public int rank(){
             return this.ordinal() + 2;
         }
     }
 
-    public Card(Rank rank, Suit suit){
-        this.rank = rank;
-        this.suit = suit;
+    public Rank getRank() {
+        return rank;
     }
+
+    public Suit getSuit() {
+        return suit;
+    }
+
 }
 
 /*package card;

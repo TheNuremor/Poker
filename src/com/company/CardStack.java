@@ -4,14 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CardStack{
+public class CardStack extends Card{
+
 
     private int STACK_SIZE = 52;
 
     private final List<Card> cards;
 
+
+/*Also ich habe Card als Oberklasse an Cardstacks vererbt.
+* Dafür musste im Konstruktor von CardStack die super() Funktion dazukommen
+* und der Konstrukter muss die Variablen Rank rank, Suit suit als Referenz haben.
+* Dann kann man alles weitere einfach so nutzen...
+* Jetzt muss ich nur noch die for-Schleifen umändern...*/
+
+
     //Constuctor
-    public CardStack(){
+    public CardStack(Rank rank, Suit suit){
+        super(rank, suit);
         cards = new ArrayList<Card>(STACK_SIZE);
 
         for(Card.Suit suit : Card.Suit.values()){
