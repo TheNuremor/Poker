@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String [] args){
         CardStack stack1 = new CardStack();
-        stack1.shuffleDeck();
+        stack1.shuffleStack();
 
 
         System.out.println("Karten entfernt");

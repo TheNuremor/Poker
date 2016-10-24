@@ -24,16 +24,16 @@ public class CardStack extends Card{
         super(rank, suit);
         cards = new ArrayList<Card>(STACK_SIZE);
 
-        for(Card.Suit suit : Card.Suit.values()){
-            for(Card.Rank rank : Card.Rank.values()){
-                cards.add(new Card(rank, suit));
+        for(Card.Suit suit1 : Card.Suit.values()){
+            for(Card.Rank rank1 : Card.Rank.values()){
+                cards.add(new Card(rank1, suit1));
                 System.out.printf("Rang:  %s und Farbe: %s\n",rank.name(), suit.name());
             }
         }
 
     }
 
-    public void shuffleDeck(){
+    public void shuffleStack(){
         Collections.shuffle(cards);
     }
 
