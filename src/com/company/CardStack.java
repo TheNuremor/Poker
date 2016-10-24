@@ -23,7 +23,7 @@ public class CardStack extends Card{
     public CardStack(Rank rank, Suit suit){
         super(rank, suit);
         cards = new ArrayList<Card>(STACK_SIZE);
-
+//Umschreiben??Bzw. ist das richtig so?
         for(Card.Suit suit1 : Card.Suit.values()){
             for(Card.Rank rank1 : Card.Rank.values()){
                 cards.add(new Card(rank1, suit1));
@@ -32,11 +32,13 @@ public class CardStack extends Card{
         }
 
     }
-
+//Schuffle-Methode
     public void shuffleStack(){
         Collections.shuffle(cards);
     }
 
+
+//Deal-Methode sie braucht noch eine Zuordnung, wer die Karte bekommen soll
     public Card deal(){
         System.out.printf("Rang:  %s und Farbe: %s\n",cards.get(0),cards.get(0));
         return cards.remove(0);
