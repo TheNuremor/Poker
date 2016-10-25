@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.enums.Rank;
+import com.company.enums.Suit;
+
 public class Card {
     public Suit suit;
     public Rank rank;
@@ -8,18 +11,6 @@ public class Card {
     public Card(Rank rank, Suit suit){
         this.rank = rank;
         this.suit = suit;
-    }
-
-    //Farben
-    public enum Suit{
-        CLUB, SPADE, HEART, DIAMOND
-    }
-    //Werte
-    public enum Rank{
-        TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE;
-        public int rank(){
-            return this.ordinal() + 2;
-        }
     }
 
     public Rank getRank() {
