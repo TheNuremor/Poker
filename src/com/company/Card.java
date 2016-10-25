@@ -12,7 +12,7 @@ public class Card {
 
     //Farben
     public enum Suit{
-        CLUB, SPADE, HEART, DIAMOND;
+        CLUB, SPADE, HEART, DIAMOND
     }
     //Werte
     public enum Rank{
@@ -32,7 +32,8 @@ public class Card {
 
 }
 
-/*public class Card implements Comparable<Card>{
+/*
+public class Card implements Comparable<Card>{
 
 
     public int compareTo(Card card){

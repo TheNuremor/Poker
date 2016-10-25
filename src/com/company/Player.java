@@ -5,7 +5,7 @@ import java.util.zip.CheckedInputStream;
 public class Player {
 
     public String name;
-    public int cash;
+    public double cash;
 
 
 
@@ -18,8 +18,9 @@ public class Player {
 
 
     //HandStack
+    //Playerkonto
     //Dealer,Small, Big Blind
-    //Sitzplatz
+    //Sitzplatz zuweisung von Table
 
 
 

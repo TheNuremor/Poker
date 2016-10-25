@@ -4,30 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CardStack extends Card{
+public class CardStack{
 
 
     private int STACK_SIZE = 52;
 
     private final List<Card> cards;
 
-
-/*Also ich habe Card als Oberklasse an Cardstacks vererbt.
-* Dafür musste im Konstruktor von CardStack die super() Funktion dazukommen
-* und der Konstrukter muss die Variablen Rank rank, Suit suit als Referenz haben.
-* Dann kann man alles weitere einfach so nutzen...
-* Jetzt muss ich nur noch die for-Schleifen umändern...*/
-
-
     //Constuctor
-    public CardStack(Rank rank, Suit suit){
-        super(rank, suit);
+    public CardStack(){
         cards = new ArrayList<Card>(STACK_SIZE);
 //Umschreiben??Bzw. ist das richtig so?
-        for(Card.Suit suit1 : Card.Suit.values()){
-            for(Card.Rank rank1 : Card.Rank.values()){
-                cards.add(new Card(rank1, suit1));
-                System.out.printf("Rang:  %s und Farbe: %s\n",rank.name(), suit.name());
+        for(Card.Suit suit : Card.Suit.values()){
+            for(Card.Rank rank : Card.Rank.values()){
+                cards.add(new Card(rank, suit));
+                System.out.printf("%s %s\n",suit.name(), rank.name());
             }
         }
 

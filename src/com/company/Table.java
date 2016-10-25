@@ -6,6 +6,7 @@ public class Table {
 
     //TableStack
 
+    //Verwaltung des aktuellen Pots
     //Methoden
     //Verteilung Dealer und Blinds
     //Verteilung Sitzplätze
