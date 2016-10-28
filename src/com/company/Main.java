@@ -3,15 +3,20 @@ package com.company;
 public class Main {
 
     public static void main(String [] args){
-        //Braucht ein Rank und Suit im CardStack();, kann damit allerdings nicht umgehen....
-        CardStack stack1 = new CardStack();
-        stack1.shuffleStack();
+
+        Player Klaus = new Player();
+        Player Dieter = new Player();
+        Player Hans = new Player();
+        Player Fritz = new Player();
+
+        CardStack deckstack = new CardStack(52);
+        deckstack.shuffleStack();
 
 
         System.out.println("Karten entfernt");
         for(int i = 0; i<5; i++){
-            stack1.deal();
+            System.out.printf(String.valueOf(deckstack.deal()).toString());
+            System.out.println("\n");
         }
-        stack1.print();
     }
 }
