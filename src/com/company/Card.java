@@ -2,8 +2,9 @@ package com.company;
 
 import com.company.enums.Rank;
 import com.company.enums.Suit;
+import handChecker.PokerCard;
 
-public class Card implements Comparable<Card> {
+public class Card implements PokerCard{
     public Suit suit;
     public Rank rank;
 
@@ -25,7 +26,13 @@ public class Card implements Comparable<Card> {
         return "" + rank + " "+ suit;
     }
 
-    public int compareTo(Card card) {
-        return this.rank.compareTo(card.rank);
+    @Override
+    public Color getColor() {
+        return Color.valueOf(suit.toString());
+    }
+
+    @Override
+    public Value getValue() {
+        return Value.values()[rank.rank()];
     }
 }
