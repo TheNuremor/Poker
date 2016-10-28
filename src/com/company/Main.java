@@ -3,20 +3,18 @@ package com.company;
 public class Main {
 
     public static void main(String [] args){
+        Player klaus = new Player();
+        Player dieter = new Player();
+        Player hans = new Player();
+        Player fritz = new Player();
 
-        Player Klaus = new Player();
-        Player Dieter = new Player();
-        Player Hans = new Player();
-        Player Fritz = new Player();
+        CardStack deckstack = new CardStack();
+        CardStack tablestack = new CardStack(5);
 
-        CardStack deckstack = new CardStack(52);
-        deckstack.shuffleStack();
+        System.out.println(deckstack);
+        System.out.println("Gedealt");
+        System.out.println(deckstack.deal());
 
-
-        System.out.println("Karten entfernt");
-        for(int i = 0; i<5; i++){
-            System.out.printf(String.valueOf(deckstack.deal()).toString());
-            System.out.println("\n");
-        }
+        tablestack.toString();
     }
 }
