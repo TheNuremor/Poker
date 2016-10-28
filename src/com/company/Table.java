@@ -57,6 +57,7 @@ public class Table {
     Verteilung Karten
     Zuweisung wer dran ist
     Spiel vorbei->Auswertung
+
     */
 }
 
