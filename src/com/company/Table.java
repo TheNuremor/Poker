@@ -8,8 +8,11 @@ public class Table {
     public CardStack deckstack;
     public List<Player> playerList;
 
+    //Weitere Playerlist für alle die Ausgestiegen sind...
+    //Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
+
     public int gamecounter = 0;     // Potausschüttungen
-    public int roundcounter = 1;    // Runden
+    public int roundcounter = 2;    // Runden
 
     public Table() {
         playerList = new LinkedList<>();
@@ -32,6 +35,7 @@ public class Table {
                 for (int i = 0; i < 3; i++) {
                     tablestack.cards.add(deckstack.deal());
                 }
+                //TODO Karten aus deckstack nehmen nicht random neue erschaffen...
                 // Flop (3 Karten auf den Tisch)
                 // tablestack.add(CardStack.deal());
                 break;
@@ -46,6 +50,7 @@ public class Table {
     public void addPlayer(Player p) {
         playerList.add(p);
     }
+    //public void removePlayer (Player p) { playerList.remove(p);}
 
     public String toString() {
         String output = "";

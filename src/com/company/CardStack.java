@@ -22,7 +22,7 @@ public class CardStack {
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
                 cards.add(new Card(rank, suit));
-                System.out.printf("%s %s\n",suit.name(), rank.name());
+                //System.out.printf("%s %s\n",suit.name(), rank.name());
             }
         }
         Collections.shuffle(cards);

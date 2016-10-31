@@ -10,26 +10,33 @@ public class Main {
         Player fritz = new Player();
         */
 
+
+
         //Ihr habt nie einen Table erstellt :D
         Table table = new Table();
 
         for (int i = 0; i < 4; i++) {
             table.addPlayer(new Player());
         }
-
-        //Unnötig?!
-        /*
         CardStack deckstack = new CardStack();
         CardStack tablestack = new CardStack(5);
-        */
 
-        /*
-        System.out.println(deckstack);
+
+
+
+
+        //table.removePlayer(Player p);
+
+        System.out.println(deckstack.toString());
+
         System.out.println("Gedealt");
-        System.out.println(deckstack.deal());
-        */
+
         table.distributeCards();
 
         System.out.println(table.tablestack.toString());
+
+        System.out.println("Gedealt");
+
+        System.out.println(deckstack.toString());
     }
 }

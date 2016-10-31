@@ -11,7 +11,7 @@ public class Player {
 
     //TODO Eure eigene Vorstellung von der Hand implementieren
     public CardStack handstack;
-
+    //Constructor
     public Player(){
         handstack = new CardStack(2);
 
