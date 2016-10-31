@@ -3,20 +3,25 @@ package com.company;
 public class Player {
 
     public double cash = 10000;
+    //Warum als einzelne Variablen? Ein Int oder Enum reicht doch
     public boolean finish = false;
     public boolean dealer = false;
     public boolean smallBlind = false;
     public boolean bigBlind = false;
 
+    //TODO Eure eigene Vorstellung von der Hand implementieren
+    public CardStack handstack;
+
     public Player(){
-        CardStack Handstack = new CardStack(2);
+        handstack = new CardStack(2);
+
+        //Warum?! Das macht gar nichts
         cash = cash;
         finish = finish;
         dealer = dealer;
         smallBlind = smallBlind;
         bigBlind = bigBlind;
     }
-
 
     /* TODO:
 

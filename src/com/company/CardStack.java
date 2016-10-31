@@ -28,14 +28,15 @@ public class CardStack {
         Collections.shuffle(cards);
     }
 
+    //Warum wenn cards public ist
     public Card deal(){
         return cards.remove(0);
     }
 
     public String toString() {
         String output = "";
-        for (int i = 0; i < cards.size(); i++) {
-            output += cards.get(i).toString() + "\n";
+        for (Card c : cards) {
+            output += c.toString() + "\n";
         }
         return output;
     }

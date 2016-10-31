@@ -7,8 +7,9 @@ public class Table {
     public CardStack tablestack;
     public CardStack deckstack;
     public List<Player> playerList;
-    public int Gamecounter = 0;     // Potausschüttungen
-    public int Roundcounter = 1;    // Runden
+
+    public int gamecounter = 0;     // Potausschüttungen
+    public int roundcounter = 1;    // Runden
 
     public Table() {
         playerList = new LinkedList<>();
@@ -16,33 +17,40 @@ public class Table {
         deckstack = new CardStack();
     }
 
-    public void distributecards() {
-        switch (Roundcounter) {
-            case 0:
-                /*for (int i = 0; i < playerList.size(); i++) {
-                    playerList.
-                }*/
+    public void distributeCards() {
+        switch (roundcounter) {
+            //Vorher war hier eine 0, tritt nie ein, da roundcounter auf 0 initialisiert ist
+            case 1:
+                for(Player p : playerList) {
+                    //TODO würde das wahrscheinlich mit funktionen realisieren
+                    p.handstack.cards.add(deckstack.deal());
+                    p.handstack.cards.add(deckstack.deal());
+                }
                 // Karten an Spieler
                 break;
-            case 1:
+            case 2:
                 for (int i = 0; i < 3; i++) {
                     tablestack.cards.add(deckstack.deal());
                 }
                 // Flop (3 Karten auf den Tisch)
                 // tablestack.add(CardStack.deal());
                 break;
-            case 2:
-            case 3:
+            default:
+                //Andere cases nicht nötig da die runden nach 2 indentisch sind
                 tablestack.cards.add(deckstack.deal());
                 // Turn & River (1 Karte auf den Tisch)
-            default:
+                break;
         }
+    }
+
+    public void addPlayer(Player p) {
+        playerList.add(p);
     }
 
     public String toString() {
         String output = "";
-        for (int i = 0; i < tablestack.cards.size(); i++) {
-            output += tablestack.cards.get(i).toString() + "\n";
+        for (Card c : tablestack.cards) {
+            output += c.toString() + "\n";
         }
         return output;
     }
