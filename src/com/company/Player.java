@@ -1,26 +1,26 @@
 package com.company;
 
+import com.company.enums.Role;
+
 public class Player {
 
     public double cash = 10000;
-    //Warum als einzelne Variablen? Ein Int oder Enum reicht doch
-    public boolean finish = false;
-    public boolean dealer = false;
-    public boolean smallBlind = false;
-    public boolean bigBlind = false;
-
     //TODO Eure eigene Vorstellung von der Hand implementieren
     public CardStack handstack;
+    private Role role = Role.DEFAULT;
+
     //Constructor
     public Player(){
         handstack = new CardStack(2);
 
-        //Warum?! Das macht gar nichts
-        cash = cash;
-        finish = finish;
-        dealer = dealer;
-        smallBlind = smallBlind;
-        bigBlind = bigBlind;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     /* TODO:

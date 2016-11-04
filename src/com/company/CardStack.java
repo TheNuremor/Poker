@@ -28,7 +28,6 @@ public class CardStack {
         Collections.shuffle(cards);
     }
 
-    //Warum wenn cards public ist
     public Card deal(){
         return cards.remove(0);
     }

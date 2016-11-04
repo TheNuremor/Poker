@@ -1,18 +1,23 @@
 package com.company;
+
+import com.company.enums.Role;
+
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class Table {
     public int pot = 0;
     public CardStack tablestack;
     public CardStack deckstack;
     public List<Player> playerList;
+    private int dealerpos;
 
     //Weitere Playerlist für alle die Ausgestiegen sind...
     //Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
 
-    public int gamecounter = 0;     // Potausschüttungen
-    public int roundcounter = 2;    // Runden
+    private int gamecounter = 0;     // Potausschüttungen
+    private int roundcounter = 0;    // Runden
 
     public Table() {
         playerList = new LinkedList<>();
@@ -22,7 +27,6 @@ public class Table {
 
     public void distributeCards() {
         switch (roundcounter) {
-            //Vorher war hier eine 0, tritt nie ein, da roundcounter auf 0 initialisiert ist
             case 1:
                 for(Player p : playerList) {
                     //TODO würde das wahrscheinlich mit funktionen realisieren
@@ -35,12 +39,9 @@ public class Table {
                 for (int i = 0; i < 3; i++) {
                     tablestack.cards.add(deckstack.deal());
                 }
-                //TODO Karten aus deckstack nehmen nicht random neue erschaffen...
-                // Flop (3 Karten auf den Tisch)
-                // tablestack.add(CardStack.deal());
+                // Flop
                 break;
             default:
-                //Andere cases nicht nötig da die runden nach 2 indentisch sind
                 tablestack.cards.add(deckstack.deal());
                 // Turn & River (1 Karte auf den Tisch)
                 break;
@@ -50,7 +51,10 @@ public class Table {
     public void addPlayer(Player p) {
         playerList.add(p);
     }
-    //public void removePlayer (Player p) { playerList.remove(p);}
+
+    public void removePlayer(Player p) {
+        playerList.remove(p);
+    }
 
     public String toString() {
         String output = "";
@@ -58,6 +62,27 @@ public class Table {
             output += c.toString() + "\n";
         }
         return output;
+    }
+
+    public void nextRound() {
+        roundcounter += 1;
+        distributeCards();
+    }
+
+    public void roleDistribution() {
+        if (gamecounter == 0) {
+            dealerpos = new Random(System.currentTimeMillis()).nextInt(playerList.size())
+        } else {
+            dealerpos++;
+        }
+        if (playerList.size() > 2) {
+            playerList.get(dealerpos).setRole(Role.DEALER);
+            playerList.get(dealerpos + 1).setRole(Role.SMALL);
+            playerList.get(dealerpos + 2).setRole(Role.BIG);
+        } else {
+            playerList.get(dealerpos).setRole(Role.DEALERSMALL);
+            playerList.get(dealerpos).setRole(Role.BIG);
+        }
     }
 
     /* TODO
