@@ -14,19 +14,12 @@ public class Main {
 
         System.out.println(table.deckstack.toString());
 
-        System.out.println("Gedealt");
-
         table.nextRound();
         table.nextRound();
         table.nextRound();
         table.nextRound();
 
-        System.out.println(table.tablestack.toString());
+        table.nextGameRound();
 
-        System.out.println("Gedealt");
-
-        System.out.println(table.deckstack.toString());
-
-        int tets = 0;
     }
 }

@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Random;
 
 public class Table {
-    public int pot = 0;
     public CardStack tablestack;
     public CardStack deckstack;
     public List<Player> playerList;
+    public int pot = 0;
+    public int tableBet = 0;
     private int dealerpos;
 
     //Weitere Playerlist für alle die Ausgestiegen sind...
@@ -23,6 +24,22 @@ public class Table {
         playerList = new LinkedList<>();
         tablestack = new CardStack(5);
         deckstack = new CardStack();
+    }
+
+    public int getTableBet() {
+        return tableBet;
+    }
+
+    public void setTablestack(CardStack tablestack) {
+        this.tablestack = tablestack;
+    }
+
+    public int getPot() {
+        return pot;
+    }
+
+    public void setPot(int pot) {
+        this.pot = pot;
     }
 
     public void distributeCards() {
@@ -69,21 +86,38 @@ public class Table {
         distributeCards();
     }
 
+    public void nextGameRound() {
+        for (int i = 0; i < playerList.size(); i++) {
+            playerList.get(i).inGame = true;
+            playerList.get(i).playerBet = 0;
+            playerList.get(i).handstack.cards.clear();
+        }
+        deckstack = new CardStack();
+        tablestack.cards.clear();
+        roleDistribution();
+        pot = 0;
+        tableBet = 0;
+        roundcounter = 0;
+        gamecounter++;
+    }
+
     public void roleDistribution() {
         if (gamecounter == 0) {
-            dealerpos = new Random(System.currentTimeMillis()).nextInt(playerList.size())
+            dealerpos = new Random(System.currentTimeMillis()).nextInt(playerList.size());
         } else {
-            dealerpos++;
+            dealerpos = (dealerpos + 1) % playerList.size();
         }
         if (playerList.size() > 2) {
             playerList.get(dealerpos).setRole(Role.DEALER);
-            playerList.get(dealerpos + 1).setRole(Role.SMALL);
-            playerList.get(dealerpos + 2).setRole(Role.BIG);
+            playerList.get((dealerpos + 1) % playerList.size()).setRole(Role.SMALL);
+            playerList.get((dealerpos + 2) % playerList.size()).setRole(Role.BIG);
         } else {
             playerList.get(dealerpos).setRole(Role.DEALERSMALL);
-            playerList.get(dealerpos).setRole(Role.BIG);
+            playerList.get((dealerpos + 1) % playerList.size()).setRole(Role.BIG);
         }
     }
+
+
 
     /* TODO
     TableStack
