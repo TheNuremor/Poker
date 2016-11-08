@@ -14,9 +14,9 @@ public class Table {
     public int tableBet = 0;
     private int dealerpos;
 
-    //Weitere Playerlist für alle die Ausgestiegen sind...
-    //Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
-
+    /**Weitere Playerlist für alle die Ausgestiegen sind...
+    *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
+    */
     private int gamecounter = 0;     // Potausschüttungen
     private int roundcounter = 0;    // Runden
 
@@ -120,13 +120,10 @@ public class Table {
 
 
     /* TODO
-    TableStack
     Betround (Preflop, Flop, Turn, River)
     Verwaltung des aktuellen Pots
     Methoden
-    Verteilung Dealer und Blinds
     Verteilung Sitzplätze
-    Verteilung Karten
     Zuweisung wer dran ist
     Spiel vorbei->Auswertung
 
