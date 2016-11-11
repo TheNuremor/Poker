@@ -12,6 +12,7 @@ public class Table {
     public List<Player> playerList;
     public int pot = 0;
     public int tableBet = 0;
+    private int Blind = 100;
     private int dealerpos;
 
     /**Weitere Playerlist für alle die Ausgestiegen sind...
@@ -74,6 +75,29 @@ public class Table {
         playerList.remove(p);
     }
 
+    public void betround() {
+        if (roundcounter == 0) {
+            if (playerList.size() == 2) {
+                playerList.get((dealerpos) % playerList.size()).playerInteraction(this, Blind / 2);     //DealerSmall
+                playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
+                for (int i = 0; i < playerList.size(); i++) {
+                    playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, 0);
+                }   //Setzrunde mit Big als letztes
+            } else {
+                playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind / 2); //Small
+                playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
+                for (int i = 0; i < playerList.size(); i++) {
+                    playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, 0);
+                }   //Setzrunde mit Big als letztes
+            }
+        } else {
+            //Setrunde mit Dealer als letztes
+            for (int i = 0; i < playerList.size(); i++) {
+                playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, 0);
+            }
+        }
+    }
+
     public String toString() {
         String output = "";
         for (Card c : tablestack.cards) {
@@ -85,10 +109,6 @@ public class Table {
     public void nextRound() {
         roundcounter += 1;
         distributeCards();
-        /*for(Player p : playerList) {
-            p.interactionNumber = new Random(System.currentTimeMillis()).nextInt(4) + 1;
-            p.playerInteraction(this, p.interactionNumber, 0);
-        }*/
     }
 
     public void nextGameRound() {
