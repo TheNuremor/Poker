@@ -70,6 +70,7 @@ public class Table {
     }
 
     public void removePlayer(Player p) {
+        dealerpos--;
         playerList.remove(p);
     }
 
@@ -84,6 +85,10 @@ public class Table {
     public void nextRound() {
         roundcounter += 1;
         distributeCards();
+        /*for(Player p : playerList) {
+            p.interactionNumber = new Random(System.currentTimeMillis()).nextInt(4) + 1;
+            p.playerInteraction(this, p.interactionNumber, 0);
+        }*/
     }
 
     public void nextGameRound() {
