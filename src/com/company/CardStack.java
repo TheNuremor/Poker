@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CardStack {
 
-    public List<Card> cards;
+    public List<PokerCard> cards;
 
     //Constructor
     public CardStack(int STACK_SIZE) {
@@ -27,13 +27,17 @@ public class CardStack {
         Collections.shuffle(cards);
     }
 
-    public Card deal(){
+    public List<PokerCard> getCards() {
+        return cards;
+    }
+
+    public PokerCard deal() {
         return cards.remove(0);
     }
 
     public String toString() {
         String output = "";
-        for (Card c : cards) {
+        for (PokerCard c : cards) {
             output += c.toString() + "\n";
         }
         return output;

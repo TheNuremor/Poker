@@ -1,6 +1,13 @@
 package com.company;
 
 import com.company.enums.Role;
+import handChecker.HandChecker;
+import handChecker.HandValue;
+import handChecker.PokerCard;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Player {
 
@@ -11,11 +18,15 @@ public class Player {
     public boolean isAllIn = false;
     public int interactionNumber;
     private Role role = Role.DEFAULT;
-
+    private HandValue handvalue;
     //Constructor
     public Player() {
         handstack = new CardStack(2);
         interactionNumber = 0;
+    }
+
+    public boolean isInGame() {
+        return inGame;
     }
 
     public Role getRole() {
@@ -26,14 +37,12 @@ public class Player {
         this.role = role;
     }
 
+    public CardStack getHandstack() {
+        return handstack;
+    }
 
     public String toString(int tableBet) {
-        String output = "";
-        output += cash;
-        output += playerBet;
-        output += tableBet;
-
-        return output;
+        return "Cash:\t" + cash + "\nRole:\t" + role.toString() + "\nPlayer Bet:\t" + playerBet + "\nTable Bet:\t" + tableBet;
     }
 
     public void playerInteraction(Table table, int bet) {
@@ -64,6 +73,20 @@ public class Player {
             }
         }
     }
+
+    private List<PokerCard> getCompleteHandstack(List<PokerCard> completeStack) {
+        return Stream.concat(handstack.getCards().stream(), completeStack.stream()).collect(Collectors.toList());
+    }
+
+    public HandValue getHandValue(List<PokerCard> completestack) {
+        if (handvalue == null) {
+            HandChecker handChecker = new HandChecker();
+            handvalue = handChecker.check(getCompleteHandstack(completestack));
+        }
+        return handvalue;
+    }
+
+
 }
 
 

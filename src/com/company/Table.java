@@ -1,11 +1,13 @@
 package com.company;
 
 import com.company.enums.Role;
+import handChecker.PokerCard;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Table {
     public CardStack tablestack;
@@ -13,15 +15,13 @@ public class Table {
     public List<Player> playerList;
     public int pot = 0;
     public int tableBet = 0;
+    public int roundcounter = 0;    // Runden
     private int Blind = 100;
     private int dealerpos;
-
-
     /**Weitere Playerlist für alle die Ausgestiegen sind...
     *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
     */
     private int gamecounter = 0;     // Potausschüttungen
-    private int roundcounter = 0;    // Runden
 
     public Table() {
         playerList = new LinkedList<>();
@@ -82,35 +82,37 @@ public class Table {
                 playerList.get((dealerpos) % playerList.size()).playerInteraction(this, Blind / 2);     //DealerSmall
                 playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
                 for (int i = 0; i < playerList.size(); i++) {
-                    playerList.get((dealerpos + 2 + i) % playerList.size()).toString(tableBet);
+                    System.out.println(playerList.get((dealerpos + 2 + i) % playerList.size()).toString(tableBet));
                     playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, betScanner());
                 }   //Setzrunde mit Big als letztes
             } else {
                 playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind / 2); //Small
                 playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
                 for (int i = 0; i < playerList.size(); i++) {
+                    System.out.println(playerList.get((dealerpos + 3 + i) % playerList.size()).toString(tableBet));
                     playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner());
                 }   //Setzrunde mit Big als letztes
             }
         } else {
             //Setrunde mit Dealer als letztes
             for (int i = 0; i < playerList.size(); i++) {
+                System.out.println(playerList.get((dealerpos + 1 + i) % playerList.size()).toString(tableBet));
                 playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, betScanner());
             }
         }
-        if (!finishBetround())
+        if (!finishBetRound())
             betround();
     }
 
     public String toString() {
         String output = "";
-        for (Card c : tablestack.cards) {
+        for (PokerCard c : tablestack.cards) {
             output += c.toString() + "\n";
         }
         return output;
     }
 
-    public boolean finishBetround() {
+    public boolean finishBetRound() {
         boolean betroundfinished = true;
         for (Player p : playerList) {
             if (p.playerBet != tableBet) {
@@ -123,6 +125,7 @@ public class Table {
     public void nextRound() {
         roundcounter += 1;
         distributeCards();
+        System.out.println("-------------");
     }
 
     public void nextGameRound() {
@@ -160,6 +163,11 @@ public class Table {
         Scanner in = new Scanner(System.in);
         int num = in.nextInt();
         return num;
+    }
+
+    public List<Player> decideWinner() {
+        //nach handvalue sortierte liste ALLER spieler die inRound sind (asc)
+        return playerList.stream().sorted(((p1, p2) -> p1.getHandValue(tablestack.getCards()).compareTo(p2.getHandValue(tablestack.getCards())))).filter(Player::isInGame).collect(Collectors.toList());
     }
 
 

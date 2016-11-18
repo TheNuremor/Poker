@@ -10,6 +10,7 @@ public class Main {
             table.addPlayer(new Player());
         }
 
+        /*
         table.roleDistribution();
         table.distributeCards();
 
@@ -19,6 +20,13 @@ public class Main {
         }
 
         table.nextGameRound();
-    }
+        */
+        for (int i = 0; i < 4; i++) {
 
+
+            table.distributeCards();
+            table.roundcounter++;
+        }
+        Object test = table.decideWinner();
+    }
 }
