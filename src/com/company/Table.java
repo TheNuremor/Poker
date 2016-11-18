@@ -3,10 +3,8 @@ package com.company;
 import com.company.enums.Role;
 import handChecker.PokerCard;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Table {
@@ -166,10 +164,40 @@ public class Table {
     }
 
     public List<Player> decideWinner() {
-        //nach handvalue sortierte liste ALLER spieler die inRound sind (asc)
-        return playerList.stream().sorted(((p1, p2) -> p1.getHandValue(tablestack.getCards()).compareTo(p2.getHandValue(tablestack.getCards())))).filter(Player::isInGame).collect(Collectors.toList());
+        //Teilmenge playerList mit maximalen Werten (all in Round)
+        return playerList.stream().filter(Player::isInGame).collect(maxList(Comparator.comparing(p -> p.getHandValue(tablestack.getCards()))));
     }
 
+    static <T> Collector<T,?,List<T>> maxList(Comparator<? super T> comp) {
+        return Collector.of(
+                ArrayList::new,
+                (list, t) -> {
+                    int c;
+                    if (list.isEmpty() || (c = comp.compare(t, list.get(0))) == 0) {
+                        list.add(t);
+                    } else if (c > 0) {
+                        list.clear();
+                        list.add(t);
+                    }
+                },
+                (list1, list2) -> {
+                    if (list1.isEmpty()) {
+                        return list2;
+                    }
+                    if (list2.isEmpty()) {
+                        return list1;
+                    }
+                    int r = comp.compare(list1.get(0), list2.get(0));
+                    if (r < 0) {
+                        return list2;
+                    } else if (r > 0) {
+                        return list1;
+                    } else {
+                        list1.addAll(list2);
+                        return list1;
+                    }
+                });
+    }
 
     /* TODO
     Betround (Preflop, Flop, Turn, River)

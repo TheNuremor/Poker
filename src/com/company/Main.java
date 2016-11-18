@@ -22,8 +22,6 @@ public class Main {
         table.nextGameRound();
         */
         for (int i = 0; i < 4; i++) {
-
-
             table.distributeCards();
             table.roundcounter++;
         }
