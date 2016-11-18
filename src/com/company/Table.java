@@ -16,6 +16,7 @@ public class Table {
     private int Blind = 100;
     private int dealerpos;
 
+
     /**Weitere Playerlist für alle die Ausgestiegen sind...
     *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
     */
