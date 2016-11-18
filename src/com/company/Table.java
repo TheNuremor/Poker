@@ -48,7 +48,6 @@ public class Table {
         switch (roundcounter) {
             case 0:
                 for(Player p : playerList) {
-                    //TODO würde das wahrscheinlich mit funktionen realisieren
                     p.handstack.cards.add(deckstack.deal());
                     p.handstack.cards.add(deckstack.deal());
                 }

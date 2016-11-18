@@ -26,10 +26,6 @@ public class Player {
         this.role = role;
     }
 
-    /* TODO
-        Anfang der Funktion nach inGame abfrage, was spieler setzen will damit wir bei funktionsaufruf einfach 0 übergeben können.
-
-    */
 
     public String toString(int tableBet) {
         String output = "";
