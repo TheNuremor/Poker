@@ -11,12 +11,13 @@ public class Main {
         }
 
         table.roleDistribution();
+        table.distributeCards();
+
         for (int i = 0; i < 4; i++) {
             table.betround();
             table.nextRound();
         }
 
         table.nextGameRound();
-
     }
 }

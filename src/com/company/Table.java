@@ -5,6 +5,7 @@ import com.company.enums.Role;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Table {
     public CardStack tablestack;
@@ -45,7 +46,7 @@ public class Table {
 
     public void distributeCards() {
         switch (roundcounter) {
-            case 1:
+            case 0:
                 for(Player p : playerList) {
                     //TODO würde das wahrscheinlich mit funktionen realisieren
                     p.handstack.cards.add(deckstack.deal());
@@ -53,7 +54,7 @@ public class Table {
                 }
                 // Karten an Spieler
                 break;
-            case 2:
+            case 1:
                 for (int i = 0; i < 3; i++) {
                     tablestack.cards.add(deckstack.deal());
                 }
@@ -81,21 +82,24 @@ public class Table {
                 playerList.get((dealerpos) % playerList.size()).playerInteraction(this, Blind / 2);     //DealerSmall
                 playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
                 for (int i = 0; i < playerList.size(); i++) {
-                    playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, 0);
+                    playerList.get((dealerpos + 2 + i) % playerList.size()).toString(tableBet);
+                    playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, betScanner());
                 }   //Setzrunde mit Big als letztes
             } else {
                 playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind / 2); //Small
                 playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
                 for (int i = 0; i < playerList.size(); i++) {
-                    playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, 0);
+                    playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner());
                 }   //Setzrunde mit Big als letztes
             }
         } else {
             //Setrunde mit Dealer als letztes
             for (int i = 0; i < playerList.size(); i++) {
-                playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, 0);
+                playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, betScanner());
             }
         }
+        if (!finishBetround())
+            betround();
     }
 
     public String toString() {
@@ -104,6 +108,16 @@ public class Table {
             output += c.toString() + "\n";
         }
         return output;
+    }
+
+    public boolean finishBetround() {
+        boolean betroundfinished = true;
+        for (Player p : playerList) {
+            if (p.playerBet != tableBet) {
+                betroundfinished = false;
+            }
+        }
+        return betroundfinished;
     }
 
     public void nextRound() {
@@ -142,6 +156,11 @@ public class Table {
         }
     }
 
+    public int betScanner() {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        return num;
+    }
 
 
     /* TODO

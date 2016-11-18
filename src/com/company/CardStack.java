@@ -1,7 +1,6 @@
 package com.company;
 
-import com.company.enums.Rank;
-import com.company.enums.Suit;
+import handChecker.PokerCard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,10 +18,10 @@ public class CardStack {
     //Constructor with shuffle
     public CardStack() {
         this(52);
-        for (Suit suit : Suit.values()) {
-            for (Rank rank : Rank.values()) {
-                cards.add(new Card(rank, suit));
-                //System.out.printf("%s %s\n",suit.name(), rank.name());
+        for (PokerCard.Color color : PokerCard.Color.values()) {
+            for (PokerCard.Value value : PokerCard.Value.values()) {
+                cards.add(new Card(value, color));
+                //System.out.printf("%s %s\n",color.name(), value.name());
             }
         }
         Collections.shuffle(cards);

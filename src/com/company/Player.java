@@ -30,6 +30,16 @@ public class Player {
         Anfang der Funktion nach inGame abfrage, was spieler setzen will damit wir bei funktionsaufruf einfach 0 übergeben können.
 
     */
+
+    public String toString(int tableBet) {
+        String output = "";
+        output += cash;
+        output += playerBet;
+        output += tableBet;
+
+        return output;
+    }
+
     public void playerInteraction(Table table, int bet) {
         if (inGame && (!isAllIn)) {
             if (bet > 0 && (playerBet + bet) < table.tableBet) {
