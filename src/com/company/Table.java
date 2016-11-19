@@ -15,7 +15,8 @@ public class Table {
     public int roundcounter = 0;    // Runden
     private int Blind = 100;
     private int dealerpos;
-    public  int maxValue = 0;
+    public int maxValue = 0;
+    public int lowestCash = 1000000000;
 
     /**Weitere Playerlist für alle die Ausgestiegen sind...
     *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
@@ -166,17 +167,48 @@ public class Table {
 
     public List<Player> decideWinner() {
         //Spieler im Spiel und Handvalue vergleichen
+        winnerList.clear();
         for(Player p : playerList){
               if(p.handvalue > maxValue&&p.inGame) { maxValue=p.handvalue; }
         }
         //MaxValue Spieler zur gewinnerliste hinzufügen
         for(Player p : playerList) {
-             if (p.handValue==maxValue){ addPlayer(p, winnerList);}
+             if (p.handValue==maxValue){
+                 addPlayer(p, winnerList);
+                 if(p.cash < lowestCash){
+                     lowestCash = cash;
+                 }
+             }
          }
 
          //Ist dieses Return noch notwendig??
         //Teilmenge playerList mit maximalen Werten (all in Round)
         return playerList.stream().filter(Player::isInGame).collect(winnerList(Comparator.comparing(p -> p.getHandValue(tablestack.getCards()))));
+    }
+    public void potDistribution(){
+        if(winnerList.size()==1){
+            for (Player p:winnerList) {
+                if(!p.isAllIn){             //1.Fall: 1Player und NICHT AllIn
+                    p.cash += pot;
+                    pot = 0;
+                    nextGameRound();
+                }else{                      //2.Fall: 1Player und AllIn
+                    p.cash += p.playerBet * playerList.size();
+                    pot -= p.playerBet * playerList.size();
+                    p.inGame = false;
+                    decideWinner();
+                }
+            }
+        }else{
+
+        }
+        /*TODO
+            3.Fall: >1Player und AllIn
+            4.Fall: >1Player und Keiner AllIn
+                Pot durch playerlist.size()
+                forEachPlayer cash +=potanteil
+                wenn es einen rest gibt, dann bekommt den der spieler mit niedrigstem cash
+         */
     }
 
 
