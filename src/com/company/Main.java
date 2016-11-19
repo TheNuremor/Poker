@@ -7,7 +7,7 @@ public class Main {
         Table table = new Table();
 
         for (int i = 0; i < 4; i++) {
-            table.addPlayer(new Player());
+            table.addPlayer(new Player(),table.playerList);
         }
 
         /*

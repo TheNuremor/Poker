@@ -2,20 +2,21 @@ package com.company;
 
 import com.company.enums.Role;
 import handChecker.PokerCard;
-
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
 
 public class Table {
     public CardStack tablestack;
     public CardStack deckstack;
     public List<Player> playerList;
+    public List<Player> winnerList;
     public int pot = 0;
     public int tableBet = 0;
     public int roundcounter = 0;    // Runden
     private int Blind = 100;
     private int dealerpos;
+    public  int maxValue = 0;
+
     /**Weitere Playerlist für alle die Ausgestiegen sind...
     *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
     */
@@ -65,8 +66,8 @@ public class Table {
         }
     }
 
-    public void addPlayer(Player p) {
-        playerList.add(p);
+    public void addPlayer(Player p, List list) {
+        list.add(p);
     }
 
     public void removePlayer(Player p) {
@@ -164,49 +165,23 @@ public class Table {
     }
 
     public List<Player> decideWinner() {
+        //Spieler im Spiel und Handvalue vergleichen
+        for(Player p : playerList){
+              if(p.handvalue > maxValue&&p.inGame) { maxValue=p.handvalue; }
+        }
+        //MaxValue Spieler zur gewinnerliste hinzufügen
+        for(Player p : playerList) {
+             if (p.handValue==maxValue){ addPlayer(p, winnerList);}
+         }
+
+         //Ist dieses Return noch notwendig??
         //Teilmenge playerList mit maximalen Werten (all in Round)
-        return playerList.stream().filter(Player::isInGame).collect(maxList(Comparator.comparing(p -> p.getHandValue(tablestack.getCards()))));
+        return playerList.stream().filter(Player::isInGame).collect(winnerList(Comparator.comparing(p -> p.getHandValue(tablestack.getCards()))));
     }
 
-    static <T> Collector<T,?,List<T>> maxList(Comparator<? super T> comp) {
-        return Collector.of(
-                ArrayList::new,
-                (list, t) -> {
-                    int c;
-                    if (list.isEmpty() || (c = comp.compare(t, list.get(0))) == 0) {
-                        list.add(t);
-                    } else if (c > 0) {
-                        list.clear();
-                        list.add(t);
-                    }
-                },
-                (list1, list2) -> {
-                    if (list1.isEmpty()) {
-                        return list2;
-                    }
-                    if (list2.isEmpty()) {
-                        return list1;
-                    }
-                    int r = comp.compare(list1.get(0), list2.get(0));
-                    if (r < 0) {
-                        return list2;
-                    } else if (r > 0) {
-                        return list1;
-                    } else {
-                        list1.addAll(list2);
-                        return list1;
-                    }
-                });
-    }
 
     /* TODO
-    Betround (Preflop, Flop, Turn, River)
-    Verwaltung des aktuellen Pots
-    Methoden
-    Verteilung Sitzplätze
-    Zuweisung wer dran ist
     Spiel vorbei->Auswertung
-
     */
 }
 
