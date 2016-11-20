@@ -17,8 +17,8 @@ public class Player {
     public boolean inGame = true;
     public boolean isAllIn = false;
     public int interactionNumber;
+    public HandValue hv;
     private Role role = Role.DEFAULT;
-    private HandValue handvalue;
     //Constructor
     public Player() {
         handstack = new CardStack(2);
@@ -74,16 +74,16 @@ public class Player {
         }
     }
 
-    private List<PokerCard> getCompleteHandstack(List<PokerCard> completeStack) {
-        return Stream.concat(handstack.getCards().stream(), completeStack.stream()).collect(Collectors.toList());
+    public List<PokerCard> getCompleteHandstack(CardStack tablestack) {
+        return Stream.concat(handstack.getCards().stream(), tablestack.getCards().stream()).collect(Collectors.toList());
     }
 
     public HandValue getHandValue(List<PokerCard> completestack) {
-        if (handvalue == null) {
+        if (hv == null) {
             HandChecker handChecker = new HandChecker();
-            handvalue = handChecker.check(getCompleteHandstack(completestack));
+            hv = handChecker.check(completestack);
         }
-        return handvalue;
+        return hv;
     }
 
 

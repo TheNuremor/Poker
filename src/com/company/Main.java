@@ -25,6 +25,7 @@ public class Main {
             table.distributeCards();
             table.roundcounter++;
         }
-        Object test = table.decideWinner();
+        table.decideWinner();
+
     }
 }

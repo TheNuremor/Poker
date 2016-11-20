@@ -1,11 +1,17 @@
 package com.company;
 
 import com.company.enums.Role;
+import handChecker.HandValue;
 import handChecker.PokerCard;
-import java.util.*;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 
 public class Table {
+    public int MAXINT = 2147483647;
     public CardStack tablestack;
     public CardStack deckstack;
     public List<Player> playerList;
@@ -13,18 +19,20 @@ public class Table {
     public int pot = 0;
     public int tableBet = 0;
     public int roundcounter = 0;    // Runden
+    private int gamecounter = 0;    // Potausschüttungen
     private int Blind = 100;
     private int dealerpos;
-    public int maxValue = 0;
-    public int lowestCash = 1000000000;
+    private HandValue maxValue = null;
+    private int lowestCash = MAXINT;
 
     /**Weitere Playerlist für alle die Ausgestiegen sind...
-    *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
-    */
-    private int gamecounter = 0;     // Potausschüttungen
+     *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
+     */
+
 
     public Table() {
         playerList = new LinkedList<>();
+        winnerList = new LinkedList<>();
         tablestack = new CardStack(5);
         deckstack = new CardStack();
     }
@@ -141,6 +149,8 @@ public class Table {
         tableBet = 0;
         roundcounter = 0;
         gamecounter++;
+        lowestCash = MAXINT;
+        System.out.println("-----------------------------");
     }
 
     public void roleDistribution() {
@@ -165,30 +175,42 @@ public class Table {
         return num;
     }
 
-    public List<Player> decideWinner() {
+    public void decideWinner() {
         //Spieler im Spiel und Handvalue vergleichen
-        winnerList.clear();
-        for(Player p : playerList){
-              if(p.handvalue > maxValue&&p.inGame) { maxValue=p.handvalue; }
+        if (winnerList != null) {
+            winnerList.clear();
+        }
+
+        for (Player p : playerList) {
+            if (p.inGame) {
+                maxValue = p.getHandValue(p.getCompleteHandstack(tablestack));
+            }
+        }
+
+        for (Player p : playerList) {
+            if ((p.hv.compareTo(maxValue) == 1) && (p.inGame)) {
+                maxValue = p.hv;
+            }
         }
         //MaxValue Spieler zur gewinnerliste hinzufügen
-        for(Player p : playerList) {
-             if (p.handValue==maxValue){
-                 addPlayer(p, winnerList);
-                 if(p.cash < lowestCash){
-                     lowestCash = cash;
-                 }
-             }
-         }
-
-         //Ist dieses Return noch notwendig??
-        //Teilmenge playerList mit maximalen Werten (all in Round)
-        return playerList.stream().filter(Player::isInGame).collect(winnerList(Comparator.comparing(p -> p.getHandValue(tablestack.getCards()))));
+        for (Player p : playerList) {
+            if (p.hv.compareTo(maxValue) == 0) {
+                addPlayer(p, winnerList);
+                if (p.cash < lowestCash) {
+                    lowestCash = p.cash;
+                }
+            }
+        }
+        if (pot != 0) {
+            potDistribution();
+        }
     }
-    public void potDistribution(){
-        if(winnerList.size()==1){
-            for (Player p:winnerList) {
-                if(!p.isAllIn){             //1.Fall: 1Player und NICHT AllIn
+
+    public void potDistribution() {
+        boolean playerAllIn = false;
+        if (winnerList.size() == 1) {
+            for (Player p : winnerList) {
+                if (!p.isAllIn) {             //1.Fall: 1 Player und NICHT AllIn
                     p.cash += pot;
                     pot = 0;
                     nextGameRound();
@@ -200,6 +222,15 @@ public class Table {
                 }
             }
         }else{
+            for (Player p : winnerList) {
+                if (p.isAllIn) {
+                    playerAllIn = true;
+                    if (p.playerBet < lowestCash) {
+                        lowestCash = p.playerBet;
+                    }
+                }
+            }
+
 
         }
         /*TODO
