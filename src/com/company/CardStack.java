@@ -21,9 +21,11 @@ public class CardStack {
         for (PokerCard.Color color : PokerCard.Color.values()) {
             for (PokerCard.Value value : PokerCard.Value.values()) {
                 cards.add(new Card(value, color));
+                //cards.add(new Card(PokerCard.Value.ASS, PokerCard.Color.DIAMONDS));
                 //System.out.printf("%s %s\n",color.name(), value.name());
             }
         }
+
         Collections.shuffle(cards);
     }
 
