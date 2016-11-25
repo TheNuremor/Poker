@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 
 public class Table {
-    public int MAXINT = 2147483647;
     public CardStack tablestack;
     public CardStack deckstack;
     public List<Player> playerList;
@@ -23,7 +22,7 @@ public class Table {
     private int Blind = 100;
     private int dealerpos;
     private HandValue maxValue = null;
-    private int lowestCash = MAXINT;
+    private boolean blindSet = false;
 
     /**Weitere Playerlist für alle die Ausgestiegen sind...
      *Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
@@ -87,29 +86,40 @@ public class Table {
     public void betround() {
         if (roundcounter == 0) {
             if (playerList.size() == 2) {
-                playerList.get((dealerpos) % playerList.size()).playerInteraction(this, Blind / 2);     //DealerSmall
-                playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
+                if (!blindSet) {
+                    playerList.get((dealerpos) % playerList.size()).playerInteraction(this, Blind / 2);     //DealerSmall
+                    playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
+                    blindSet = true;
+                }
                 for (int i = 0; i < playerList.size(); i++) {
                     System.out.println(playerList.get((dealerpos + 2 + i) % playerList.size()).toString(tableBet));
                     playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, betScanner());
                 }   //Setzrunde mit Big als letztes
             } else {
-                playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind / 2); //Small
-                playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
+                if (!blindSet) {
+                    playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind / 2); //Small
+                    playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
+                    blindSet = true;
+                }
                 for (int i = 0; i < playerList.size(); i++) {
-                    System.out.println(playerList.get((dealerpos + 3 + i) % playerList.size()).toString(tableBet));
-                    playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner());
+                    do {
+                        System.out.println(playerList.get((dealerpos + 3 + i) % playerList.size()).toString(tableBet));
+                        playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner());
+                    } while (!playerList.get((dealerpos + 3 + i) % playerList.size()).betRight);
                 }   //Setzrunde mit Big als letztes
             }
         } else {
             //Setrunde mit Dealer als letztes
             for (int i = 0; i < playerList.size(); i++) {
-                System.out.println(playerList.get((dealerpos + 1 + i) % playerList.size()).toString(tableBet));
-                playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, betScanner());
+                do {
+                    System.out.println(playerList.get((dealerpos + 1 + i) % playerList.size()).toString(tableBet));
+                    playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, betScanner());
+                } while (!playerList.get((dealerpos + 1 + i) % playerList.size()).betRight);
             }
         }
-        if (!finishBetRound())
+        if (!finishBetRound()) {
             betround();
+        }
     }
 
     public String toString() {
@@ -147,9 +157,9 @@ public class Table {
         roleDistribution();
         pot = 0;
         tableBet = 0;
+        blindSet = false;
         roundcounter = 0;
         gamecounter++;
-        lowestCash = MAXINT;
         System.out.println("-----------------------------");
     }
 
@@ -196,9 +206,6 @@ public class Table {
         for (Player p : playerList) {
             if (p.hv.compareTo(maxValue) == 0) {
                 addPlayer(p, winnerList);
-                if (p.cash < lowestCash) {
-                    lowestCash = p.cash;
-                }
             }
         }
         if (pot != 0) {
@@ -207,44 +214,43 @@ public class Table {
     }
 
     public void potDistribution() {
-        boolean playerAllIn = false;
-        if (winnerList.size() == 1) {
+        int playerAllIn = 0;
+        if (winnerList.size() == 1) {          // 1 Gewinner
             for (Player p : winnerList) {
                 if (!p.isAllIn) {             //1.Fall: 1 Player und NICHT AllIn
                     p.cash += pot;
                     pot = 0;
-                    nextGameRound();
                 }else{                      //2.Fall: 1Player und AllIn
                     p.cash += p.playerBet * playerList.size();
                     pot -= p.playerBet * playerList.size();
                     p.inGame = false;
-                    decideWinner();
                 }
             }
-        }else{
+        } else {      // mehr als 1 Gewinner
             for (Player p : winnerList) {
                 if (p.isAllIn) {
-                    playerAllIn = true;
-                    if (p.playerBet < lowestCash) {
-                        lowestCash = p.playerBet;
-                    }
+                    playerAllIn += 1;
                 }
             }
-
-
+            if (playerAllIn == 0) {
+                for (Player p : winnerList) {
+                    p.cash += pot / winnerList.size();
+                }
+                pot = 0;
+            } else {
+                for (Player p : winnerList) {
+                    p.cash += p.playerBet * playerList.size();
+                    pot -= p.playerBet * playerList.size();
+                    p.inGame = false;
+                }
+            }
         }
-        /*TODO
-            3.Fall: >1Player und AllIn
-            4.Fall: >1Player und Keiner AllIn
-                Pot durch playerlist.size()
-                forEachPlayer cash +=potanteil
-                wenn es einen rest gibt, dann bekommt den der spieler mit niedrigstem cash
-         */
+        if (pot != 0) {
+            decideWinner();
+        }
+        if (pot == 0) {
+            nextGameRound();
+        }
     }
-
-
-    /* TODO
-    Spiel vorbei->Auswertung
-    */
 }
 

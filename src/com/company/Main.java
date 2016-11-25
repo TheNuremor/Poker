@@ -10,22 +10,25 @@ public class Main {
             table.addPlayer(new Player(),table.playerList);
         }
 
-        /*
-        table.roleDistribution();
-        table.distributeCards();
+        while (true) {
 
-        for (int i = 0; i < 4; i++) {
+            table.roleDistribution();
+            table.distributeCards();
+
+            for (int i = 0; i < 3; i++) {
+                table.betround();
+                table.nextRound();
+            }
             table.betround();
-            table.nextRound();
-        }
 
-        table.nextGameRound();
-        */
-        for (int i = 0; i < 4; i++) {
+            table.decideWinner();
+            table.nextGameRound();
+        }
+        /*for (int i = 0; i < 4; i++) {
             table.distributeCards();
             table.roundcounter++;
         }
         table.decideWinner();
-
+        */
     }
 }

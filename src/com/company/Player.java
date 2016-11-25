@@ -16,6 +16,7 @@ public class Player {
     public int cash = 10000;
     public boolean inGame = true;
     public boolean isAllIn = false;
+    public boolean betRight = true;
     public int interactionNumber;
     public HandValue hv;
     private Role role = Role.DEFAULT;
@@ -49,6 +50,7 @@ public class Player {
         if (inGame && (!isAllIn)) {
             if (bet > 0 && (playerBet + bet) < table.tableBet) {
                 System.out.println("Falsche Eingabe");
+                betRight = false;
             } else if (bet < 0) {
                 // Fold
                 inGame = false;
@@ -56,7 +58,7 @@ public class Player {
                 if (cash > bet) { // enough money, no allin
                     playerBet += bet;
                     cash -= bet;
-                    table.pot += playerBet;
+                    table.pot += bet;
                     if (playerBet > table.tableBet) { //effektiver Raise
                         table.tableBet = playerBet;
                     }
@@ -70,6 +72,7 @@ public class Player {
                     table.pot += cash;
                     cash = 0;
                 }
+                betRight = true;
             }
         }
     }
