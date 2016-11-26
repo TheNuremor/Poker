@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CardStack {
+class CardStack {
 
-    public List<PokerCard> cards;
+    List<PokerCard> cards;
 
     //Constructor
-    public CardStack(int STACK_SIZE) {
+    CardStack(int STACK_SIZE) {
         cards = new ArrayList<>(STACK_SIZE);
     }
 
     //Constructor with shuffle
-    public CardStack() {
+    CardStack() {
         this(52);
         for (PokerCard.Color color : PokerCard.Color.values()) {
             for (PokerCard.Value value : PokerCard.Value.values()) {
@@ -29,11 +29,11 @@ public class CardStack {
         Collections.shuffle(cards);
     }
 
-    public List<PokerCard> getCards() {
+    List<PokerCard> getCards() {
         return cards;
     }
 
-    public PokerCard deal() {
+    PokerCard deal() {
         return cards.remove(0);
     }
 
