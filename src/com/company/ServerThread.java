@@ -1,58 +1,31 @@
 package com.company;
-import java.net.*;
-import java.io.*;
 
-public class ServerThread extends Thread
-{  private Server       server    = null;
-    private Socket           socket    = null;
-    private int              ID        = -1;
-    private DataInputStream  streamIn  =  null;
-    private DataOutputStream streamOut = null;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-    //Constructor
-    public ServerThread(Server _server, Socket _socket) {
-        super();
-        server = _server;
-        socket = _socket;
-        ID = socket.getPort();
-    }
+public class ServerThread {
 
-    public void send(String msg) {
-        try {
-            streamOut.writeUTF(msg);
-            streamOut.flush();
-        }
-        catch(IOException ioe) {
-            System.out.println(ID + " ERROR sending: " + ioe.getMessage());
-            server.remove(ID);
-            stop();
-        }
-    }
 
-    public int getID() { return ID; }
+    public static void main(String[] args) throws Exception {
+        new ServerSocket(3141);
 
-    public void run() {
-        System.out.println("Server Thread " + ID + " running.");
-        while (true) {
-            try {
-                server.handle(ID, streamIn.readUTF());
+        final Socket t = new Socket("localhost", 3141);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Hello World");
+                    System.out.println(t.getInputStream().read());
+                    System.out.println("Hello Server");
+                } catch (IOException e) {
+                    System.out.println("Hi");
+                }
             }
-            catch(IOException ioe) {
-                System.out.println(ID + " ERROR reading: " + ioe.getMessage());
-                server.remove(ID);
-                stop();
-            }
-        }
-    }
+        }).start();
 
-    public void open() throws IOException {
-        streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-        streamOut = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-    }
-
-    public void close() throws IOException {
-        if (socket != null)    socket.close();
-        if (streamIn != null)  streamIn.close();
-        if (streamOut != null) streamOut.close();
+        Thread.sleep(2000);
+        t.close();
     }
 }
