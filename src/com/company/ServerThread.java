@@ -25,7 +25,7 @@ public class ServerThread {
             }
         }).start();
 
-        Thread.sleep(2000);
+        // Thread.sleep(2000);
         t.close();
     }
 }
