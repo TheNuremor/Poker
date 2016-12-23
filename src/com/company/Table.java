@@ -21,7 +21,6 @@ class Table {
     private int dealerpos;
 
     private HandValue maxValue = null;
-    public boolean gameRunning = false;
     private boolean blindSet = false;
 
 
@@ -59,14 +58,6 @@ class Table {
             betround();
 
             decideWinner();
-
-            winnerList.forEach((Player player1) -> {
-                player1.clientThread.sendData("Spieler: "+ player1.getName() + "hat gewonnen!");
-            });
-            playerList.forEach((Player player1) -> {
-                player1.clientThread.sendData("\n\n\n\n\nEine neue Runde beginnt!\n\n");
-            });
-            nextGameRound();
         }
     }
 
@@ -278,6 +269,7 @@ class Table {
     }
 
     private void potDistribution() {
+        //String winner = "";
         int playerAllIn = 0;
         if (winnerList.size() == 1) {          // 1 Gewinner
             for (Player p : winnerList) {
@@ -313,11 +305,12 @@ class Table {
             decideWinner();
         }
         if (pot == 0) {
-            winnerList.forEach((Player player1) -> {
-                player1.clientThread.sendData("Spieler: "+ player1.getName() + "hat gewonnen!");
-            });
+            /*winnerList.forEach((Player player1) -> {
+                winner = winner + player1.getName();
+                player1.clientThread.sendData("Spieler: "+ winner + " hat gewonnen!");
+            });*/
             playerList.forEach((Player player1) -> {
-                player1.clientThread.sendData("\n\n\n\n\nEine neue Runde beginnt!\n\n");
+                player1.clientThread.sendData("\n\n\nEine neue Runde beginnt!\n\n");
             });
             nextGameRound();
         }

@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Server {
 
-    public boolean gameRunning = false;
 
     public static void main(String args[]) throws IOException {
 
