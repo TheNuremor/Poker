@@ -3,7 +3,6 @@ package com.company;
 import com.company.enums.Role;
 import handChecker.HandValue;
 import handChecker.PokerCard;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -46,7 +45,7 @@ class Table {
         }
 
         playerList.forEach((Player player1) -> {
-            player1.clientThread.sendData("Spiel gestartet");
+            player1.clientThread.sendData("Spiel gestartet\n\n");
         });
 
         while (true) {
@@ -60,6 +59,13 @@ class Table {
             betround();
 
             decideWinner();
+
+            winnerList.forEach((Player player1) -> {
+                player1.clientThread.sendData("Spieler: "+ player1.getName() + "hat gewonnen!");
+            });
+            playerList.forEach((Player player1) -> {
+                player1.clientThread.sendData("\n\n\n\n\nEine neue Runde beginnt!\n\n");
+            });
             nextGameRound();
         }
     }
@@ -307,6 +313,12 @@ class Table {
             decideWinner();
         }
         if (pot == 0) {
+            winnerList.forEach((Player player1) -> {
+                player1.clientThread.sendData("Spieler: "+ player1.getName() + "hat gewonnen!");
+            });
+            playerList.forEach((Player player1) -> {
+                player1.clientThread.sendData("\n\n\n\n\nEine neue Runde beginnt!\n\n");
+            });
             nextGameRound();
         }
     }
