@@ -322,5 +322,4 @@ class Table {
             nextGameRound();
         }
     }
-
 }
