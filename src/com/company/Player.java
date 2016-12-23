@@ -1,73 +1,121 @@
 package com.company;
 
 import com.company.enums.Role;
+import handChecker.HandChecker;
+import handChecker.HandValue;
+import handChecker.PokerCard;
 
-public class Player {
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-    public CardStack handstack;
+class Player  {
+
+    CardStack handstack;
+    public String name;
+
     public int playerBet = 0;
     public int cash = 10000;
-    public boolean inGame = true;
-    public boolean isAllIn = false;
+    public int interactionNumber;
+    boolean inGame = true;
+    boolean isAllIn = false;
+    boolean betRight = true;
+    HandValue hv;
     private Role role = Role.DEFAULT;
 
+    public ClientThread clientThread;
 
     //Constructor
-    public Player(){
+    Player() {
         handstack = new CardStack(2);
+        interactionNumber = 0;
+    }
+
+    Player(ClientThread clientThread) {
+        this();
+        this.clientThread = clientThread;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isInGame() {
+        return inGame;
     }
 
     public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    void setRole(Role role) {
         this.role = role;
     }
 
-    public void fold() {
-        inGame = false;
+    public CardStack getHandstack() {
+        return handstack;
     }
 
-    /* TODO
-    public void call() {
-        int x = Table.tableBet - playerBet;
-        if (cash - x > 0) {
-            cash -= x;
-            Table.pot += x;
-            playerBet = Table.tableBet;
-        }else{
-            allIn;
-        }
+    String toString(Table table) {
+        String output;
+        output = "Cash:\t" + cash + "\nRole:\t" + role.toString() + "\nPlayer Bet:\t" + playerBet + "\nTable Bet:\t" + table.tableBet +
+                "\nHandkarten:\t\t" + getHandstack().getCards().toString() + "\nTischkarten:\t" + table.getTablestack().getCards().toString();
+        clientThread.output.println(output);
+        return "---\n" + output;
     }
 
-    public void raise(int x) {
-        if (playerBet + x > Table.tableBet) {
-            if (cash - x > 0) {
-                cash -= x;
-                Table.pot += x;
-                playerBet *= x;
-            } else {
-                allIn;
+    public void playerInteraction(Table table, int bet) {
+        if (inGame && (!isAllIn)) {
+            if (bet > 0 && (playerBet + bet) < table.tableBet) {
+                System.out.println("Falsche Eingabe");
+                betRight = false;
+            } else if (bet < 0) {
+                // Fold
+                inGame = false;
+            } else { // Call -wenn bet = tableBet - bzw Raise
+                if (cash > bet) { // enough money, no allin
+                    playerBet += bet;
+                    cash -= bet;
+                    table.pot += bet;
+                    if (playerBet > table.tableBet) { //effektiver Raise
+                        table.tableBet = playerBet;
+                    }
+                } else {
+                    //AllIn
+                    isAllIn = true;
+                    playerBet += cash;
+                    if (table.tableBet < cash) {
+                        table.tableBet = playerBet;
+                    }
+                    table.pot += cash;
+                    cash = 0;
+                }
+                betRight = true;
             }
         }
     }
-    */
+
+    public boolean isFinished() {
+        return clientThread.isFinished();
+    }
+
+    List<PokerCard> getCompleteHandstack(CardStack tablestack) {
+        return Stream.concat(handstack.getCards().stream(), tablestack.getCards().stream()).collect(Collectors.toList());
+    }
+
+    HandValue getHandValue(List<PokerCard> completestack) {
+        if (hv == null) {
+            HandChecker handChecker = new HandChecker();
+            hv = handChecker.check(completestack);
+        }
+        return hv;
+    }
 
 
-
-    /* TODO:
-
-    Methoden(Interaktionen)
-        Raise
-            Betrag
-            andere finishif auf false
-        Check
-            Betrag von vorher
-        Call
-        All in
-            Sieg -> Pot eventuelle Aufteilung der Pots
-            Verliert -> Exit Game
-    */
 }
+
 

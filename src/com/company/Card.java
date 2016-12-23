@@ -1,38 +1,28 @@
 package com.company;
 
-import com.company.enums.Rank;
-import com.company.enums.Suit;
 import handChecker.PokerCard;
 
-public class Card implements PokerCard{
-    public Suit suit;
-    public Rank rank;
+class Card implements PokerCard{
+    private Color color;
+    private Value value;
 
     //Konstruktor
-    public Card(Rank rank, Suit suit){
-        this.rank = rank;
-        this.suit = suit;
-    }
-
-    public Rank getRank() {
-        return rank;
-    }
-
-    public Suit getSuit() {
-        return suit;
+    Card(Value value, Color color) {
+        this.value = value;
+        this.color = color;
     }
 
     public String toString(){
-        return "" + rank + " "+ suit;
+        return "" + value + " " + color;
     }
 
     @Override
     public Color getColor() {
-        return Color.valueOf(suit.toString());
+        return color;
     }
 
     @Override
     public Value getValue() {
-        return Value.values()[rank.rank()];
+        return value;
     }
 }

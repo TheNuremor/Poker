@@ -1,29 +1,71 @@
 package com.company;
 
 import com.company.enums.Role;
+import handChecker.HandValue;
+import handChecker.PokerCard;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class Table {
-    public CardStack tablestack;
-    public CardStack deckstack;
+class Table {
     public List<Player> playerList;
+    private CardStack tablestack;
+    private CardStack deckstack;
+    private List<Player> winnerList;
+
+    private int roundcounter = 0;    // Runden
+    private int gamecounter = 0;    // Potausschüttungen
+    private int Blind = 100;
     public int pot = 0;
     public int tableBet = 0;
     private int dealerpos;
 
-    //Weitere Playerlist für alle die Ausgestiegen sind...
-    //Später eine Lobby für alle die kein Geld mehr hatten und wartende Spieler...
+    private HandValue maxValue = null;
+    public boolean gameRunning = false;
+    private boolean blindSet = false;
 
-    private int gamecounter = 0;     // Potausschüttungen
-    private int roundcounter = 0;    // Runden
 
-    public Table() {
+    Table() {
         playerList = new LinkedList<>();
+        winnerList = new LinkedList<>();
         tablestack = new CardStack(5);
         deckstack = new CardStack();
+    }
+
+    public void startGame() {
+        if (playerList.size() < 3)
+            return;
+
+        while (playerList.stream().anyMatch(player -> !player.clientThread.isFinished())) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        playerList.forEach((Player player1) -> {
+            player1.clientThread.sendData("Spiel gestartet");
+        });
+
+        while (true) {
+            roleDistribution();
+            distributeCards();
+
+            for (int i = 0; i < 3; i++) {
+                betround();
+                nextRound();
+            }
+            betround();
+
+            decideWinner();
+            nextGameRound();
+        }
+    }
+
+    public boolean allPlayersFinished() {
+        return playerList.stream().allMatch(Player::isFinished);
     }
 
     public int getTableBet() {
@@ -34,6 +76,10 @@ public class Table {
         this.tablestack = tablestack;
     }
 
+    public CardStack getTablestack() {
+        return tablestack;
+    }
+
     public int getPot() {
         return pot;
     }
@@ -42,17 +88,16 @@ public class Table {
         this.pot = pot;
     }
 
-    public void distributeCards() {
+    void distributeCards() {
         switch (roundcounter) {
-            case 1:
+            case 0:
                 for(Player p : playerList) {
-                    //TODO würde das wahrscheinlich mit funktionen realisieren
                     p.handstack.cards.add(deckstack.deal());
                     p.handstack.cards.add(deckstack.deal());
                 }
                 // Karten an Spieler
                 break;
-            case 2:
+            case 1:
                 for (int i = 0; i < 3; i++) {
                     tablestack.cards.add(deckstack.deal());
                 }
@@ -65,28 +110,87 @@ public class Table {
         }
     }
 
-    public void addPlayer(Player p) {
-        playerList.add(p);
+    void addPlayer(Player p, List list) {
+        list.add(p);
     }
 
     public void removePlayer(Player p) {
+        dealerpos--;
         playerList.remove(p);
+    }
+
+    void betround() {
+        if (roundcounter == 0 ) {
+            if (playerList.size() == 2) {
+                if (!blindSet) {
+                    playerList.get((dealerpos) % playerList.size()).playerInteraction(this, Blind / 2);     //DealerSmall
+                    playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
+                    blindSet = true;
+                }
+                for (int i = 0; i < playerList.size(); i++) {
+                    if(playerList.get((dealerpos + 2 + i) % playerList.size()).inGame){
+                        System.out.println(playerList.get((dealerpos + 2 + i) % playerList.size()).toString(this));
+                        playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 2 + i) % playerList.size())));
+                    }
+                }   //Setzrunde mit Big als letztes
+            } else {
+                if (!blindSet) {
+                    playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind / 2); //Small
+                    playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
+                    blindSet = true;
+                }
+                for (int i = 0; i < playerList.size(); i++) {
+                    if(playerList.get((dealerpos + 3 + i) % playerList.size()).inGame) {
+                        do {
+                            System.out.println(playerList.get((dealerpos + 3 + i) % playerList.size()).toString(this));
+                            playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 3 + i) % playerList.size())));
+                        } while (!playerList.get((dealerpos + 3 + i) % playerList.size()).betRight);
+                    }
+                }   //Setzrunde mit Big als letztes
+            }
+        } else {
+            //Setrunde mit Dealer als letztes
+            for (int i = 0; i < playerList.size(); i++) {
+                if(playerList.get((dealerpos + 1 + i) % playerList.size()).inGame) {
+                    do {
+                        System.out.println(playerList.get((dealerpos + 1 + i) % playerList.size()).toString(this));
+                        playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 1 + i) % playerList.size())));
+                    } while (!playerList.get((dealerpos + 1 + i) % playerList.size()).betRight);
+                }
+            }
+        }
+        if (!finishBetRound()) {
+            betround();
+        }
     }
 
     public String toString() {
         String output = "";
-        for (Card c : tablestack.cards) {
+        for (PokerCard c : tablestack.cards) {
             output += c.toString() + "\n";
         }
         return output;
     }
 
-    public void nextRound() {
-        roundcounter += 1;
-        distributeCards();
+    private boolean finishBetRound() {
+        boolean betroundfinished = true;
+        for (Player p : playerList) {
+            if ((p.playerBet != tableBet) && (p.inGame)) {
+                betroundfinished = false;
+            }
+        }
+        return betroundfinished;
     }
 
-    public void nextGameRound() {
+    void nextRound() {
+        roundcounter += 1;
+        distributeCards();
+        playerList.forEach((Player player1) -> {
+            player1.clientThread.sendData("-------------");
+        });
+    }
+
+    void nextGameRound() {
         for (int i = 0; i < playerList.size(); i++) {
             playerList.get(i).inGame = true;
             playerList.get(i).playerBet = 0;
@@ -97,11 +201,13 @@ public class Table {
         roleDistribution();
         pot = 0;
         tableBet = 0;
+        blindSet = false;
         roundcounter = 0;
         gamecounter++;
+        System.out.println("-----------------------------");
     }
 
-    public void roleDistribution() {
+    void roleDistribution() {
         if (gamecounter == 0) {
             dealerpos = new Random(System.currentTimeMillis()).nextInt(playerList.size());
         } else {
@@ -117,19 +223,92 @@ public class Table {
         }
     }
 
+    private int betScanner(Player player) {
+        player.clientThread.sendData("/Bet");
+        while(player.clientThread.bet == null) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        int output = Integer.parseInt(player.clientThread.bet.substring(8));
+        player.clientThread.bet = null;
 
+        playerList.forEach(player1 -> {
+            if (!player1.equals(player))
+                player1.clientThread.sendData("Spieler " + player.getName() + " hat " + output + " gesetzt.");
+        });
 
-    /* TODO
-    TableStack
-    Betround (Preflop, Flop, Turn, River)
-    Verwaltung des aktuellen Pots
-    Methoden
-    Verteilung Dealer und Blinds
-    Verteilung Sitzplätze
-    Verteilung Karten
-    Zuweisung wer dran ist
-    Spiel vorbei->Auswertung
+        return output;
+    }
 
-    */
+    void decideWinner() {
+        //Spieler im Spiel und Handvalue vergleichen
+        if (winnerList != null) {
+            winnerList.clear();
+        }
+
+        for (Player p : playerList) {
+            if (p.inGame) {
+                maxValue = p.getHandValue(p.getCompleteHandstack(tablestack));
+            }
+        }
+
+        for (Player p : playerList) {
+            if ((p.hv.compareTo(maxValue) == 1) && (p.inGame)) {
+                maxValue = p.hv;
+            }
+        }
+        //MaxValue Spieler zur gewinnerliste hinzufügen
+        for (Player p : playerList) {
+            if (p.hv.compareTo(maxValue) == 0) {
+                addPlayer(p, winnerList);
+            }
+        }
+        if (pot != 0) {
+            potDistribution();
+        }
+    }
+
+    private void potDistribution() {
+        int playerAllIn = 0;
+        if (winnerList.size() == 1) {          // 1 Gewinner
+            for (Player p : winnerList) {
+                if (!p.isAllIn) {             //1.Fall: 1 Player und NICHT AllIn
+                    p.cash += pot;
+                    pot = 0;
+                }else{                      //2.Fall: 1Player und AllIn
+                    p.cash += p.playerBet * playerList.size();
+                    pot -= p.playerBet * playerList.size();
+                    p.inGame = false;
+                }
+            }
+        } else {      // mehr als 1 Gewinner
+            for (Player p : winnerList) {
+                if (p.isAllIn) {
+                    playerAllIn += 1;
+                }
+            }
+            if (playerAllIn == 0) {
+                for (Player p : winnerList) {
+                    p.cash += pot / winnerList.size();
+                }
+                pot = 0;
+            } else {
+                for (Player p : winnerList) {
+                    p.cash += p.playerBet * playerList.size();
+                    pot -= p.playerBet * playerList.size();
+                    p.inGame = false;
+                }
+            }
+        }
+        if (pot != 0) {
+            decideWinner();
+        }
+        if (pot == 0) {
+            nextGameRound();
+        }
+    }
+
 }
-
