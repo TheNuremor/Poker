@@ -16,7 +16,10 @@ public class GameGUI {
     }
     public static void main(String[] args){
         GameGUI loginGUI = new GameGUI();
-        loginGUI.showLoginWindow();
+        //loginGUI.showLoginWindow();
+        //loginGUI.showRegistrationWindow();
+        loginGUI.showLobbyWindow();
+
     }
 
     private void prepareGUI(){
@@ -47,34 +50,89 @@ public class GameGUI {
                 "Texas Hold'em No Limit");
 
         JPanel panel = new JPanel();
-        //panel.setSize(300,300);
+        panel.setSize(400,400);
+        //panel.setBackground(Color.darkGray);
+
+
 
         GroupLayout layout = new GroupLayout(panel);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
-        JLabel nameLabel = new JLabel("Benutzername: ");
-        JTextField nameText = new JTextField(6);
-        JLabel passwortLabel = new JLabel("Passwort: ");
-        JPasswordField passwortText = new JPasswordField(6);
+        JLabel nameLabel = new JLabel("Benutzername:");
+        final JTextField nameText = new JTextField(12);
+        JLabel passwortLabel = new JLabel("     Passwort:    ");
+        final JPasswordField passwortText = new JPasswordField(12);
         JButton loginButton = new JButton("Login");
         JButton registrationButton = new JButton("Registrieren");
 
 
 
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER))
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(nameLabel)
+                                .addComponent(nameText))
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(passwortLabel)
+                                .addComponent(passwortText))
+                        .addComponent(loginButton)
+                        .addComponent(registrationButton)
+
+        );
+        layout.setVerticalGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(nameLabel)
+                        .addComponent(nameText))
+                .addGroup(layout.createParallelGroup()
+                        .addComponent(passwortLabel)
+                        .addComponent(passwortText))
+                .addGroup(layout.createSequentialGroup()
+                        .addComponent(loginButton)
+                        .addComponent(registrationButton))
+
+        );
+
+        panel.setLayout(layout);
+        controlPanel.add(panel);
+        loginWindow.setVisible(true);
+    }
+    public void showRegistrationWindow(){
+        headerLabel.setText("Bitte Registrieren sie sich um Spielen zu können");
+
+        JPanel panel = new JPanel();
+        panel.setSize(500,500);
+        //panel.setBackground(Color.darkGray);
+
+
+        GroupLayout layout = new GroupLayout(panel);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        JLabel nameLabel = new JLabel("       Benutzername:     ");
+        final JTextField nameText = new JTextField(12);
+        JLabel passwortLabel = new JLabel("          Passwort:           ");
+        final JPasswordField passwortText = new JPasswordField(12);
+        JLabel passwort2Label = new JLabel("Passwort wiederholen:");
+        final JPasswordField passwort2Text = new JPasswordField(12);
+
+        JButton registrationButton = new JButton("Registrieren");
+
 
         layout.setHorizontalGroup(
-                layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup())
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER))
+                        .addGroup(layout.createSequentialGroup()
                                 .addComponent(nameLabel)
-                                .addComponent(passwortLabel))
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(nameText)
+                                .addComponent(nameText))
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(passwortLabel)
                                 .addComponent(passwortText))
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(loginButton)
-                                .addComponent(registrationButton))
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(passwort2Label)
+                                .addComponent(passwort2Text))
+                        .addComponent(registrationButton)
 
         );
         layout.setVerticalGroup(layout.createSequentialGroup()
@@ -85,14 +143,53 @@ public class GameGUI {
                         .addComponent(passwortLabel)
                         .addComponent(passwortText))
                 .addGroup(layout.createParallelGroup()
-                        .addComponent(loginButton))
-                .addGroup(layout.createParallelGroup()
+                        .addComponent(passwort2Label)
+                        .addComponent(passwort2Text))
+                .addGroup(layout.createSequentialGroup()
                         .addComponent(registrationButton))
+
         );
 
         panel.setLayout(layout);
-
         controlPanel.add(panel);
         loginWindow.setVisible(true);
     }
+
+    public void showLobbyWindow(){
+        headerLabel.setText("Möchten sie einem Spiel beitreten?");
+
+        JPanel panel = new JPanel();
+        panel.setSize(400,400);
+        //panel.setBackground(Color.darkGray);
+
+
+
+        GroupLayout layout = new GroupLayout(panel);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+
+        JButton disconnectButton = new JButton("Disconnect");
+        JButton joinButton = new JButton("Join");
+
+
+
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                        .addComponent(disconnectButton)
+                        .addComponent(joinButton)
+
+        );
+        layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                        .addComponent(disconnectButton)
+                        .addComponent(joinButton)
+
+        );
+
+        panel.setLayout(layout);
+        controlPanel.add(panel);
+        loginWindow.setVisible(true);
+    }
+
+
 }
