@@ -178,12 +178,10 @@ public class GameGUI {
                 layout.createSequentialGroup()
                         .addComponent(disconnectButton)
                         .addComponent(joinButton)
-
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addComponent(disconnectButton)
                         .addComponent(joinButton)
-
         );
 
         panel.setLayout(layout);
