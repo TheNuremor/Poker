@@ -11,9 +11,13 @@ public class Client {
 
         Socket clientSocket = null;
 
+        
         try {
             clientSocket = new Socket("localHost", 1111);
             System.out.println("Client connected");
+            ObjectOutputStream objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
+
             OutputStream out = clientSocket.getOutputStream();
             PrintStream output  = new PrintStream(out, true);
 

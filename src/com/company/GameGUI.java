@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 
 public class GameGUI {
-    private JFrame loginWindow;
+    private JFrame gameWindow;
     private JLabel headerLabel;
     private JLabel statusLabel;
     private JPanel controlPanel;
@@ -18,20 +18,21 @@ public class GameGUI {
         GameGUI loginGUI = new GameGUI();
         //loginGUI.showLoginWindow();
         //loginGUI.showRegistrationWindow();
-        loginGUI.showLobbyWindow();
+        //loginGUI.showLobbyWindow();
+        loginGUI.showGameWindow();
 
     }
 
     private void prepareGUI(){
-        loginWindow = new JFrame("Online Poker");
-        loginWindow.setSize(1280,768);
-        loginWindow.setLayout(new GridLayout(3, 1));
+        gameWindow = new JFrame("Online Poker");
+        gameWindow.setSize(1280,768);
+        gameWindow.setLayout(new GridLayout(3, 1));
 
         headerLabel = new JLabel("", JLabel.CENTER);
         statusLabel = new JLabel("",JLabel.CENTER);
         statusLabel.setSize(350,100);
 
-        loginWindow.addWindowListener(new WindowAdapter() {
+        gameWindow.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
                 System.exit(0);
             }
@@ -39,10 +40,10 @@ public class GameGUI {
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
 
-        loginWindow.add(headerLabel);
-        loginWindow.add(controlPanel);
-        loginWindow.add(statusLabel);
-        loginWindow.setVisible(true);
+        gameWindow.add(headerLabel);
+        gameWindow.add(controlPanel);
+        gameWindow.add(statusLabel);
+        gameWindow.setVisible(true);
     }
 
     public void showLoginWindow(){
@@ -51,7 +52,7 @@ public class GameGUI {
 
         JPanel panel = new JPanel();
         panel.setSize(400,400);
-        //panel.setBackground(Color.darkGray);
+        panel.setBackground(Color.gray);
 
 
 
@@ -96,7 +97,7 @@ public class GameGUI {
 
         panel.setLayout(layout);
         controlPanel.add(panel);
-        loginWindow.setVisible(true);
+        gameWindow.setVisible(true);
     }
     public void showRegistrationWindow(){
         headerLabel.setText("Bitte Registrieren sie sich um Spielen zu können");
@@ -152,7 +153,7 @@ public class GameGUI {
 
         panel.setLayout(layout);
         controlPanel.add(panel);
-        loginWindow.setVisible(true);
+        gameWindow.setVisible(true);
     }
 
     public void showLobbyWindow(){
@@ -186,7 +187,26 @@ public class GameGUI {
 
         panel.setLayout(layout);
         controlPanel.add(panel);
-        loginWindow.setVisible(true);
+        gameWindow.setVisible(true);
+    }
+
+
+    public void showGameWindow(){
+
+        headerLabel.setText("Control in action: ImageIcon");
+        statusLabel.setText("Test");
+        JPanel panel = new JPanel();
+        //panel.setSize(10000,10000);
+        controlPanel.setBackground(Color.gray);
+
+
+        controlPanel.add(new Texture()).setVisible(true);
+        controlPanel.updateUI();
+        //controlPanel.add(panel);
+        controlPanel.setVisible(true);
+        gameWindow.add(new JLabel(new ImageIcon("../../CardTextures/blank2.png")));
+
+        gameWindow.setVisible(true);
     }
 
 

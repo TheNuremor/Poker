@@ -3,6 +3,8 @@ package com.company;
 import com.company.enums.Role;
 import handChecker.HandValue;
 import handChecker.PokerCard;
+
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -162,6 +164,7 @@ class Table {
     }
 
     public String toString() {
+
         String output = "";
         for (PokerCard c : tablestack.cards) {
             output += c.toString() + "\n";
