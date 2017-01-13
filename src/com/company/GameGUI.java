@@ -15,11 +15,11 @@ public class GameGUI {
        prepareGUI();
     }
     public static void main(String[] args){
-        GameGUI loginGUI = new GameGUI();
-        //loginGUI.showLoginWindow();
-        //loginGUI.showRegistrationWindow();
-        //loginGUI.showLobbyWindow();
-        loginGUI.showGameWindow();
+        GameGUI gameGUI = new GameGUI();
+        //gameGUI.showLoginWindow();
+        //gameGUI.showRegistrationWindow();
+        //gameGUI.showLobbyWindow();
+        gameGUI.showGameWindow();
 
     }
 
@@ -29,8 +29,8 @@ public class GameGUI {
         gameWindow.setLayout(new GridLayout(3, 1));
 
         headerLabel = new JLabel("", JLabel.CENTER);
-        statusLabel = new JLabel("",JLabel.CENTER);
-        statusLabel.setSize(350,100);
+        //statusLabel = new JLabel("",JLabel.CENTER);
+        //statusLabel.setSize(350,100);
 
         gameWindow.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent){
@@ -38,11 +38,11 @@ public class GameGUI {
             }
         });
         controlPanel = new JPanel();
-        controlPanel.setLayout(new FlowLayout());
+        //controlPanel.setLayout(new FlowLayout());
 
         gameWindow.add(headerLabel);
         gameWindow.add(controlPanel);
-        gameWindow.add(statusLabel);
+        //gameWindow.add(statusLabel);
         gameWindow.setVisible(true);
     }
 
@@ -194,17 +194,15 @@ public class GameGUI {
     public void showGameWindow(){
 
         headerLabel.setText("Control in action: ImageIcon");
-        statusLabel.setText("Test");
+        //statusLabel.setText("Test");
         JPanel panel = new JPanel();
-        //panel.setSize(10000,10000);
-        controlPanel.setBackground(Color.gray);
+        controlPanel.setSize(600,400);
+        //controlPanel.setBackground(Color.gray);
 
 
-        controlPanel.add(new Texture()).setVisible(true);
+        controlPanel.add(new Texture());
         controlPanel.updateUI();
-        //controlPanel.add(panel);
-        controlPanel.setVisible(true);
-        gameWindow.add(new JLabel(new ImageIcon("../../CardTextures/blank2.png")));
+        gameWindow.add(controlPanel);
 
         gameWindow.setVisible(true);
     }
