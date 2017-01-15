@@ -13,7 +13,7 @@ class Card implements PokerCard{
     }
 
     public String toString(){
-        return "" + value + " " + color;
+        return value + " " + color;
     }
 
     @Override

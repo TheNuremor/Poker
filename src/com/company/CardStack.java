@@ -37,6 +37,7 @@ class CardStack {
         return cards.remove(0);
     }
 
+    @Override
     public String toString() {
         String output = "";
         for (PokerCard c : cards) {

@@ -1,5 +1,7 @@
 package com.company;
 
+import handChecker.PokerCard;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -11,12 +13,9 @@ public class Client {
 
         Socket clientSocket = null;
 
-        
         try {
             clientSocket = new Socket("localHost", 1111);
             System.out.println("Client connected");
-            ObjectOutputStream objectOut = new ObjectOutputStream(clientSocket.getOutputStream());
-            ObjectInputStream objectIn = new ObjectInputStream(clientSocket.getInputStream());
 
             OutputStream out = clientSocket.getOutputStream();
             PrintStream output  = new PrintStream(out, true);
@@ -28,7 +27,7 @@ public class Client {
             while (true) {
                 while (input.ready()) {
                     String string = input.readLine();
-                    switch (string){
+                    switch (string) {
                         case "/Nameadd":
                             System.out.println("Bitte Namen eingeben: ");
                             output.println(consoleinput.readLine());
@@ -44,7 +43,6 @@ public class Client {
                         default:
                             System.out.println(string);
                     }
-
                 }
             }
 

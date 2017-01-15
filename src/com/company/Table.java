@@ -31,6 +31,7 @@ class Table {
         winnerList = new LinkedList<>();
         tablestack = new CardStack(5);
         deckstack = new CardStack();
+
     }
 
     public void startGame() {
@@ -46,21 +47,28 @@ class Table {
         }
 
         playerList.forEach((Player player1) -> {
-            player1.clientThread.sendData("Spiel gestartet\n\n");
+            player1.clientThread.sendData("Spiel gestartet\n");
         });
 
-        while (true) {
-            roleDistribution();
-            distributeCards();
+        roleDistribution();
+        while (playerList.size() != 1) {
 
-            for (int i = 0; i < 3; i++) {
-                betround();
+            while (tablestack.cards.size() != 5) {
+                if (roundcounter == 0) betround();
+                int count = 0;
                 nextRound();
-            }
-            betround();
 
+                for (Player p : playerList) {
+                    if (p.inGame) count++;
+                }
+                if (count != 1) betround();
+            }
             decideWinner();
         }
+
+        playerList.forEach((Player player1) -> {
+            player1.clientThread.sendData("Spiel beendet\n\n");
+        });
     }
 
     public boolean allPlayersFinished() {
@@ -183,14 +191,16 @@ class Table {
     }
 
     void nextRound() {
-        roundcounter += 1;
-        distributeCards();
-        playerList.forEach((Player player1) -> {
-            player1.clientThread.sendData("-------------");
-        });
+        if (roundcounter < 3) {
+            if (roundcounter == 0) roleDistribution();
+            roundcounter ++;
+            distributeCards();
+            playerList.forEach((Player player1) -> player1.clientThread.sendData("-------------"));
+        } else nextGameRound();
     }
 
     void nextGameRound() {
+        decideWinner();
         for (int i = 0; i < playerList.size(); i++) {
             playerList.get(i).inGame = true;
             playerList.get(i).playerBet = 0;
