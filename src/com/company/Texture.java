@@ -19,7 +19,6 @@ public class Texture extends Canvas {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
