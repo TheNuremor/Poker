@@ -53,21 +53,27 @@ class Table {
         roleDistribution();
         while (playerList.size() != 1) {
 
-            while (tablestack.cards.size() != 5) {
-                if (roundcounter == 0) betround();
-                int count = 0;
-                nextRound();
+            while (roundcounter < 4) {
+                if (roundcounter == 0) {
+                    distributeCards();
+                    betround();
+                }else {
+                    int count = 0;
 
-                for (Player p : playerList) {
-                    if (p.inGame) count++;
+                    for (Player p : playerList) {
+                        if (p.inGame) count++;
+                    }
+
+                    if (count != 1) betround();
+                    else roundcounter = 4;
                 }
-                if (count != 1) betround();
+                nextRound();
             }
-            decideWinner();
+            nextRound();  //nextGameRound
         }
 
         playerList.forEach((Player player1) -> {
-            player1.clientThread.sendData("Spiel beendet\n\n");
+            player1.clientThread.sendData("Spiel beendet\n");
         });
     }
 
@@ -323,7 +329,7 @@ class Table {
                 player1.clientThread.sendData("Spieler: "+ winner + " hat gewonnen!");
             });*/
             playerList.forEach((Player player1) -> {
-                player1.clientThread.sendData("\n\n\nEine neue Runde beginnt!\n\n");
+                player1.clientThread.sendData("\nEine neue Runde beginnt!\n");
             });
             nextGameRound();
         }

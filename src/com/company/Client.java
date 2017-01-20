@@ -20,6 +20,7 @@ public class Client {
             OutputStream out = clientSocket.getOutputStream();
             PrintStream output  = new PrintStream(out, true);
 
+
             InputStream in = clientSocket.getInputStream();
             BufferedReader input = new BufferedReader(new InputStreamReader(in));
             BufferedReader consoleinput = new BufferedReader(new InputStreamReader(System.in));
