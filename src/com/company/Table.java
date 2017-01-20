@@ -70,6 +70,7 @@ class Table {
                 nextRound();
             }
             nextRound();  //nextGameRound
+            //TODO incorrect Bet
         }
 
         playerList.forEach((Player player1) -> {
