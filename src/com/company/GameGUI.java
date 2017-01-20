@@ -253,6 +253,7 @@ public class GameGUI extends JFrame{
                 g2.drawImage(img, 0, 0, getWidth(), getHeight(), null);
                 g2.dispose();
             }*/
+
             @Override
             public Dimension getPreferredSize(){
                 return new Dimension(img.getWidth(null)/2, img.getHeight(null)/2);
