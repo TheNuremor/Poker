@@ -14,9 +14,13 @@ public class GameGUI extends JFrame{
     private JFrame gameWindow;
     private JLabel headerLabel;
     private JLabel statusLabel;
+
     private JPanel controlPanel;
+    private JPanel playerPanel;
     private Image img;
-    private Image img2;
+    private GridBagLayout gridBag = new GridBagLayout();
+    private GridBagConstraints c = new GridBagConstraints();
+
 
     public GameGUI(){
        prepareGUI();
@@ -33,9 +37,10 @@ public class GameGUI extends JFrame{
     private void prepareGUI(){
         gameWindow = new JFrame("Online Poker");
         gameWindow.setSize(1280,768);
-        gameWindow.setLayout(new GridLayout(3, 1));
+        gameWindow.setLayout(gridBag);
 
         headerLabel = new JLabel("", JLabel.CENTER);
+        c.anchor = GridBagConstraints.PAGE_START;
         statusLabel = new JLabel("",JLabel.CENTER);
         statusLabel.setSize(350,100);
 
@@ -45,7 +50,7 @@ public class GameGUI extends JFrame{
             }
         });
         controlPanel = new JPanel();
-        controlPanel.setLayout(new FlowLayout());
+        c.anchor = GridBagConstraints.CENTER;
 
         gameWindow.add(headerLabel);
         gameWindow.add(controlPanel);
@@ -103,15 +108,15 @@ public class GameGUI extends JFrame{
         );
 
         panel.setLayout(layout);
-        controlPanel.add(panel);
+        controlPanel.add(panel, GridBagConstraints.CENTER);
         gameWindow.setVisible(true);
     }
+
     public void showRegistrationWindow(){
         headerLabel.setText("Bitte Registrieren sie sich um Spielen zu können");
 
         JPanel panel = new JPanel();
         panel.setSize(500,500);
-        //panel.setBackground(Color.darkGray);
 
 
         GroupLayout layout = new GroupLayout(panel);
@@ -159,7 +164,7 @@ public class GameGUI extends JFrame{
         );
 
         panel.setLayout(layout);
-        controlPanel.add(panel);
+        controlPanel.add(panel, GridBagConstraints.CENTER);
         gameWindow.setVisible(true);
     }
 
@@ -193,83 +198,66 @@ public class GameGUI extends JFrame{
         );
 
         panel.setLayout(layout);
-        controlPanel.add(panel);
+        controlPanel.add(panel, GridBagConstraints.CENTER);
         gameWindow.setVisible(true);
     }
 
 
     public void showGameWindow() {
 
+        gameWindow.setLayout(new GridBagLayout());
+
         headerLabel.setText("Control in action: ImageIcon");
-        statusLabel.setText("Test");
 
-
-        //panel.setSize(600,400);
         //controlPanel.setBackground(Color.gray);
+        playerPanel = new JPanel();
+        c.anchor = GridBagConstraints.PAGE_END;
+
+        insertImage(controlPanel, 5);
+        insertImage(playerPanel, 2);
 
 
+        //Add other components to mainPanel
+
+        gameWindow.add(headerLabel, c);
+        gameWindow.add(controlPanel, c);
+        gameWindow.add(playerPanel, c);
+        gameWindow.setVisible(true);
+    }
+
+    public void insertImage(JPanel imagePanel, int x){
         URL resource = getClass().getResource("../../CardTextures/blank2.png");
-        URL resource2 = getClass().getResource("../../CardTextures/blank.png");
 
         try {
             img = ImageIO.read(resource);//Write path of your image here
-            img2 = ImageIO.read(resource2);
+
         } catch (IOException ex) {
             ex.printStackTrace();
             //Logger.getLogger(GameGUI.class.getName()).log(Level.SEVERE, null, ex);//Change ClassName to your class Name
         }
-        for (int i = 0; i < 5; i++) {
-
-        final JPanel panel2 = new JPanel() {
-            @Override
-            public void paint(Graphics g) {
-                Graphics2D g2D = (Graphics2D) g;
-                AffineTransform transform = new AffineTransform();
-                transform.scale(0.25, 0.25);
-                g2D.drawImage(img, transform, null);
-            }
-
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(img.getWidth(null) / 2, img.getHeight(null) / 2);
-            }
-        };
-        controlPanel.add(panel2);
-
+        for (int i = 0; i < x; i++) {
+            final JPanel panel = new JPanel() {
+                @Override
+                public void paint(Graphics g) {
+                    Graphics2D g2D = (Graphics2D) g;
+                    AffineTransform transform = new AffineTransform();
+                    transform.scale(0.25, 0.25);
+                    g2D.drawImage(img, transform, null);
+                }
+                @Override
+                public Dimension getPreferredSize() {
+                    return new Dimension(img.getWidth(null)/4 , img.getHeight(null)/4);
+                }
+            };
+            imagePanel.add(panel);
         }
-
-        final JPanel panel = new JPanel(){
-            @Override
-            public void paint(Graphics g) {
-                Graphics2D g2D = (Graphics2D) g;
-                AffineTransform transform = new AffineTransform();
-                transform.scale(0.25, 0.25);
-                g2D.drawImage(img, transform, null);
-            }
-
-            /*@Override
+        /*@Override
             protected void paintComponent(Graphics g){
                 Graphics g2 = g.create();
                 g2.drawImage(img, 0, 0, getWidth(), getHeight(), null);
                 g2.dispose();
             }*/
-
-            @Override
-            public Dimension getPreferredSize(){
-                return new Dimension(img.getWidth(null)/2, img.getHeight(null)/2);
-            }
-        };
-
-        controlPanel.add(panel);
-
-        //controlPanel.add(panel2);
-        //Add other components to mainPanel
-        //controlPanel.updateUI();
-        gameWindow.add(controlPanel);
-        gameWindow.setVisible(true);
     }
-
-
 
 
 
