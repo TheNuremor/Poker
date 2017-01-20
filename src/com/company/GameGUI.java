@@ -246,6 +246,7 @@ public class GameGUI extends JFrame{
                 transform.scale(0.25, 0.25);
                 g2D.drawImage(img, transform, null);
             }
+
             /*@Override
             protected void paintComponent(Graphics g){
                 Graphics g2 = g.create();
