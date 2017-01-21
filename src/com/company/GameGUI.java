@@ -14,33 +14,37 @@ public class GameGUI extends JFrame{
     private JFrame gameWindow;
     private JLabel headerLabel;
     private JLabel statusLabel;
-
     private JPanel controlPanel;
     private JPanel playerPanel;
     private Image img;
-    private GridBagLayout gridBag = new GridBagLayout();
-    private GridBagConstraints c = new GridBagConstraints();
+    private GridBagLayout gridBagLayout = new GridBagLayout();
+    private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
 
     public GameGUI(){
        prepareGUI();
     }
+
     public static void main(String[] args){
         GameGUI gameGUI = new GameGUI();
         //gameGUI.showLoginWindow();
         //gameGUI.showRegistrationWindow();
         //gameGUI.showLobbyWindow();
-        gameGUI.showGameWindow();
+        //gameGUI.showGameWindow();
+        gameGUI.login();
 
     }
 
     private void prepareGUI(){
+
+
+
+
         gameWindow = new JFrame("Online Poker");
         gameWindow.setSize(1280,768);
-        gameWindow.setLayout(gridBag);
+        gameWindow.setLayout(gridBagLayout);
 
         headerLabel = new JLabel("", JLabel.CENTER);
-        c.anchor = GridBagConstraints.PAGE_START;
         statusLabel = new JLabel("",JLabel.CENTER);
         statusLabel.setSize(350,100);
 
@@ -50,12 +54,161 @@ public class GameGUI extends JFrame{
             }
         });
         controlPanel = new JPanel();
-        c.anchor = GridBagConstraints.CENTER;
+
 
         gameWindow.add(headerLabel);
         gameWindow.add(controlPanel);
         gameWindow.add(statusLabel);
         gameWindow.setVisible(true);
+    }
+
+    public void testWindow(){
+        //Einstellen eines GridBagLayouts
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        getContentPane().setLayout(gridBagLayout);
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+
+        //Label
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 1;
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+
+        //Konstruktor Insets: oben, links, unten, rechts
+        gridBagConstraints.insets = new Insets(0,0,5,0);
+
+        JLabel label = new JLabel("Autobörse: Kfz-Verkauf");
+
+        gridBagLayout.setConstraints(label, gridBagConstraints);
+        getContentPane().add(label);
+
+        //Label
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.insets = new Insets(0,0,0,0);
+
+        label = new JLabel("Fahrzeugtyp:");
+        gridBagLayout.setConstraints(label, gridBagConstraints);
+        getContentPane().add(label);
+
+        //ComboBox für Fahrzeugtyp
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 3;
+        gridBagConstraints.insets = new Insets( 0, 5, 0, 5);
+
+        String[] strArray = {"Sportwagen", "Limosine", "Coupe", "Transporter", "Bus", "Lkw", "Motorrad"};
+
+        JComboBox cmbType = new JComboBox(strArray);
+        gridBagLayout.setConstraints(cmbType, gridBagConstraints);
+        getContentPane().add(cmbType);
+
+        //Label
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.insets = new Insets(0,0,0,0);
+        gridBagConstraints.weightx = 1;
+
+        label = new JLabel("Beschreibung:");
+        gridBagLayout.setConstraints(label, gridBagConstraints);
+        getContentPane().add(label);
+
+        //TextArea für die Beschreibung
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
+        gridBagConstraints.insets = new Insets( 0, 5, 0, 5);
+
+        JTextArea txtExpl = new JTextArea("Beschreibung");
+        JScrollPane scrollPane = new JScrollPane(txtExpl);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        gridBagLayout.setConstraints(scrollPane, gridBagConstraints);
+        getContentPane().add(scrollPane);
+
+        //Label
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.insets = new Insets(0,0,0,0);
+        gridBagConstraints.weightx = 1;
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.fill = GridBagConstraints.NONE;
+
+        label = new JLabel("Preis:");
+        gridBagLayout.setConstraints(label, gridBagConstraints);
+        getContentPane().add(label);
+
+        //Textfeld für den Preis
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 3;
+        gridBagConstraints.insets = new Insets( 0, 5, 0, 5);
+
+        JTextField txtPrice = new JTextField("0,00");
+        gridBagLayout.setConstraints(txtPrice, gridBagConstraints);
+        getContentPane().add(txtPrice);
+
+        //Buttons
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.insets = new Insets(0,0,0,0);
+        gridBagConstraints.weightx = 1;
+        gridBagConstraints.weighty = 1;
+
+        gridBagConstraints.fill = GridBagConstraints.NONE;
+
+        JButton btnSend = new JButton("Senden");
+        gridBagLayout.setConstraints(btnSend, gridBagConstraints);
+        getContentPane().add(btnSend);
+
+        JButton btnCancel = new JButton("Abbrechen");
+        gridBagLayout.setConstraints(btnCancel, gridBagConstraints);
+        getContentPane().add(btnCancel);
+
+        gameWindow.add(getContentPane());
+        gameWindow.setVisible(true);
+
+        //setSize(300,400);
+        //setLocation(50,50);
+        //setVisible(true);
+
+    }
+    public void login(){
+
+        controlPanel.setLayout(gridBagLayout);
+
+        //Label
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 1;
+        gridBagConstraints.weighty = 1;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+
+        //Konstruktor Insets: oben, links, unten, rechts
+        gridBagConstraints.insets = new Insets(0,0,5,0);
+        JLabel header = new JLabel("Bitte melden sie sich an, oder registrieren sich!");
+        gridBagLayout.setConstraints(header, gridBagConstraints);
+        controlPanel.add(header);
+
+        //Label
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.insets = new Insets(0,0,0,0);
+        JLabel username = new JLabel("Benutzername:");
+        gridBagLayout.setConstraints(username, gridBagConstraints);
+        controlPanel.add(username);
+
+
+        //TextArea für die Beschreibung
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
+        gridBagConstraints.insets = new Insets( 0, 5, 0, 5);
+
+        JTextField usernameField = new JTextField( 12);
+        gridBagLayout.setConstraints(usernameField, gridBagConstraints);
+        controlPanel.add(usernameField);
+
     }
 
     public void showLoginWindow(){
@@ -211,7 +364,7 @@ public class GameGUI extends JFrame{
 
         //controlPanel.setBackground(Color.gray);
         playerPanel = new JPanel();
-        c.anchor = GridBagConstraints.PAGE_END;
+        gridBagConstraints.anchor = GridBagConstraints.PAGE_END;
 
         insertImage(controlPanel, 5);
         insertImage(playerPanel, 2);
@@ -219,9 +372,9 @@ public class GameGUI extends JFrame{
 
         //Add other components to mainPanel
 
-        gameWindow.add(headerLabel, c);
-        gameWindow.add(controlPanel, c);
-        gameWindow.add(playerPanel, c);
+        gameWindow.add(headerLabel, gridBagConstraints);
+        gameWindow.add(controlPanel, gridBagConstraints);
+        gameWindow.add(playerPanel, gridBagConstraints);
         gameWindow.setVisible(true);
     }
 
