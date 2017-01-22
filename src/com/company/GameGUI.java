@@ -170,14 +170,11 @@ public class GameGUI extends JFrame {
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-
-        //Konstruktor Insets: oben, links, unten, rechts
         gridBagConstraints.insets = new Insets(0, 0, 20, 0);
         JLabel header = new JLabel("Bitte melden sie sich an, oder registrieren sich!");
         gridBagLayout.setConstraints(header, gridBagConstraints);
         controlPanel.add(header);
-
-        //Label
+        //UserName
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
         JLabel username = new JLabel("Benutzername:");
@@ -185,14 +182,13 @@ public class GameGUI extends JFrame {
         controlPanel.add(username);
 
 
-        //TextArea für die Beschreibung
+        //UserNameField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 10;
         gridBagConstraints.weighty = 10;
         gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-
         JTextField usernameField = new JTextField(8);
         gridBagLayout.setConstraints(usernameField, gridBagConstraints);
         controlPanel.add(usernameField);
@@ -208,7 +204,6 @@ public class GameGUI extends JFrame {
         gridBagLayout.setConstraints(password, gridBagConstraints);
         controlPanel.add(password);
 
-
         //PasswordField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
@@ -216,7 +211,6 @@ public class GameGUI extends JFrame {
         gridBagConstraints.weightx = 10;
         gridBagConstraints.weighty = 10;
         gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-
         JPasswordField passwordField = new JPasswordField(8);
         gridBagLayout.setConstraints(passwordField, gridBagConstraints);
         controlPanel.add(passwordField);
@@ -226,12 +220,12 @@ public class GameGUI extends JFrame {
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
         gridBagConstraints.fill = GridBagConstraints.CENTER;
-
+        //Login
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         JButton login = new JButton("Login");
         gridBagLayout.setConstraints(login, gridBagConstraints);
         controlPanel.add(login);
-
+        //Registration
         gridBagConstraints.insets = new Insets(0, 5, 0, 0);
         JButton registration = new JButton("Registrieren");
         gridBagLayout.setConstraints(registration, gridBagConstraints);
@@ -240,7 +234,6 @@ public class GameGUI extends JFrame {
         gameWindow.add(controlPanel);
         gameWindow.setVisible(true);
     }
-
 
     public void showRegistrationWindow() {
         controlPanel.setLayout(gridBagLayout);
@@ -388,45 +381,66 @@ public class GameGUI extends JFrame {
         gameWindow.setVisible(true);
     }
 
-
     public void showGameWindow() {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        int xSize = ((int) tk.getScreenSize().getWidth());
-        int ySize = ((int) tk.getScreenSize().getHeight());
-        int gameHeight = (int)(Math.round(ySize * 100.0/gameWindow.getHeight()));
-        int gameWidth = (int)(Math.round(xSize * 100.0/gameWindow.getWidth()));
-
-
         //FIRST_LINE_START, PAGE_START, FIRST_LINE_END, LINE_START, CENTER, LINE_END, LAST_LINE_START, PAGE_END und LAST_LINE_END
         //PlayerListPanel
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
         gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         playerListPanel = new JPanel();
         gridBagLayout.setConstraints(playerListPanel, gridBagConstraints);
         playerListPanel.setBackground(Color.RED);
-        playerListPanel.setPreferredSize(new Dimension(gameHeight, gameWidth));
-        //playerListPanel.setPreferredSize(percentSize(100,20));
 
+        int p = 5;
+        int geld=10000;
+        int bet=0;
+        String name = new String();
 
-        //PlayerListPanel
+        for (int i = 0; i <p ; i++) {
+            //Label
+            gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+            gridBagConstraints.gridheight = 1;
+            gridBagConstraints.weightx = 10;
+            gridBagConstraints.weighty = 10;
+            gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+            gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+            String str = new String("Name: " + name +
+                                            "\nGeld: " + geld +
+                                            "\nSpielergebot: " + bet +
+                                            "\nRolle: " + "Dealer" +
+                                            "\nisInGame: " + "Ja" +
+                                            "\nisAllIn: " + "Nein");
+            JLabel label = new JLabel(str);
+            gridBagLayout.setConstraints(label, gridBagConstraints);
+            getContentPane().add(label);
+            //PlayerPanel
+            gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+            gridBagConstraints.gridheight = 1;
+            gridBagConstraints.weightx = 10;
+            gridBagConstraints.weighty = 10;
+            gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+            gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+            JPanel playerPanel = new JPanel();
+            gridBagLayout.setConstraints(playerPanel, gridBagConstraints);
+            playerPanel.setSize(300,300);
+            playerListPanel.add(playerPanel);
+        }
+
+        //ControllPanel
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         controlPanel = new JPanel();
         gridBagLayout.setConstraints(controlPanel, gridBagConstraints);
         controlPanel.setBackground(Color.GRAY);
-        controlPanel.setPreferredSize(new Dimension(gameHeight, gameWidth));
-        //controlPanel.setPreferredSize(percentSize(100,50));
 
-
-        //PlayerListPanel
+        //NotePanel
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 1;
@@ -436,8 +450,6 @@ public class GameGUI extends JFrame {
         notePanel = new JPanel();
         gridBagLayout.setConstraints(notePanel, gridBagConstraints);
         notePanel.setBackground(Color.BLUE);
-        notePanel.setPreferredSize(new Dimension(gameHeight, gameWidth));
-        //notePanel.setPreferredSize(percentSize(30,30));
 
 
         //PlayerListPanel
@@ -450,8 +462,6 @@ public class GameGUI extends JFrame {
         playerCardsPanel = new JPanel();
         gridBagLayout.setConstraints(playerCardsPanel, gridBagConstraints);
         playerCardsPanel.setBackground(Color.LIGHT_GRAY);
-        playerCardsPanel.setPreferredSize(new Dimension(gameHeight, gameWidth));
-        //playerCardsPanel.setPreferredSize(percentSize(40,30));
 
 
         //PlayerListPanel
@@ -464,12 +474,11 @@ public class GameGUI extends JFrame {
         interactionPanel = new JPanel();
         gridBagLayout.setConstraints(interactionPanel, gridBagConstraints);
         interactionPanel.setBackground(Color.BLUE);
-        interactionPanel.setPreferredSize(new Dimension(gameHeight, gameWidth));
-        //interactionPanel.setPreferredSize(percentSize(30,30));
 
 
         insertImage(controlPanel, 5);
         insertImage(playerCardsPanel, 2);
+
 
         gameWindow.add(playerListPanel);
         gameWindow.add(controlPanel);
@@ -484,11 +493,8 @@ public class GameGUI extends JFrame {
 
         try {
             img = ImageIO.read(resource);//Write path of your image here
+        } catch (IOException ex) { ex.printStackTrace(); }
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            //Logger.getLogger(GameGUI.class.getName()).log(Level.SEVERE, null, ex);//Change ClassName to your class Name
-        }
         for (int i = 0; i < x; i++) {
             final JPanel panel = new JPanel() {
                 @Override
@@ -498,7 +504,6 @@ public class GameGUI extends JFrame {
                     transform.scale(0.25, 0.25);
                     g2D.drawImage(img, transform, null);
                 }
-
                 @Override
                 public Dimension getPreferredSize() {
                     return new Dimension(img.getWidth(null) / 4, img.getHeight(null) / 4);
@@ -510,33 +515,8 @@ public class GameGUI extends JFrame {
 
     public Dimension percentSize(int percentW, int percentH){
         //public Dimension getPreferredSize() {
-        Dimension d = getParent().getSize();
-        int w = d.width * percentW / 100;
-        int h = d.height * percentH / 100;
+        int w = (int) (Math.round(percentW * 100.0/gameWindow.getWidth()));
+        int h = (int) (Math.round(percentH * 100.0/gameWindow.getWidth()));
         return new Dimension(w, h);
     }
-    /*class percentSize extends JPanel {
-        private int percentW;
-        private int percentH;
-
-        public percentSize(int percentW, int percentH) {
-            this.percentW = percentW;
-            this.percentH = percentH;
-        }
-
-
-
-    }
-   ;
-window.setSize(xSize,ySize);
-    JPanel p = new JPanel();
-p.setLayout(new BorderLayout());
-    int gameHeight = (int)(Math.round(ySize * 100.0/window.getHeight()));
-    int gameWidth = (int)(Math.round(xSize * 100.0/window.getWidth()));
-p.setPreferredSize(new Dimension(gameHeight, gameWidth));
-
-
-    int gameHeight = (int) (Math.round(ySize * 0.80));
-    int gameWidth = (int) (Math.round(xSize * 0.80));
-p.setPreferredSize(new Dimension(gameWidth, gameHeight));*/
 }

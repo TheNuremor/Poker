@@ -14,6 +14,7 @@ class Table {
     private CardStack tablestack;
     private CardStack deckstack;
     private List<Player> winnerList;
+    private GameGUI gameGUI;
 
     private int roundcounter = 0;    // Runden
     private int gamecounter = 0;    // Potausschüttungen
@@ -31,6 +32,7 @@ class Table {
         winnerList = new LinkedList<>();
         tablestack = new CardStack(5);
         deckstack = new CardStack();
+        gameGUI = new GameGUI();
 
     }
 
