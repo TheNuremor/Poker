@@ -400,24 +400,8 @@ public class GameGUI extends JFrame {
         String name = new String();
 
         for (int i = 0; i <p ; i++) {
-            //Label
-            gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-            gridBagConstraints.gridheight = 1;
-            gridBagConstraints.weightx = 10;
-            gridBagConstraints.weighty = 10;
-            gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-            gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-            String str = new String("Name: " + name +
-                                            "\nGeld: " + geld +
-                                            "\nSpielergebot: " + bet +
-                                            "\nRolle: " + "Dealer" +
-                                            "\nisInGame: " + "Ja" +
-                                            "\nisAllIn: " + "Nein");
-            JLabel label = new JLabel(str);
-            gridBagLayout.setConstraints(label, gridBagConstraints);
-            getContentPane().add(label);
             //PlayerPanel
-            gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+            gridBagConstraints.gridwidth = GridBagConstraints.LINE_START;
             gridBagConstraints.gridheight = 1;
             gridBagConstraints.weightx = 10;
             gridBagConstraints.weighty = 10;
@@ -425,13 +409,31 @@ public class GameGUI extends JFrame {
             gridBagConstraints.insets = new Insets(0, 0, 0, 0);
             JPanel playerPanel = new JPanel();
             gridBagLayout.setConstraints(playerPanel, gridBagConstraints);
-            playerPanel.setSize(300,300);
+            playerPanel.setSize(500,500);
             playerListPanel.add(playerPanel);
+
+            //Label
+            gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+            gridBagConstraints.gridheight = 1;
+            gridBagConstraints.weightx = 10;
+            gridBagConstraints.weighty = 10;
+            gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+            gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+            String str = "<html>Name: " + name +
+                    "<br>Geld: " + geld +
+                    "<br>Spielergebot: " + bet +
+                    "<br>Rolle: " + "Dealer" +
+                    "<br>isInGame: " + "Ja" +
+                    "<br>isAllIn: " + "Nein </html>";
+            JLabel label = new JLabel(str);
+            gridBagLayout.setConstraints(label, gridBagConstraints);
+            playerPanel.add(label);
+            playerListPanel.updateUI();
         }
 
         //ControllPanel
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.gridheight = GridBagConstraints.CENTER;
         gridBagConstraints.weightx = 10;
         gridBagConstraints.weighty = 10;
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
@@ -441,7 +443,7 @@ public class GameGUI extends JFrame {
         controlPanel.setBackground(Color.GRAY);
 
         //NotePanel
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridwidth = GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
@@ -450,11 +452,69 @@ public class GameGUI extends JFrame {
         notePanel = new JPanel();
         gridBagLayout.setConstraints(notePanel, gridBagConstraints);
         notePanel.setBackground(Color.BLUE);
-
-
-        //PlayerListPanel
+        notePanel.setMaximumSize(new Dimension(50,50));
+        //Label
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+        JTextArea textArea = new JTextArea();
+
+
+            String str = "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                        "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                "                        \"tincidunt. Pharetra ac Aliquam.\n";
+            textArea.append(str);
+
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setAutoscrolls(true);
+        scrollPane.setMaximumSize(new Dimension(50,50));
+        gridBagLayout.setConstraints(scrollPane, gridBagConstraints);
+        notePanel.add(scrollPane);
+        notePanel.updateUI();
+
+
+
+        //PlayerCardPanel
+        gridBagConstraints.gridwidth = GridBagConstraints.PAGE_END;
+        gridBagConstraints.gridheight = GridBagConstraints.SOUTH;
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
         gridBagConstraints.anchor = GridBagConstraints.PAGE_END;
@@ -464,8 +524,8 @@ public class GameGUI extends JFrame {
         playerCardsPanel.setBackground(Color.LIGHT_GRAY);
 
 
-        //PlayerListPanel
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        //InteractionPanel
+        gridBagConstraints.gridwidth = GridBagConstraints.LAST_LINE_END;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
@@ -474,6 +534,43 @@ public class GameGUI extends JFrame {
         interactionPanel = new JPanel();
         gridBagLayout.setConstraints(interactionPanel, gridBagConstraints);
         interactionPanel.setBackground(Color.BLUE);
+
+        //Label
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 10;
+        gridBagConstraints.weighty = 10;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+        JTextArea textArea2 = new JTextArea();
+
+
+        String str2 = "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                "                        \"tincidunt. Pharetra ac Aliquam.\n";
+        textArea2.append(str2);
+
+
+        JScrollPane scrollPane2 = new JScrollPane(textArea2);
+        scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane2.setAutoscrolls(true);
+        scrollPane2.setSize(300,300);
+        gridBagLayout.setConstraints(scrollPane2, gridBagConstraints);
+        interactionPanel.add(scrollPane2);
+        interactionPanel.updateUI();
+
 
 
         insertImage(controlPanel, 5);
