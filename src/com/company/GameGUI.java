@@ -477,20 +477,6 @@ public class GameGUI extends JFrame {
                     "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
                     "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
                     "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
                         "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
                 "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
                 "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
@@ -535,7 +521,7 @@ public class GameGUI extends JFrame {
         gridBagLayout.setConstraints(interactionPanel, gridBagConstraints);
         interactionPanel.setBackground(Color.BLUE);
 
-        //Label
+        //Textarea
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 10;
@@ -543,8 +529,6 @@ public class GameGUI extends JFrame {
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
         JTextArea textArea2 = new JTextArea();
-
-
         String str2 = "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
                 "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
                 "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
@@ -560,8 +544,6 @@ public class GameGUI extends JFrame {
                 "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
                 "                        \"tincidunt. Pharetra ac Aliquam.\n";
         textArea2.append(str2);
-
-
         JScrollPane scrollPane2 = new JScrollPane(textArea2);
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
