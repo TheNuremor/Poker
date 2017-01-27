@@ -4,6 +4,7 @@ package com.company;
 import java.awt.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -29,10 +30,10 @@ public class GameGUI extends JFrame {
 
     public static void main(String[] args) {
         GameGUI gameGUI = new GameGUI();
-        //gameGUI.showLoginWindow();
+        gameGUI.showLoginWindow();
         //gameGUI.showRegistrationWindow();
         //gameGUI.showLobbyWindow();
-        gameGUI.showGameWindow();
+        //gameGUI.showGameWindow();
     }
 
     private void prepareGUI() {
@@ -57,106 +58,6 @@ public class GameGUI extends JFrame {
         gameWindow.setVisible(true);
     }
 
-    public void testWindow() {
-        //Einstellen eines GridBagLayouts
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        getContentPane().setLayout(gridBagLayout);
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-
-        //Label
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
-        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        //Konstruktor Insets: oben, links, unten, rechts
-        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-        JLabel label = new JLabel("Autobörse: Kfz-Verkauf");
-        gridBagLayout.setConstraints(label, gridBagConstraints);
-        getContentPane().add(label);
-
-        //Label
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        label = new JLabel("Fahrzeugtyp:");
-        gridBagLayout.setConstraints(label, gridBagConstraints);
-        getContentPane().add(label);
-
-        //ComboBox für Fahrzeugtyp
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 3;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-        String[] strArray = {"Sportwagen", "Limosine", "Coupe", "Transporter", "Bus", "Lkw", "Motorrad"};
-        JComboBox cmbType = new JComboBox(strArray);
-        gridBagLayout.setConstraints(cmbType, gridBagConstraints);
-        getContentPane().add(cmbType);
-
-        //Label
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        gridBagConstraints.weightx = 1;
-        label = new JLabel("Beschreibung:");
-        gridBagLayout.setConstraints(label, gridBagConstraints);
-        getContentPane().add(label);
-
-        //TextArea für die Beschreibung
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-        JTextArea txtExpl = new JTextArea("Beschreibung");
-        JScrollPane scrollPane = new JScrollPane(txtExpl);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        gridBagLayout.setConstraints(scrollPane, gridBagConstraints);
-        getContentPane().add(scrollPane);
-
-        //Label
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
-        gridBagConstraints.fill = GridBagConstraints.NONE;
-        label = new JLabel("Preis:");
-        gridBagLayout.setConstraints(label, gridBagConstraints);
-        getContentPane().add(label);
-
-        //Textfeld für den Preis
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 3;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-        JTextField txtPrice = new JTextField("0,00");
-        gridBagLayout.setConstraints(txtPrice, gridBagConstraints);
-        getContentPane().add(txtPrice);
-
-        //Buttons
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
-
-        gridBagConstraints.fill = GridBagConstraints.NONE;
-
-        JButton btnSend = new JButton("Senden");
-        gridBagLayout.setConstraints(btnSend, gridBagConstraints);
-        getContentPane().add(btnSend);
-
-        JButton btnCancel = new JButton("Abbrechen");
-        gridBagLayout.setConstraints(btnCancel, gridBagConstraints);
-        getContentPane().add(btnCancel);
-
-        gameWindow.add(getContentPane());
-        gameWindow.setVisible(true);
-
-        //setSize(300,400);
-        //setLocation(50,50);
-        //setVisible(true);
-
-    }
 
     public void showLoginWindow() {
 
@@ -413,8 +314,6 @@ public class GameGUI extends JFrame {
             //Label
             gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
             gridBagConstraints.gridheight = 1;
-            gridBagConstraints.weightx = 0.0;
-            gridBagConstraints.weighty = 0.0;
             gridBagConstraints.anchor = GridBagConstraints.LINE_START;
             gridBagConstraints.insets = new Insets(0, 0, 5, 0);
             String str = "<html>Name: " + name +
@@ -443,8 +342,6 @@ public class GameGUI extends JFrame {
         //NotePanel
         gridBagConstraints.gridwidth = GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 0.0;
-        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         notePanel = new JPanel();
@@ -460,65 +357,26 @@ public class GameGUI extends JFrame {
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
         JTextArea textArea = new JTextArea();
 
+            String str = "Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \n" +
+                    "                        Suspendisse. Mattis morbi eu In non ante convallis\n" +
+                    "                        tempus risus venenatis urna. Sed ipsum et parturient volutpat\n" +
+                    "                        adipiscing dolor quis adipiscing Donec odio.\n" +
+                    "                        Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\n" +
+                    "                        t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a\n" +
+                    "                        tincidunt. Pharetra ac Aliquam.\n" ;
 
-            String str = "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-
-                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-                        "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                "                        \"tincidunt. Pharetra ac Aliquam.\n";
-
-
+        for (int i = 0; i <8; i++) { textArea.append(str); }
 //TODO Autoscroll Coursor nach unten setzen!!
-        /*JScrollPane scrollPane = new JScrollPane(textArea);
+        JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setAutoscrolls(true);
+        gridBagLayout.setConstraints(scrollPane, gridBagConstraints);
 
-        scrollPane.setMaximumSize(new Dimension(50,50));
-        gridBagLayout.setConstraints(scrollPane, gridBagConstraints);*/
-        textArea.append(str);
-       // notePanel.add(scrollPane);
-        notePanel.add(textArea);
-        notePanel.setMaximumSize(new Dimension(50,50));
-        notePanel.setSize(new Dimension(50,50));
+        textArea.setPreferredSize(new Dimension(500,250));
+        textArea.setCaretPosition(textArea.getDocument().getLength());
+        notePanel.add(scrollPane);
+
         notePanel.updateUI();
 
 
@@ -526,8 +384,8 @@ public class GameGUI extends JFrame {
         //PlayerCardPanel
         gridBagConstraints.gridwidth = GridBagConstraints.PAGE_END;
         gridBagConstraints.gridheight = GridBagConstraints.SOUTH;
-        gridBagConstraints.weightx = 0.0;
-        gridBagConstraints.weighty = 0.0;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.anchor = GridBagConstraints.PAGE_END;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         playerCardsPanel = new JPanel();
@@ -538,8 +396,6 @@ public class GameGUI extends JFrame {
         //InteractionPanel
         gridBagConstraints.gridwidth = GridBagConstraints.LAST_LINE_END;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 0.0;
-        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_END;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         interactionPanel = new JPanel();
@@ -549,25 +405,22 @@ public class GameGUI extends JFrame {
         //Textarea
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 0.0;
-        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
         JTextArea textArea2 = new JTextArea();
 
-        textArea2.setPreferredSize(new Dimension(300,300));
-        textArea2.setMaximumSize(new Dimension(300,300));
+        textArea2.setPreferredSize(new Dimension(500,250));
 
         JScrollPane scrollPane2 = new JScrollPane(textArea2);
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane2.setAutoscrolls(true);
+
         scrollPane2.setSize(50,50);
         gridBagLayout.setConstraints(scrollPane2, gridBagConstraints);
         interactionPanel.add(scrollPane2);
         textArea2.append(str);
         interactionPanel.updateUI();
-
 
 
         insertImage(controlPanel, 5);
