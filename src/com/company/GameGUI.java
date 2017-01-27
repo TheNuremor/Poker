@@ -506,7 +506,7 @@ public class GameGUI extends JFrame {
                 "                        \"tincidunt. Pharetra ac Aliquam.\n";
 
 
-
+//TODO Autoscroll Coursor nach unten setzen!!
         /*JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
