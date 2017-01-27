@@ -384,8 +384,8 @@ public class GameGUI extends JFrame {
         //PlayerListPanel
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         playerListPanel = new JPanel();
@@ -401,8 +401,8 @@ public class GameGUI extends JFrame {
             //PlayerPanel
             gridBagConstraints.gridwidth = GridBagConstraints.LINE_START;
             gridBagConstraints.gridheight = 1;
-            gridBagConstraints.weightx = 10;
-            gridBagConstraints.weighty = 10;
+            gridBagConstraints.weightx = 0.0;
+            gridBagConstraints.weighty = 0.0;
             gridBagConstraints.anchor = GridBagConstraints.LINE_START;
             gridBagConstraints.insets = new Insets(0, 0, 0, 0);
             JPanel playerPanel = new JPanel();
@@ -413,8 +413,8 @@ public class GameGUI extends JFrame {
             //Label
             gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
             gridBagConstraints.gridheight = 1;
-            gridBagConstraints.weightx = 10;
-            gridBagConstraints.weighty = 10;
+            gridBagConstraints.weightx = 0.0;
+            gridBagConstraints.weighty = 0.0;
             gridBagConstraints.anchor = GridBagConstraints.LINE_START;
             gridBagConstraints.insets = new Insets(0, 0, 5, 0);
             String str = "<html>Name: " + name +
@@ -432,8 +432,8 @@ public class GameGUI extends JFrame {
         //ControllPanel
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = GridBagConstraints.CENTER;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         controlPanel = new JPanel();
@@ -443,8 +443,8 @@ public class GameGUI extends JFrame {
         //NotePanel
         gridBagConstraints.gridwidth = GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 0.0;
+        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         notePanel = new JPanel();
@@ -454,8 +454,8 @@ public class GameGUI extends JFrame {
         //Label
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
+        gridBagConstraints.weightx = 0.0;
+        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
         JTextArea textArea = new JTextArea();
@@ -489,6 +489,7 @@ public class GameGUI extends JFrame {
                     "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
                     "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
                     "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+
                     "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
                     "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
                     "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
@@ -525,8 +526,8 @@ public class GameGUI extends JFrame {
         //PlayerCardPanel
         gridBagConstraints.gridwidth = GridBagConstraints.PAGE_END;
         gridBagConstraints.gridheight = GridBagConstraints.SOUTH;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 0.0;
+        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.PAGE_END;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         playerCardsPanel = new JPanel();
@@ -537,8 +538,8 @@ public class GameGUI extends JFrame {
         //InteractionPanel
         gridBagConstraints.gridwidth = GridBagConstraints.LAST_LINE_END;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 0.0;
+        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_END;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         interactionPanel = new JPanel();
@@ -548,33 +549,23 @@ public class GameGUI extends JFrame {
         //Textarea
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
+        gridBagConstraints.weightx = 0.0;
+        gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
         JTextArea textArea2 = new JTextArea();
-        String str2 = "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                "                        \"tincidunt. Pharetra ac Aliquam.\n" +
-                "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
-                "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
-                "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
-                "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
-                "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
-                "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
-                "                        \"tincidunt. Pharetra ac Aliquam.\n";
-        textArea2.append(str);
+
+        textArea2.setPreferredSize(new Dimension(300,300));
+        textArea2.setMaximumSize(new Dimension(300,300));
+
         JScrollPane scrollPane2 = new JScrollPane(textArea2);
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane2.setAutoscrolls(true);
-        scrollPane2.setSize(300,300);
+        scrollPane2.setSize(50,50);
         gridBagLayout.setConstraints(scrollPane2, gridBagConstraints);
         interactionPanel.add(scrollPane2);
+        textArea2.append(str);
         interactionPanel.updateUI();
 
 
