@@ -46,7 +46,7 @@ public class Client {
                             System.exit(0);
                             break;
                         case "/Bet":
-                            System.out.println("Bitte Gebot eingeben: ");
+                            System.out.println("\nBitte Gebot eingeben: ");
                             output.println("/betset:" + consoleinput.readLine());
                             break;
                         default:

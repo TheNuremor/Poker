@@ -71,7 +71,7 @@ class Player  {
     public void playerInteraction(Table table, int bet) {
         if (inGame && (!isAllIn)) {
             if (bet > 0 && (playerBet + bet) < table.tableBet) {
-                System.out.println("Falsche Eingabe");
+                clientThread.sendData("Falsche Eingabe\n");
                 betRight = false;
             } else if (bet < 0) {
                 // Fold
@@ -82,6 +82,10 @@ class Player  {
                     cash -= bet;
                     table.pot += bet;
                     if (playerBet > table.tableBet) { //effektiver Raise
+                        table.playerList.forEach(player1 -> {
+                            if (!player1.equals(this))
+                                player1.clientThread.sendData("Neuer Tablebet: " + playerBet);
+                        });
                         table.tableBet = playerBet;
                     }
                 } else {

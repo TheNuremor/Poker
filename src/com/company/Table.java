@@ -32,6 +32,8 @@ class Table {
         winnerList = new LinkedList<>();
         tablestack = new CardStack(5);
         deckstack = new CardStack();
+        //gameGUI = new GameGUI();
+
     }
 
     public void startGame() {
@@ -60,17 +62,17 @@ class Table {
                 }else {
                     int count = 0;
 
-                    for (Player p : playerList) {
+                    for (Player p : playerList)
                         if (p.inGame) count++;
-                    }
 
                     if (count != 1) betround();
-                    else roundcounter = 4;
+                    else while(roundcounter < 5) nextRound();
+
                 }
                 nextRound();
             }
             nextRound();  //nextGameRound
-            //TODO incorrect Bet
+
         }
 
         playerList.forEach((Player player1) -> {
@@ -133,7 +135,14 @@ class Table {
         playerList.remove(p);
     }
 
+    private void sendPlayerData() {
+        playerList.forEach((Player p) -> {
+            if (p.isInGame()) p.toString(this);
+        });
+    }
+
     void betround() {
+
         if (roundcounter == 0 ) {
             if (playerList.size() == 2) {
                 if (!blindSet) {
@@ -141,11 +150,10 @@ class Table {
                     playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
                     blindSet = true;
                 }
+                sendPlayerData();
                 for (int i = 0; i < playerList.size(); i++) {
-                    if(playerList.get((dealerpos + 2 + i) % playerList.size()).inGame){
-                        System.out.println(playerList.get((dealerpos + 2 + i) % playerList.size()).toString(this));
+                    if(playerList.get((dealerpos + 2 + i) % playerList.size()).inGame)
                         playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 2 + i) % playerList.size())));
-                    }
                 }   //Setzrunde mit Big als letztes
             } else {
                 if (!blindSet) {
@@ -153,21 +161,21 @@ class Table {
                     playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
                     blindSet = true;
                 }
+                sendPlayerData();
                 for (int i = 0; i < playerList.size(); i++) {
                     if(playerList.get((dealerpos + 3 + i) % playerList.size()).inGame) {
-                        do {
-                            System.out.println(playerList.get((dealerpos + 3 + i) % playerList.size()).toString(this));
-                            playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 3 + i) % playerList.size())));
-                        } while (!playerList.get((dealerpos + 3 + i) % playerList.size()).betRight);
+                        do playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 3 + i) % playerList.size())));
+                        while (!playerList.get((dealerpos + 3 + i) % playerList.size()).betRight);
                     }
                 }   //Setzrunde mit Big als letztes
             }
         } else {
+            sendPlayerData();
             //Setrunde mit Dealer als letztes
             for (int i = 0; i < playerList.size(); i++) {
                 if(playerList.get((dealerpos + 1 + i) % playerList.size()).inGame) {
                     do {
-                        System.out.println(playerList.get((dealerpos + 1 + i) % playerList.size()).toString(this));
+                        //System.out.println(playerList.get((dealerpos + 1 + i) % playerList.size()).toString(this));
                         playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 1 + i) % playerList.size())));
                     } while (!playerList.get((dealerpos + 1 + i) % playerList.size()).betRight);
                 }
@@ -198,7 +206,8 @@ class Table {
     }
 
     void nextRound() {
-        if (roundcounter < 3) {
+        //TODO nextGameRound aufruf
+        if (roundcounter < 4) {
             if (roundcounter == 0) roleDistribution();
             roundcounter ++;
             distributeCards();
