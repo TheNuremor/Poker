@@ -33,8 +33,6 @@ public class GameGUI extends JFrame {
         //gameGUI.showRegistrationWindow();
         //gameGUI.showLobbyWindow();
         gameGUI.showGameWindow();
-
-
     }
 
     private void prepareGUI() {
@@ -477,6 +475,27 @@ public class GameGUI extends JFrame {
                     "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
                     "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
                     "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
+                    "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
+                    "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
+                    "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
+                    "                        \"adipiscing dolor quis adipiscing Donec odio.\\n \"+\n" +
+                    "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
+                    "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
+                    "                        \"tincidunt. Pharetra ac Aliquam.\n" +
                         "\"Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \"+\n" +
                 "                        \"Suspendisse. Mattis morbi eu In non ante convallis\\n  \"+\n" +
                 "                        \"tempus risus venenatis urna. Sed ipsum et parturient volutpat\\n \"+ \n" +
@@ -484,16 +503,21 @@ public class GameGUI extends JFrame {
                 "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
                 "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
                 "                        \"tincidunt. Pharetra ac Aliquam.\n";
-            textArea.append(str);
 
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
+
+        /*JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setAutoscrolls(true);
+
         scrollPane.setMaximumSize(new Dimension(50,50));
-        gridBagLayout.setConstraints(scrollPane, gridBagConstraints);
-        notePanel.add(scrollPane);
+        gridBagLayout.setConstraints(scrollPane, gridBagConstraints);*/
+        textArea.append(str);
+       // notePanel.add(scrollPane);
+        notePanel.add(textArea);
+        notePanel.setMaximumSize(new Dimension(50,50));
+        notePanel.setSize(new Dimension(50,50));
         notePanel.updateUI();
 
 
@@ -543,7 +567,7 @@ public class GameGUI extends JFrame {
                 "                        \"Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\\n\"+\n" +
                 "                        \"t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a \"+ \n" +
                 "                        \"tincidunt. Pharetra ac Aliquam.\n";
-        textArea2.append(str2);
+        textArea2.append(str);
         JScrollPane scrollPane2 = new JScrollPane(textArea2);
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

@@ -32,8 +32,6 @@ class Table {
         winnerList = new LinkedList<>();
         tablestack = new CardStack(5);
         deckstack = new CardStack();
-        gameGUI = new GameGUI();
-
     }
 
     public void startGame() {

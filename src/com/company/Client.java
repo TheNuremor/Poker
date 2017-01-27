@@ -9,13 +9,20 @@ import java.util.Scanner;
 
 public class Client {
 
+
     public static void main(String args[]) {
+        GameGUI clientGUI = new GameGUI();
 
         Socket clientSocket = null;
+
 
         try {
             clientSocket = new Socket("localHost", 1111);
             System.out.println("Client connected");
+            //clientGUI.showLoginWindow();
+            //clientGUI.showRegistrationWindow();
+            //clientGUI.showLobbyWindow();
+            //clientGUI.showGameWindow();
 
             OutputStream out = clientSocket.getOutputStream();
             PrintStream output  = new PrintStream(out, true);
@@ -29,6 +36,7 @@ public class Client {
                 while (input.ready()) {
                     String string = input.readLine();
                     switch (string) {
+
                         case "/Nameadd":
                             System.out.println("Bitte Namen eingeben: ");
                             output.println(consoleinput.readLine());
