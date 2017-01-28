@@ -71,7 +71,7 @@ class Player  {
     public void playerInteraction(Table table, int bet) {
         if (inGame && (!isAllIn)) {
             if (bet > 0 && (playerBet + bet) < table.tableBet) {
-                clientThread.sendData("Falsche Eingabe\n");
+                clientThread.sendData("Falsche Eingabe");
                 betRight = false;
             } else if (bet < 0) {
                 // Fold
