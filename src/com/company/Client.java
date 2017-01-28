@@ -1,11 +1,8 @@
 package com.company;
 
-import handChecker.PokerCard;
-
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class Client {
 
@@ -19,7 +16,7 @@ public class Client {
         try {
             clientSocket = new Socket("localHost", 1111);
             System.out.println("Client connected");
-            //clientGUI.showLoginWindow();
+            clientGUI.showLoginWindow();
             //clientGUI.showRegistrationWindow();
             //clientGUI.showLobbyWindow();
             //clientGUI.showGameWindow();

@@ -4,23 +4,21 @@ import com.company.enums.Role;
 import handChecker.HandValue;
 import handChecker.PokerCard;
 
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 class Table {
     public List<Player> playerList;
+    public int pot = 0;
+    public int tableBet = 0;
     private CardStack tablestack;
     private CardStack deckstack;
     private List<Player> winnerList;
     private GameGUI gameGUI;
-
     private int roundcounter = 0;    // Runden
     private int gamecounter = 0;    // Potausschüttungen
     private int Blind = 100;
-    public int pot = 0;
-    public int tableBet = 0;
     private int dealerpos;
 
     private HandValue maxValue = null;
@@ -66,7 +64,7 @@ class Table {
                         if (p.inGame) count++;
 
                     if (count != 1) betround();
-                    else while(roundcounter < 5) nextRound();
+                    else while (roundcounter < 2) nextRound();
 
                 }
                 nextRound();
@@ -88,12 +86,12 @@ class Table {
         return tableBet;
     }
 
-    public void setTablestack(CardStack tablestack) {
-        this.tablestack = tablestack;
-    }
-
     public CardStack getTablestack() {
         return tablestack;
+    }
+
+    public void setTablestack(CardStack tablestack) {
+        this.tablestack = tablestack;
     }
 
     public int getPot() {
@@ -206,8 +204,7 @@ class Table {
     }
 
     void nextRound() {
-        //TODO nextGameRound aufruf
-        if (roundcounter < 4) {
+        if (roundcounter < 3) {
             if (roundcounter == 0) roleDistribution();
             roundcounter ++;
             distributeCards();
@@ -288,7 +285,7 @@ class Table {
         }
         //MaxValue Spieler zur gewinnerliste hinzufügen
         for (Player p : playerList) {
-            if (p.hv.compareTo(maxValue) == 0) {
+            if (p.hv.compareTo(maxValue) == 0 /*&& (p.inGame)*/) {
                 addPlayer(p, winnerList);
             }
         }
