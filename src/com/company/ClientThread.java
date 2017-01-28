@@ -52,7 +52,7 @@ public class ClientThread extends Observable implements Runnable{
             case "Disconnect":
                 break;
             default:
-               sendData("ERROR");
+               //sendData("ERROR");
                 break;
         }
     }

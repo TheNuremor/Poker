@@ -21,7 +21,6 @@ public class GameGUI extends JFrame {
     private Image img;
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
-    private int percent;
 
 
     public String name;
@@ -33,6 +32,8 @@ public class GameGUI extends JFrame {
     public int pot;
     public String role;
 
+    public int sizePlayerList=0;
+
     public GameGUI() {
         prepareGUI();
     }
@@ -41,7 +42,6 @@ public class GameGUI extends JFrame {
         GameGUI gameGUI = new GameGUI();
         //gameGUI.showLoginWindow();
         //gameGUI.showRegistrationWindow();
-        //gameGUI.showLobbyWindow();
         gameGUI.showGameWindow();
     }
 
@@ -72,72 +72,72 @@ public class GameGUI extends JFrame {
 
         controlPanel.setLayout(gridBagLayout);
 
-        //Label
+        //TextArea
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 20, 0);
-        JLabel header = new JLabel("Bitte melden sie sich an, oder registrieren sich!");
-        gridBagLayout.setConstraints(header, gridBagConstraints);
-        controlPanel.add(header);
+        textArea = new JTextArea();
+        textArea.setText(   "Bitte melden sie sich an, oder registrieren sich!\n\n" +
+                            "Auf dem Server befinden sich " + sizePlayerList + "/6 Spieler");
+        textArea.setBackground(gameWindow.getBackground());
+        gridBagLayout.setConstraints(textArea, gridBagConstraints);
+        controlPanel.add(textArea);
+
+
         //UserName
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         JLabel username = new JLabel("Benutzername:");
         gridBagLayout.setConstraints(username, gridBagConstraints);
         controlPanel.add(username);
-
-
         //UserNameField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
+        gridBagConstraints.insets = new Insets(5, 5, 5, 5);
         JTextField usernameField = new JTextField(8);
         gridBagLayout.setConstraints(usernameField, gridBagConstraints);
         controlPanel.add(usernameField);
 
+
         //Password
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.gridheight = 1;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+        gridBagConstraints.insets = new Insets(5, 0, 10, 0);
         JLabel password = new JLabel("Passwort:");
         gridBagLayout.setConstraints(password, gridBagConstraints);
         controlPanel.add(password);
-
         //PasswordField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
+        gridBagConstraints.insets = new Insets(5, 5, 10, 5);
         JPasswordField passwordField = new JPasswordField(8);
         gridBagLayout.setConstraints(passwordField, gridBagConstraints);
         controlPanel.add(passwordField);
 
+
         //Buttons
+        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.fill = GridBagConstraints.CENTER;
         //Login
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        JButton login = new JButton("Login");
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
+        JButton login = new JButton("Login and Join");
         gridBagLayout.setConstraints(login, gridBagConstraints);
         controlPanel.add(login);
         //Registration
-        gridBagConstraints.insets = new Insets(0, 5, 0, 0);
+        gridBagConstraints.insets = new Insets(5, 5, 5, 5);
         JButton registration = new JButton("Registrieren");
         gridBagLayout.setConstraints(registration, gridBagConstraints);
         controlPanel.add(registration);
+
 
         gameWindow.add(controlPanel);
         gameWindow.setVisible(true);
@@ -149,90 +149,78 @@ public class GameGUI extends JFrame {
         //Label
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-
-        //Konstruktor Insets: oben, links, unten, rechts
         gridBagConstraints.insets = new Insets(0, 0, 20, 0);
-        JLabel header = new JLabel("Bitte registrieren sie sich, um Online-Poker spielen zu können!");
-        gridBagLayout.setConstraints(header, gridBagConstraints);
-        controlPanel.add(header);
+        textArea = new JTextArea();
+        textArea.setText(   "Bitte registrieren sie sich, um Online-Poker spielen zu können!\n\n"+
+                            "Auf dem Server befinden sich " + sizePlayerList + "/6 Spieler");
+        textArea.setBackground(gameWindow.getBackground());
+        gridBagLayout.setConstraints(textArea, gridBagConstraints);
+        controlPanel.add(textArea);
 
-        //Label
+
+        //UserName
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         JLabel username = new JLabel("Benutzername:");
         gridBagLayout.setConstraints(username, gridBagConstraints);
         controlPanel.add(username);
-
-
-        //TextArea für die Beschreibung
+        //UserNameField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-
+        gridBagConstraints.insets = new Insets(5, 3, 5, 5);
         JTextField usernameField = new JTextField(8);
         gridBagLayout.setConstraints(usernameField, gridBagConstraints);
         controlPanel.add(usernameField);
 
+
         //Password
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.gridheight = 1;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+        gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         JLabel password = new JLabel("Passwort:");
         gridBagLayout.setConstraints(password, gridBagConstraints);
         controlPanel.add(password);
-
-
         //PasswordField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-
+        gridBagConstraints.insets = new Insets(5, 3, 5, 5);
         JPasswordField passwordField = new JPasswordField(8);
         gridBagLayout.setConstraints(passwordField, gridBagConstraints);
         controlPanel.add(passwordField);
+
+
         //Password
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.gridheight = 1;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new Insets(0, 0, 5, 0);
+        gridBagConstraints.insets = new Insets(5, 0, 10, 0);
         JLabel passwordRepeat = new JLabel("Passwort wiederholen:");
         gridBagLayout.setConstraints(passwordRepeat, gridBagConstraints);
         controlPanel.add(passwordRepeat);
-
-
         //PasswordField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
-        gridBagConstraints.insets = new Insets(0, 5, 0, 5);
-
+        gridBagConstraints.insets = new Insets(5, 3, 10, 5);
         JPasswordField passwordRepeatField = new JPasswordField(8);
         gridBagLayout.setConstraints(passwordRepeatField, gridBagConstraints);
         controlPanel.add(passwordRepeatField);
 
-        //Buttons
-        gridBagConstraints.gridwidth = GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        //Registration
+        gridBagConstraints.gridwidth = GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
-        gridBagConstraints.insets = new Insets(0, 50, 0, 0);
+        gridBagConstraints.insets = new Insets(10, 60, 5, 60);
         JButton registration = new JButton("Registrieren");
         gridBagLayout.setConstraints(registration, gridBagConstraints);
         controlPanel.add(registration);
@@ -241,52 +229,6 @@ public class GameGUI extends JFrame {
         gameWindow.add(controlPanel);
         gameWindow.setVisible(true);
 
-    }
-
-    public void showLobbyWindow() {
-        int x = 0;
-        controlPanel.setLayout(gridBagLayout);
-
-        //Label
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
-        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        JLabel header = new JLabel("Möchten sie einem Spiel Beitreten?");
-        gridBagLayout.setConstraints(header, gridBagConstraints);
-        controlPanel.add(header);
-
-        //Label
-        gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
-        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new Insets(40, 0, 40, 0);
-        JLabel server = new JLabel("Auf dem Server befinden sich " + x + "/6 Spieler");
-        gridBagLayout.setConstraints(server, gridBagConstraints);
-        controlPanel.add(server);
-
-        //Buttons
-        gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
-        gridBagConstraints.fill = GridBagConstraints.CENTER;
-
-        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        JButton disconnect = new JButton("Disconnect");
-        gridBagLayout.setConstraints(disconnect, gridBagConstraints);
-        controlPanel.add(disconnect);
-
-        gridBagConstraints.insets = new Insets(0, 5, 0, 0);
-        JButton join = new JButton("Join");
-        gridBagLayout.setConstraints(join, gridBagConstraints);
-        controlPanel.add(join);
-
-        gameWindow.add(controlPanel);
-        gameWindow.setVisible(true);
     }
 
     public void showGameWindow() {
@@ -303,7 +245,7 @@ public class GameGUI extends JFrame {
         playerListPanel.setBackground(Color.RED);
 
 //TODO Spielerliste bekommen
-            int p;
+             int p=5;
         for (int i = 0; i <p ; i++) {
             //PlayerPanel
             gridBagConstraints.gridwidth = GridBagConstraints.LINE_START;
@@ -417,8 +359,8 @@ public class GameGUI extends JFrame {
         interactionPanel.updateUI();
 
 
-        //insertImage(controlPanel, 5);
-        //insertImage(playerCardsPanel, 2);
+        insertImage(controlPanel, 5);
+        insertImage(playerCardsPanel, 2);
 
 
         gameWindow.add(playerListPanel);
@@ -430,7 +372,9 @@ public class GameGUI extends JFrame {
     }
 
     public void insertImage(JPanel imagePanel, int x) {
-        URL resource = getClass().getResource("../../CardTextures/ASS_CLUBS.png");
+        URL resource = getClass().getClassLoader().getResource("../../Texture/CardTextures/blank.png");
+        //URL resource = getClass().getClassLoader().getResource("C:/Users/Pascal/Documents/Informatik/Uni Jena/Semester III/Fortgeschrittenes Programmierpraktikum/Poker/Poker/out/production/Poker/CardTexture/ASS_CLUBS.png");
+
 
         try {
             img = ImageIO.read(resource);//Write path of your image here

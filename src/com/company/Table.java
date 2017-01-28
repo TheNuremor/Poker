@@ -49,7 +49,7 @@ class Table {
         }
 
         playerList.forEach((Player player1) -> {
-            player1.clientThread.sendData("Spiel gestartet\n");
+            //player1.clientThread.sendData("Spiel gestartet\n");
         });
 
         roleDistribution();
@@ -76,7 +76,7 @@ class Table {
         }
 
         playerList.forEach((Player player1) -> {
-            player1.clientThread.sendData("Spiel beendet\n");
+            //player1.clientThread.sendData("Spiel beendet\n");
         });
     }
 
@@ -210,7 +210,7 @@ class Table {
             if (roundcounter == 0) roleDistribution();
             roundcounter ++;
             distributeCards();
-            playerList.forEach((Player player1) -> player1.clientThread.sendData("-------------"));
+            //playerList.forEach((Player player1) -> player1.clientThread.sendData("-------------"));
         } else nextGameRound();
     }
 
@@ -249,7 +249,7 @@ class Table {
     }
 
     private int betScanner(Player player) {
-        player.clientThread.sendData("/Bet");
+        //player.clientThread.sendData("/Bet");
         while(player.clientThread.bet == null) {
             try {
                 Thread.sleep(2000);
@@ -261,8 +261,8 @@ class Table {
         player.clientThread.bet = null;
 
         playerList.forEach(player1 -> {
-            if (!player1.equals(player))
-                player1.clientThread.sendData("Spieler " + player.getName() + " hat " + output + " gesetzt.");
+            //if (!player1.equals(player))
+                //player1.clientThread.sendData("Spieler " + player.getName() + " hat " + output + " gesetzt.");
         });
 
         return output;
@@ -338,7 +338,7 @@ class Table {
                 player1.clientThread.sendData("Spieler: "+ winner + " hat gewonnen!");
             });*/
             playerList.forEach((Player player1) -> {
-                player1.clientThread.sendData("\nEine neue Runde beginnt!\n");
+                //player1.clientThread.sendData("\nEine neue Runde beginnt!\n");
             });
             nextGameRound();
         }

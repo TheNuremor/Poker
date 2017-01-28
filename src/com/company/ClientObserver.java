@@ -21,7 +21,7 @@ public class ClientObserver implements Observer{
             if (cl.equals(o)) {
                 for (ClientThread cl2 : threadList) {
                     if (!cl.equals(cl2)) {
-                        cl2.outputStream.writeObject(cl.getName() + " gejoint");
+                        //cl2.outputStream.writeObject(cl.getName() + " gejoint");
                     }
                 }
             }

@@ -64,14 +64,14 @@ class Player  {
         String output;
         output = "Cash:\t" + cash + "\nRole:\t" + role.toString() + "\nPlayer Bet:\t" + playerBet + "\nTable Bet:\t" + table.tableBet +
                 "\nHandkarten:\t\t" + getHandstack().getCards().toString() + "\nTischkarten:\t" + table.getTablestack().getCards().toString();
-        clientThread.output.println(output);
+        //clientThread.outputStream.writeObject(output);
         return "---\n" + output;
     }
 
     public void playerInteraction(Table table, int bet) {
         if (inGame && (!isAllIn)) {
             if (bet > 0 && (playerBet + bet) < table.tableBet) {
-                clientThread.sendData("Falsche Eingabe");
+                //clientThread.sendData("Falsche Eingabe");
                 betRight = false;
             } else if (bet < 0) {
                 // Fold
@@ -83,8 +83,8 @@ class Player  {
                     table.pot += bet;
                     if (playerBet > table.tableBet) { //effektiver Raise
                         table.playerList.forEach(player1 -> {
-                            if (!player1.equals(this))
-                                player1.clientThread.sendData("Neuer Tablebet: " + playerBet);
+                            //if (!player1.equals(this))
+                                //player1.clientThread.sendData("Neuer Tablebet: " + playerBet);
                         });
                         table.tableBet = playerBet;
                     }
