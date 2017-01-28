@@ -40,9 +40,9 @@ public class GameGUI extends JFrame {
 
     public static void main(String[] args) {
         GameGUI gameGUI = new GameGUI();
-        //gameGUI.showLoginWindow();
+        gameGUI.showLoginWindow();
         //gameGUI.showRegistrationWindow();
-        gameGUI.showGameWindow();
+        //gameGUI.showGameWindow();
     }
 
     private void prepareGUI() {
@@ -69,7 +69,6 @@ public class GameGUI extends JFrame {
 
 
     public void showLoginWindow() {
-
         controlPanel.setLayout(gridBagLayout);
 
         //TextArea
@@ -232,7 +231,6 @@ public class GameGUI extends JFrame {
     }
 
     public void showGameWindow() {
-        //FIRST_LINE_START, PAGE_START, FIRST_LINE_END, LINE_START, CENTER, LINE_END, LAST_LINE_START, PAGE_END und LAST_LINE_END
         //PlayerListPanel
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
@@ -373,8 +371,6 @@ public class GameGUI extends JFrame {
 
     public void insertImage(JPanel imagePanel, int x) {
         URL resource = getClass().getClassLoader().getResource("../../Texture/CardTextures/blank.png");
-        //URL resource = getClass().getClassLoader().getResource("C:/Users/Pascal/Documents/Informatik/Uni Jena/Semester III/Fortgeschrittenes Programmierpraktikum/Poker/Poker/out/production/Poker/CardTexture/ASS_CLUBS.png");
-
 
         try {
             img = ImageIO.read(resource);//Write path of your image here
