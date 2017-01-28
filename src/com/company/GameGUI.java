@@ -12,16 +12,26 @@ import java.net.URL;
 
 public class GameGUI extends JFrame {
     private JFrame gameWindow;
-    private JPanel controlPanel;
+    public JPanel controlPanel;
     private JPanel playerCardsPanel;
     private JPanel notePanel;
     private JPanel interactionPanel;
     private JPanel playerListPanel;
+    public JTextArea textArea;
     private Image img;
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private int percent;
 
+
+    public String name;
+    public int cash;
+    public int playerBet;
+    public int tableBet;
+    public boolean isAllIn;
+    public boolean isInGame;
+    public int pot;
+    public String role;
 
     public GameGUI() {
         prepareGUI();
@@ -292,11 +302,8 @@ public class GameGUI extends JFrame {
         gridBagLayout.setConstraints(playerListPanel, gridBagConstraints);
         playerListPanel.setBackground(Color.RED);
 
-        int p = 5;
-        int geld=10000;
-        int bet=0;
-        String name = new String();
-
+//TODO Spielerliste bekommen
+            int p;
         for (int i = 0; i <p ; i++) {
             //PlayerPanel
             gridBagConstraints.gridwidth = GridBagConstraints.LINE_START;
@@ -315,12 +322,12 @@ public class GameGUI extends JFrame {
             gridBagConstraints.gridheight = 1;
             gridBagConstraints.anchor = GridBagConstraints.LINE_START;
             gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-            String str = "<html>Name: " + name +
-                    "<br>Geld: " + geld +
-                    "<br>Spielergebot: " + bet +
-                    "<br>Rolle: " + "Dealer" +
-                    "<br>isInGame: " + "Ja" +
-                    "<br>isAllIn: " + "Nein </html>";
+            String str =    "<html>Name: " + name +
+                            "<br>Geld: " + cash +
+                            "<br>Spielergebot: " + playerBet +
+                            "<br>Rolle: " + role +
+                            "<br>isInGame: " + isInGame +
+                            "<br>isAllIn: " + isAllIn +  "</html>";
             JLabel label = new JLabel(str);
             gridBagLayout.setConstraints(label, gridBagConstraints);
             playerPanel.add(label);
@@ -354,17 +361,8 @@ public class GameGUI extends JFrame {
         gridBagConstraints.weighty = 0.0;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
 
-            String str = "Lorem ipsum dolor sit amet consectetuer tellus sociis sapien porttitor \n" +
-                    "                        Suspendisse. Mattis morbi eu In non ante convallis\n" +
-                    "                        tempus risus venenatis urna. Sed ipsum et parturient volutpat\n" +
-                    "                        adipiscing dolor quis adipiscing Donec odio.\n" +
-                    "                        Neque adipiscing pretium lacus Phasellus neque a vel sed wisi alique\n" +
-                    "                        t. Condimentum Sed pretium libero vitae facilisi pretium sit consequat a\n" +
-                    "                        tincidunt. Pharetra ac Aliquam.\n" ;
-
-        for (int i = 0; i <8; i++) { textArea.append(str); }
 //TODO Autoscroll Coursor nach unten setzen!!
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -401,29 +399,26 @@ public class GameGUI extends JFrame {
         gridBagLayout.setConstraints(interactionPanel, gridBagConstraints);
         interactionPanel.setBackground(Color.BLUE);
 
-        //Textarea
+        //Label
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-        JTextArea textArea2 = new JTextArea();
+        String str2 =    "<html>Name: " + name +
+                "<br>Geld: " + cash +
+                "<br>Spielergebot: " + playerBet +
+                "<br>Rolle: " + role +
+                "<br>isInGame: " + isInGame +
+                "<br>isAllIn: " + isAllIn +  "</html>";
+        JLabel label = new JLabel(str2);
 
-        textArea2.setPreferredSize(new Dimension(500,250));
-
-        JScrollPane scrollPane2 = new JScrollPane(textArea2);
-        scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane2.setAutoscrolls(true);
-
-        scrollPane2.setSize(50,50);
-        gridBagLayout.setConstraints(scrollPane2, gridBagConstraints);
-        interactionPanel.add(scrollPane2);
-        textArea2.append(str);
+        gridBagLayout.setConstraints(label, gridBagConstraints);
+        interactionPanel.add(label);
         interactionPanel.updateUI();
 
 
-        insertImage(controlPanel, 5);
-        insertImage(playerCardsPanel, 2);
+        //insertImage(controlPanel, 5);
+        //insertImage(playerCardsPanel, 2);
 
 
         gameWindow.add(playerListPanel);

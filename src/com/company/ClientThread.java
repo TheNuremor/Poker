@@ -2,20 +2,32 @@ package com.company;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Map;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientThread extends Observable implements Runnable{
+    public static final Logger log = Logger.getGlobal();
+    public ObjectOutputStream outputStream;
+    public ObjectInputStream inputStream;
+    private Socket client;
 
-    public PrintStream output;
     public String bet;
     private boolean finished = false;
     private Table table;
-    private Socket client;
     private String name;
 
     public ClientThread(Socket client, Table table) {
         this.table = table;
         this.client = client;
+
+        try {
+            outputStream = new ObjectOutputStream(client.getOutputStream());
+            inputStream = new ObjectInputStream(client.getInputStream());
+        }catch (IOException e) {
+            log.log(Level.SEVERE, e.getMessage());
+        }
     }
 
     public String getName() {
@@ -31,27 +43,39 @@ public class ClientThread extends Observable implements Runnable{
         setChanged();
         notifyObservers();
     }
+    public void messangerServer (Message message) throws IOException{
+
+        switch (message.getHeader()) {
+
+            case "Nameadd":
+                break;
+            case "Disconnect":
+                break;
+            default:
+               sendData("ERROR");
+                break;
+        }
+    }
 
     @Override
     public void run(){
         try {
-            OutputStream out = client.getOutputStream();
-            output = new PrintStream(out, true);
-            InputStream in = client.getInputStream();
-            BufferedReader input = new BufferedReader(new InputStreamReader(in));
+            while (true) {
+                messangerServer((Message) inputStream.readObject());
+            }
+        }catch (ClassNotFoundException | IOException e) {
+            Logger.getGlobal().log(Level.SEVERE, e.getMessage());
+        }}
 
-            output.println("Willkommen auf dem Server");
+            /*output.println("Willkommen auf dem Server");
             output.println("/Nameadd");
             name = input.readLine();
             output.println("Ihr Name ist: " + name);
-
             Player player = new Player(this);
             player.setName(name);
             table.addPlayer(player, table.playerList);
-
             setFinished(true);
             System.out.println("Der Spieler " + name + " wurde hinzugefügt!");
-
             while (true) {
                 bet = input.readLine();
                 String betSplit[] = bet.split(":");
@@ -59,18 +83,26 @@ public class ClientThread extends Observable implements Runnable{
                     bet = betSplit[1];
                 }
             }
-        } catch (IOException e) {
-            System.out.println("IOException in run()...");
-        }finally {
-            close();
+        } catch (IOException e) { System.out.println("IOException in run()..."); }finally { close(); } }*/
+
+    public boolean sendData(String header, Object object){
+        try{
+            outputStream.writeObject(new Message(header, object));
+            outputStream.flush();
+            return true;
+        }catch (IOException e){
+            log.log(Level.SEVERE, e.getMessage());
+            return false;
         }
     }
 
-    public void sendData(String data) {
-        output.println(data);
-    }
 
     public void close(){
-        output.println("/Disconnect");
+        try {
+            log.info("Client disconnected");
+            client.close();
+        }catch (IOException e){
+            log.log(Level.SEVERE, e.getMessage());
+        }
     }
 }

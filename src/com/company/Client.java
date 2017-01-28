@@ -1,73 +1,107 @@
 package com.company;
 
+import org.omg.CORBA.ObjectHelper;
+
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Client {
+public class Client extends Thread{
 
+    public static final Logger log = Logger.getGlobal();
+    public ObjectOutputStream outputStream;
+    public ObjectInputStream inputStream;
+    public GameGUI clientGUI = new GameGUI();
+    public Socket clientSocket = null;
 
     public static void main(String args[]) {
-        GameGUI clientGUI = new GameGUI();
-
-        Socket clientSocket = null;
 
 
+    }
+    public Client() throws IOException {
+        clientSocket = new Socket("localHost", 1111);
+        System.out.println("Client connected");
+
+        outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+        inputStream = new ObjectInputStream(clientSocket.getInputStream());
+    }
+    @Override
+    public void run(){
         try {
-            clientSocket = new Socket("localHost", 1111);
-            System.out.println("Client connected");
-            clientGUI.showLoginWindow();
-            //clientGUI.showRegistrationWindow();
-            //clientGUI.showLobbyWindow();
-            //clientGUI.showGameWindow();
-
-            OutputStream out = clientSocket.getOutputStream();
-            PrintStream output  = new PrintStream(out, true);
-
-
-            InputStream in = clientSocket.getInputStream();
-            BufferedReader input = new BufferedReader(new InputStreamReader(in));
-            BufferedReader consoleinput = new BufferedReader(new InputStreamReader(System.in));
-
             while (true) {
-                while (input.ready()) {
-                    String string = input.readLine();
-                    switch (string) {
-
-                        case "/Nameadd":
-                            System.out.println("Bitte Namen eingeben: ");
-                            output.println(consoleinput.readLine());
-                            break;
-                        case "/Disconnect":
-                            System.out.println("Goodbye!");
-                            System.exit(0);
-                            break;
-                        case "/Bet":
-                            System.out.println("\nBitte Gebot eingeben: ");
-                            output.println("/betset:" + consoleinput.readLine());
-                            break;
-                        default:
-                            System.out.println(string);
-                    }
-                }
+                messangerServer((Message) inputStream.readObject());
             }
+        }catch (ClassNotFoundException | IOException e) {
+            Logger.getGlobal().log(Level.SEVERE, e.getMessage());
+        }finally {
+            close();
+        }
+    }
 
-        } catch (UnknownHostException e) {
-            System.out.println("Unknown Host...");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.out.println("IOException...");
-            e.printStackTrace();
-        } finally {
-            if (clientSocket != null) {
-                try {
-                    clientSocket.close();
-                    System.out.println("Client disconnected...");
-                } catch (IOException e) {
-                    System.out.println("Client can't disconnect...");
-                    e.printStackTrace();
-                }
-            }
+
+    public void messangerServer (Message message) throws IOException{
+        clientGUI.textArea.setText("");
+        switch (message.getHeader()) {
+
+            case "Nameadd":
+                break;
+            case "Disconnect":
+                break;
+            case "Bet":
+                break;
+            case "NAME":
+                Map<String, String> name =(Map<String, String>) message.getObject();
+                break;
+            case "CASH":
+                break;
+            case "PLAYERBET":
+                break;
+            case "ISALLIN":
+                break;
+            case "ISINGAME":
+                break;
+            case "ROLE":
+                break;
+            case "HANDSTACK":
+                break;
+            case "POT":
+                break;
+            case "TABLEBET":
+                break;
+            case "TABLESTACK":
+                /*for (PokerCard card : clientGUI.insertImage(JPanel controllPanel)) {
+                    clientGUI.insertImage(JPanel controllPanel)
+                }*/
+                break;
+            default:
+                clientGUI.textArea.append("------ES IST EIN FEHLER AUFGETRETEN!!------"+ message.getHeader());
+                break;
+        }
+    }
+
+
+    public boolean sendData(String header, Object object){
+        try{
+            outputStream.writeObject(new Message(header, object));
+            outputStream.flush();
+            return true;
+        }catch (IOException e){
+            log.log(Level.SEVERE, e.getMessage());
+            return false;
+        }
+    }
+
+
+    public void close(){
+        try {
+            log.info("Client disconnected");
+            clientSocket.close();
+        }catch (IOException e){
+            log.log(Level.SEVERE, e.getMessage());
         }
     }
 }
