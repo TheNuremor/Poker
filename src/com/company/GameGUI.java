@@ -29,10 +29,10 @@ public class GameGUI extends JFrame {
 
     public static void main(String[] args) {
         GameGUI gameGUI = new GameGUI();
-        gameGUI.showLoginWindow();
+        //gameGUI.showLoginWindow();
         //gameGUI.showRegistrationWindow();
         //gameGUI.showLobbyWindow();
-        //gameGUI.showGameWindow();
+        gameGUI.showGameWindow();
     }
 
     private void prepareGUI() {
@@ -435,7 +435,7 @@ public class GameGUI extends JFrame {
     }
 
     public void insertImage(JPanel imagePanel, int x) {
-        URL resource = getClass().getResource("../../CardTextures/blank2.png");
+        URL resource = getClass().getResource("../../CardTextures/ASS_CLUBS.png");
 
         try {
             img = ImageIO.read(resource);//Write path of your image here
