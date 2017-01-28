@@ -1,28 +1,21 @@
 package com.company;
 
-import java.util.Observable;
-
 import java.io.*;
 import java.net.Socket;
+import java.util.Observable;
 
 public class ClientThread extends Observable implements Runnable{
 
+    public PrintStream output;
+    public String bet;
     private boolean finished = false;
     private Table table;
     private Socket client;
-    public PrintStream output;
     private String name;
-    public String bet;
 
     public ClientThread(Socket client, Table table) {
         this.table = table;
         this.client = client;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-        setChanged();
-        notifyObservers();
     }
 
     public String getName() {
@@ -31,6 +24,12 @@ public class ClientThread extends Observable implements Runnable{
 
     public boolean isFinished() {
         return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+        setChanged();
+        notifyObservers();
     }
 
     @Override
@@ -60,7 +59,6 @@ public class ClientThread extends Observable implements Runnable{
                     bet = betSplit[1];
                 }
             }
-
         } catch (IOException e) {
             System.out.println("IOException in run()...");
         }finally {
