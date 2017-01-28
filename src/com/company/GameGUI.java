@@ -4,7 +4,6 @@ package com.company;
 import java.awt.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -66,8 +65,8 @@ public class GameGUI extends JFrame {
         //Label
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 20, 0);
         JLabel header = new JLabel("Bitte melden sie sich an, oder registrieren sich!");
@@ -85,8 +84,8 @@ public class GameGUI extends JFrame {
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new Insets(0, 5, 0, 5);
         JTextField usernameField = new JTextField(8);
         gridBagLayout.setConstraints(usernameField, gridBagConstraints);
@@ -94,8 +93,8 @@ public class GameGUI extends JFrame {
 
         //Password
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
@@ -107,8 +106,8 @@ public class GameGUI extends JFrame {
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 10;
-        gridBagConstraints.weighty = 10;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new Insets(0, 5, 0, 5);
         JPasswordField passwordField = new JPasswordField(8);
         gridBagLayout.setConstraints(passwordField, gridBagConstraints);
@@ -116,8 +115,8 @@ public class GameGUI extends JFrame {
 
         //Buttons
         gridBagConstraints.gridwidth = 1;
-        gridBagConstraints.weightx = 1;
-        gridBagConstraints.weighty = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.fill = GridBagConstraints.CENTER;
         //Login
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
