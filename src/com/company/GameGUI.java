@@ -6,11 +6,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
 
-public class GameGUI extends JFrame {
+public class GameGUI extends JFrame implements ActionListener {
     private JFrame gameWindow;
     public JPanel controlPanel;
     private JPanel playerCardsPanel;
@@ -18,11 +19,21 @@ public class GameGUI extends JFrame {
     private JPanel interactionPanel;
     private JPanel playerListPanel;
     public JTextArea textArea;
+    private JTextField usernameFieldLogin;
+    private JTextField usernameFieldReg;
+    private JPasswordField passwordFieldLogin;
+    private JPasswordField passwordFieldReg;
+    private JPasswordField passwordFieldCheck;
+    private JButton gotoRegistration;
+    private JButton login;
+    private JButton registration;
     private Image img;
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
 
+    private boolean registrationFinished = false;
+    private boolean loginFinished = false;
     public String name;
     public int cash;
     public int playerBet;
@@ -98,9 +109,9 @@ public class GameGUI extends JFrame {
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 5, 5, 5);
-        JTextField usernameField = new JTextField(8);
-        gridBagLayout.setConstraints(usernameField, gridBagConstraints);
-        controlPanel.add(usernameField);
+        usernameFieldLogin = new JTextField(8);
+        gridBagLayout.setConstraints(usernameFieldLogin, gridBagConstraints);
+        controlPanel.add(usernameFieldLogin);
 
 
         //Password
@@ -117,9 +128,10 @@ public class GameGUI extends JFrame {
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 5, 10, 5);
-        JPasswordField passwordField = new JPasswordField(8);
-        gridBagLayout.setConstraints(passwordField, gridBagConstraints);
-        controlPanel.add(passwordField);
+        passwordFieldLogin = new JPasswordField(8);
+        passwordFieldLogin.setToolTipText("Passwort");
+        gridBagLayout.setConstraints(passwordFieldLogin, gridBagConstraints);
+        controlPanel.add(passwordFieldLogin);
 
 
         //Buttons
@@ -128,14 +140,15 @@ public class GameGUI extends JFrame {
         gridBagConstraints.fill = GridBagConstraints.CENTER;
         //Login
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
-        JButton login = new JButton("Login and Join");
+        login = new JButton("Login and Join");
         gridBagLayout.setConstraints(login, gridBagConstraints);
         controlPanel.add(login);
         //Registration
         gridBagConstraints.insets = new Insets(5, 5, 5, 5);
-        JButton registration = new JButton("Registrieren");
-        gridBagLayout.setConstraints(registration, gridBagConstraints);
-        controlPanel.add(registration);
+        gotoRegistration = new JButton("Registrieren");
+        gotoRegistration.addActionListener(this);
+        gridBagLayout.setConstraints(gotoRegistration, gridBagConstraints);
+        controlPanel.add(gotoRegistration);
 
 
         gameWindow.add(controlPanel);
@@ -144,6 +157,7 @@ public class GameGUI extends JFrame {
 
     public void showRegistrationWindow() {
         controlPanel.setLayout(gridBagLayout);
+
 
         //Label
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
@@ -164,17 +178,17 @@ public class GameGUI extends JFrame {
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
-        JLabel username = new JLabel("Benutzername:");
-        gridBagLayout.setConstraints(username, gridBagConstraints);
-        controlPanel.add(username);
+        JLabel usernameReg = new JLabel("Benutzername:");
+        gridBagLayout.setConstraints(usernameReg, gridBagConstraints);
+        controlPanel.add(usernameReg);
         //UserNameField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 3, 5, 5);
-        JTextField usernameField = new JTextField(8);
-        gridBagLayout.setConstraints(usernameField, gridBagConstraints);
-        controlPanel.add(usernameField);
+        usernameFieldReg = new JTextField(8);
+        gridBagLayout.setConstraints(usernameFieldReg, gridBagConstraints);
+        controlPanel.add(usernameFieldReg);
 
 
         //Password
@@ -183,17 +197,17 @@ public class GameGUI extends JFrame {
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
-        JLabel password = new JLabel("Passwort:");
-        gridBagLayout.setConstraints(password, gridBagConstraints);
-        controlPanel.add(password);
+        JLabel passwordReg = new JLabel("Passwort:");
+        gridBagLayout.setConstraints(passwordReg, gridBagConstraints);
+        controlPanel.add(passwordReg);
         //PasswordField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 3, 5, 5);
-        JPasswordField passwordField = new JPasswordField(8);
-        gridBagLayout.setConstraints(passwordField, gridBagConstraints);
-        controlPanel.add(passwordField);
+        passwordFieldReg = new JPasswordField(8);
+        gridBagLayout.setConstraints(passwordFieldReg, gridBagConstraints);
+        controlPanel.add(passwordFieldReg);
 
 
         //Password
@@ -202,17 +216,17 @@ public class GameGUI extends JFrame {
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(5, 0, 10, 0);
-        JLabel passwordRepeat = new JLabel("Passwort wiederholen:");
-        gridBagLayout.setConstraints(passwordRepeat, gridBagConstraints);
-        controlPanel.add(passwordRepeat);
+        JLabel passwordCheck = new JLabel("Passwort wiederholen:");
+        gridBagLayout.setConstraints(passwordCheck, gridBagConstraints);
+        controlPanel.add(passwordCheck);
         //PasswordField
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(5, 3, 10, 5);
-        JPasswordField passwordRepeatField = new JPasswordField(8);
-        gridBagLayout.setConstraints(passwordRepeatField, gridBagConstraints);
-        controlPanel.add(passwordRepeatField);
+        passwordFieldCheck = new JPasswordField(8);
+        gridBagLayout.setConstraints(passwordFieldCheck, gridBagConstraints);
+        controlPanel.add(passwordFieldCheck);
 
         //Registration
         gridBagConstraints.gridwidth = GridBagConstraints.HORIZONTAL;
@@ -220,7 +234,7 @@ public class GameGUI extends JFrame {
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.insets = new Insets(10, 60, 5, 60);
-        JButton registration = new JButton("Registrieren");
+        registration = new JButton("Registrieren");
         gridBagLayout.setConstraints(registration, gridBagConstraints);
         controlPanel.add(registration);
 
@@ -338,6 +352,7 @@ public class GameGUI extends JFrame {
         interactionPanel = new JPanel();
         gridBagLayout.setConstraints(interactionPanel, gridBagConstraints);
         interactionPanel.setBackground(Color.BLUE);
+        interactionPanel.setPreferredSize(new Dimension(500, 250));
 
         //Label
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
@@ -370,10 +385,12 @@ public class GameGUI extends JFrame {
     }
 
     public void insertImage(JPanel imagePanel, int x) {
-        URL resource = getClass().getClassLoader().getResource("../../Texture/CardTextures/blank.png");
+        //URL resource = getClass().getResource("\\..\\..\\CardTextures\\blank.png");
+        //Image imge = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../CardTextures/blank.png"));
+        //Image imag = new ImageIcon(this.getClass().getResource("/Texture/CardTextures/blank.png")).getImage();
 
-        try {
-            img = ImageIO.read(resource);//Write path of your image here
+       try {
+            img = ImageIO.read(getClass().getResource("../../Texture/CardTextures/blank2.png"));//Write path of your image here
         } catch (IOException ex) { ex.printStackTrace(); }
 
         for (int i = 0; i < x; i++) {
@@ -394,10 +411,41 @@ public class GameGUI extends JFrame {
         }
     }
 
-    public Dimension percentSize(int percentW, int percentH){
-        //public Dimension getPreferredSize() {
-        int w = (int) (Math.round(percentW * 100.0/gameWindow.getWidth()));
-        int h = (int) (Math.round(percentH * 100.0/gameWindow.getWidth()));
-        return new Dimension(w, h);
+    public void actionPerformed(ActionEvent actionEvent){
+        if(actionEvent.getSource() == this.login){
+
+        }
+        else if(actionEvent.getSource() == this.gotoRegistration){
+            controlPanel.removeAll();
+            showRegistrationWindow();
+        }
+        else if (actionEvent.getSource() == this.registration){
+            String username = usernameFieldReg.getText();
+            String password = String.copyValueOf(passwordFieldReg.getPassword());
+            textArea.append(username);
+
+            if (passwordFieldReg.getPassword().equals(passwordFieldCheck.getPassword())){
+                //passwordFieldReg.equals(passwordFieldCheck);
+
+                creatUser(username, password);
+                controlPanel.removeAll();
+                showLoginWindow();
+                usernameFieldLogin.setText(username);
+                passwordFieldLogin.setText(password);
+                textArea.append("\nSie haben sich erfolgreich registriert,\n sie können nun einem Spiel beitreten");
+            }
+            else {
+                passwordFieldReg.setToolTipText("Passwort");
+            }
+
+
+        }
+
     }
+    public boolean creatUser (String username, String password){
+
+    return true;
+    }
+
+
 }
