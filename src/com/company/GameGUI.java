@@ -51,9 +51,9 @@ public class GameGUI extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         GameGUI gameGUI = new GameGUI();
-        gameGUI.showLoginWindow();
+        //gameGUI.showLoginWindow();
         //gameGUI.showRegistrationWindow();
-        //gameGUI.showGameWindow();
+        gameGUI.showGameWindow();
     }
 
     private void prepareGUI() {
@@ -385,12 +385,10 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     public void insertImage(JPanel imagePanel, int x) {
-        //URL resource = getClass().getResource("\\..\\..\\CardTextures\\blank.png");
-        //Image imge = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../../CardTextures/blank.png"));
-        //Image imag = new ImageIcon(this.getClass().getResource("/Texture/CardTextures/blank.png")).getImage();
+        URL resource = getClass().getClassLoader().getResource("Texture/CardTexture/blank.png");
 
        try {
-            img = ImageIO.read(getClass().getResource("../../Texture/CardTextures/blank2.png"));//Write path of your image here
+            img = ImageIO.read(resource);//Write path of your image here
         } catch (IOException ex) { ex.printStackTrace(); }
 
         for (int i = 0; i < x; i++) {
@@ -413,6 +411,8 @@ public class GameGUI extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent actionEvent){
         if(actionEvent.getSource() == this.login){
+            controlPanel.removeAll();
+            showGameWindow();
 
         }
         else if(actionEvent.getSource() == this.gotoRegistration){
