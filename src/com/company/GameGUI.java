@@ -9,6 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 
 public class GameGUI extends JFrame implements ActionListener {
@@ -31,7 +32,7 @@ public class GameGUI extends JFrame implements ActionListener {
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-
+    public String username;
     private boolean registrationFinished = false;
     private boolean loginFinished = false;
     public String name;
@@ -51,9 +52,9 @@ public class GameGUI extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         GameGUI gameGUI = new GameGUI();
-        //gameGUI.showLoginWindow();
+        gameGUI.showLoginWindow();
         //gameGUI.showRegistrationWindow();
-        gameGUI.showGameWindow();
+        //gameGUI.showGameWindow();
     }
 
     private void prepareGUI() {
@@ -141,6 +142,7 @@ public class GameGUI extends JFrame implements ActionListener {
         //Login
         gridBagConstraints.insets = new Insets(5, 0, 5, 0);
         login = new JButton("Login and Join");
+        login.addActionListener(this);
         gridBagLayout.setConstraints(login, gridBagConstraints);
         controlPanel.add(login);
         //Registration
@@ -235,6 +237,7 @@ public class GameGUI extends JFrame implements ActionListener {
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.insets = new Insets(10, 60, 5, 60);
         registration = new JButton("Registrieren");
+        registration.addActionListener(this);
         gridBagLayout.setConstraints(registration, gridBagConstraints);
         controlPanel.add(registration);
 
@@ -359,7 +362,7 @@ public class GameGUI extends JFrame implements ActionListener {
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-        String str2 =    "<html>Name: " + name +
+        String str2 =    "<html>Name: " + username +
                 "<br>Geld: " + cash +
                 "<br>Spielergebot: " + playerBet +
                 "<br>Rolle: " + role +
@@ -385,7 +388,7 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     public void insertImage(JPanel imagePanel, int x) {
-        URL resource = getClass().getClassLoader().getResource("Texture/CardTexture/blank.png");
+        URL resource = getClass().getClassLoader().getResource("Texture/CardTexture/blank2.png");
 
        try {
             img = ImageIO.read(resource);//Write path of your image here
@@ -410,8 +413,10 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent actionEvent){
+        System.out.println("event");
         if(actionEvent.getSource() == this.login){
             controlPanel.removeAll();
+
             showGameWindow();
 
         }
@@ -420,22 +425,25 @@ public class GameGUI extends JFrame implements ActionListener {
             showRegistrationWindow();
         }
         else if (actionEvent.getSource() == this.registration){
-            String username = usernameFieldReg.getText();
-            String password = String.copyValueOf(passwordFieldReg.getPassword());
-            textArea.append(username);
+            username = usernameFieldReg.getText();
+            String password = String.valueOf(passwordFieldReg.getPassword());
+            String passwordCheck = String.valueOf(passwordFieldReg.getPassword());
 
-            if (passwordFieldReg.getPassword().equals(passwordFieldCheck.getPassword())){
-                //passwordFieldReg.equals(passwordFieldCheck);
-
+            if (Objects.equals(password, passwordCheck) && password.length()!=0 && passwordCheck.length() !=0 && username.length()!=0){
                 creatUser(username, password);
                 controlPanel.removeAll();
                 showLoginWindow();
                 usernameFieldLogin.setText(username);
                 passwordFieldLogin.setText(password);
-                textArea.append("\nSie haben sich erfolgreich registriert,\n sie können nun einem Spiel beitreten");
+                textArea.append("\n\nSie haben sich erfolgreich registriert,\n sie können nun einem Spiel beitreten");
             }
             else {
-                passwordFieldReg.setToolTipText("Passwort");
+                usernameFieldReg.setText("");
+                passwordFieldReg.setText("");
+                passwordFieldCheck.setText("");
+                if (!textArea.getText().contains("Ihre Passwörter sind nicht gleich")) {
+                    textArea.append("\n\nIhre Passwörter sind nicht gleich,\n oder sie haben keinen Benutzernamen eingegeben!");
+                }
             }
 
 
