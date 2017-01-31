@@ -1,5 +1,6 @@
-package com.company;
+package com.company.Game;
 
+import com.company.Game.Card;
 import handChecker.PokerCard;
 
 import java.util.ArrayList;
