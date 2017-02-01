@@ -1,8 +1,7 @@
-package com.company.Server;
+package de.Nuremosh.Server;
 
-import com.company.Game.Player;
-import com.company.Game.Table;
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
+import de.Nuremosh.Game.Player;
+import de.Nuremosh.Game.Table;
 
 import java.io.*;
 import java.net.ServerSocket;

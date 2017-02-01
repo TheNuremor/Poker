@@ -1,0 +1,23 @@
+header  |   payload
+--------------------------------------------------
+Client -> Server
+
+leave : fordert den Server zum beenden des eigenen Threads auf
+bet : der vom client gesetzte Einsatz
+validateClient : von Server zum Client; leitet anmeldung ein
+
+Client <- Server
+
+startGame : informiert die Clients
+endGame :
+handCard :
+openCard :
+disconnect :
+nextGameRound :
+loginClient : bestehender Benutzer greift zu
+registrateClient : neuer Benutzer in der Datenbank anliegen
+setBet :
+role :
+chips :
+inGame :
+bet :

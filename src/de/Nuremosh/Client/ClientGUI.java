@@ -1,4 +1,4 @@
-package com.company.Client;
+package de.Nuremosh.Client;
 
 
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Objects;
 
 
-public class GameGUI extends JFrame implements ActionListener {
+public class ClientGUI extends JFrame implements ActionListener {
     private JFrame gameWindow;
     private JPanel controlPanel;
     private JPanel playerCardsPanel;
@@ -53,15 +53,15 @@ public class GameGUI extends JFrame implements ActionListener {
 
     public int sizePlayerList=0;
 
-    public GameGUI() {
+    public ClientGUI() {
         prepareGUI();
     }
 
     public static void main(String[] args) {
-        GameGUI gameGUI = new GameGUI();
-        //gameGUI.showLoginWindow();
-        //gameGUI.showRegistrationWindow();
-        gameGUI.showGameWindow();
+        ClientGUI clientGUI = new ClientGUI();
+        //clientGUI.showLoginWindow();
+        //clientGUI.showRegistrationWindow();
+        clientGUI.showGameWindow();
     }
 
     private void prepareGUI() {
@@ -495,7 +495,7 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     public void insertImage(JPanel imagePanel, int x) {
-        URL resource = getClass().getClassLoader().getResource("Texture/CardTextureMod/blank.png");
+        URL resource = getClass().getClassLoader().getResource("CardTexture/blank.png");
 
         try {
             img = ImageIO.read(resource);//Write path of your image here

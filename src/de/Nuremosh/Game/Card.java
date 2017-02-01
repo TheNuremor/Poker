@@ -1,4 +1,4 @@
-package com.company.Game;
+package de.Nuremosh.Game;
 
 import handChecker.PokerCard;
 

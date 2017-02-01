@@ -1,25 +1,22 @@
-package com.company.Game;
+package de.Nuremosh.Game;
 
-import com.company.enums.Role;
+import de.Nuremosh.enums.Role;
 import handChecker.HandValue;
 import handChecker.PokerCard;
 
 import java.util.*;
 
 public class Table extends Thread{
-    public List<Player> playerList;
+    List<Player> playerList;
     private CardStack tablestack;
     private CardStack deckstack;
     private List<Player> winnerList;
 
     private int roundcounter = 0;    // Runden
     private int gamecounter = 0;    // Potausschüttungen
-    private int Blind = 100;
-    public int pot = 0;
-    public int maxBet = 0;
+    int pot = 0;
+    int maxBet = 0;
     private int dealerpos;
-
-    private boolean blindSet = false;
 
     public Table() {
         playerList = new LinkedList<>();
@@ -33,13 +30,27 @@ public class Table extends Thread{
         startGame();
     }
 
-    //Server
-
-    void broadcastToAllPlayers(String header, Object payload) {
+    private void broadcastToAllPlayers(String header, Object payload) {
         playerList.forEach(player -> player.sendMessageToClient(header, payload));
     }
 
-    public void startGame() {
+    private void updateGameStatus() {
+        Map<String, Integer> informationChips = new HashMap<>();
+        Map<String, Integer> informationBets = new HashMap<>();
+        Map<String, Boolean> informationInGame = new HashMap<>();
+
+        for (Player p : playerList) {
+            informationChips.put(p.getPlayerName(), p.getCash());
+            informationBets.put(p.getPlayerName(), p.playerBet);
+            informationInGame.put(p.getPlayerName(), p.isInGame());
+        }
+
+        broadcastToAllPlayers("chips", informationChips);
+        broadcastToAllPlayers("bet", informationBets);
+        broadcastToAllPlayers("inGame", informationInGame);
+    }
+
+    private void startGame() {
         while (!playerList.stream().allMatch(Player::isFinished)) {
             try {
                 Thread.sleep(1000);
@@ -53,8 +64,7 @@ public class Table extends Thread{
         broadcastToAllPlayers("endGame", null);
     }
 
-    //Für Tim (nextTurn)
-    void nextRound() {
+    private void nextRound() {
         if (roundcounter < 4) {
             if (roundcounter == 0)
                 roleDistribution();
@@ -65,28 +75,26 @@ public class Table extends Thread{
             nextGameRound();
     }
 
-    //Für Tim (nextRound)
-    void nextGameRound() {
+    private void nextGameRound() {
         decideWinner();
 
-        for (int i = 0; i < playerList.size(); i++) {
-            playerList.get(i).inGame = true;
-            playerList.get(i).playerBet = 0;
-            playerList.get(i).handstack.cards.clear();
+        for (Player aPlayerList : playerList) {
+            aPlayerList.inGame = true;
+            aPlayerList.playerBet = 0;
+            aPlayerList.handstack.cards.clear();
         }
 
         deckstack = new CardStack();
         tablestack.cards.clear();
         pot = 0;
         maxBet = 0;
-        blindSet = false;
         roundcounter = 0;
         gamecounter++;
 
         broadcastToAllPlayers("nextGameRound", null);
     }
 
-    void distributeCards() {
+    private void distributeCards() {
         switch (roundcounter) {
             case 0:
                 for(Player p : playerList) {
@@ -124,52 +132,51 @@ public class Table extends Thread{
         playerList.remove(p);
     }
 
-    void betRound() {
-        Map<String, Integer> information = new HashMap<>();
-        for (Player p : playerList) {
-            information.put(p.getPlayerName(), p.getCash());
-        }
-        broadcastToAllPlayers("chips", information);
-
+    private void betRound() {
+        Player currentPlayer;
         if (roundcounter == 0 ) {
+            int blind = 100;
             if (playerList.size() == 2) {
 
-                playerList.get(dealerpos % playerList.size()).playerInteraction(this, Blind / 2);     //DealerSmall
-                playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind);     //Big
-                blindSet = true;
+                playerList.get(dealerpos % playerList.size()).playerInteraction(this, blind / 2);     //DealerSmall
+                playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, blind);     //Big
+
+                updateGameStatus();
 
                 for (int i = 0; i < playerList.size(); i++) {
-                    if (playerList.get((dealerpos + 2 + i) % playerList.size()).inGame) {
+                    currentPlayer = playerList.get((dealerpos + 2 + i) % playerList.size());
+                    if (currentPlayer.inGame) {
                         do {
-                            playerList.get((dealerpos + 2 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 2 + i) % playerList.size())));
-                            broadcastToAllPlayers("chips", new HashMap<String, Integer>().put(playerList.get((dealerpos + 2 + i) % playerList.size()).getPlayerName(), playerList.get((dealerpos + 2 + i) % playerList.size()).getCash()));
-                        } while (!playerList.get((dealerpos + 2 + i) % playerList.size()).betRight);
+                            currentPlayer.playerInteraction(this, betScanner(currentPlayer));
+                        } while (!currentPlayer.betRight);
+                        updateGameStatus();
                     }
                 }   //Setzrunde mit Big als letztes
-
             } else {
-                if (!blindSet) {
-                    playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, Blind / 2); //Small
-                    playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, Blind);     //Big
-                    blindSet = true;
-                }
+                playerList.get((dealerpos + 1) % playerList.size()).playerInteraction(this, blind / 2); //Small
+                playerList.get((dealerpos + 2) % playerList.size()).playerInteraction(this, blind);     //Big
+
+                updateGameStatus();
+
                 for (int i = 0; i < playerList.size(); i++) {
-                    if(playerList.get((dealerpos + 3 + i) % playerList.size()).inGame) {
+                    currentPlayer = playerList.get((dealerpos + 3 + i) % playerList.size());
+                    if (currentPlayer.inGame) {
                         do {
-                            playerList.get((dealerpos + 3 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 3 + i) % playerList.size())));
-                            broadcastToAllPlayers("chips", new HashMap<String, Integer>().put(playerList.get((dealerpos + 3 + i) % playerList.size()).getPlayerName(), playerList.get((dealerpos + 3 + i) % playerList.size()).getCash()));
-                        } while (!playerList.get((dealerpos + 3 + i) % playerList.size()).betRight);
+                            currentPlayer.playerInteraction(this, betScanner(currentPlayer));
+                        } while (!currentPlayer.betRight);
+                        updateGameStatus();
                     }
                 }   //Setzrunde mit Big als letztes
             }
         } else {
             //Setrunde mit Dealer als letztes
             for (int i = 0; i < playerList.size(); i++) {
-                if(playerList.get((dealerpos + 1 + i) % playerList.size()).inGame) {
+                currentPlayer = playerList.get((dealerpos + 1 + i) % playerList.size());
+                if(currentPlayer.inGame) {
                     do {
-                        playerList.get((dealerpos + 1 + i) % playerList.size()).playerInteraction(this, betScanner(playerList.get((dealerpos + 1 + i) % playerList.size())));
-                        broadcastToAllPlayers("chips", new HashMap<String, Integer>().put(playerList.get((dealerpos + 1 + i) % playerList.size()).getPlayerName(), playerList.get((dealerpos + 1 + i) % playerList.size()).getCash()));
-                    } while (!playerList.get((dealerpos + 1 + i) % playerList.size()).betRight);
+                        currentPlayer.playerInteraction(this, betScanner(currentPlayer));
+                    } while (!currentPlayer.betRight);
+                    updateGameStatus();
                 }
             }
         }
@@ -180,7 +187,6 @@ public class Table extends Thread{
 
     @Override
     public String toString() {
-
         String output = "";
         for (PokerCard c : tablestack.cards) {
             output += c.toString() + "\n";
@@ -198,7 +204,7 @@ public class Table extends Thread{
         return betroundfinished;
     }
 
-    void roleDistribution() {
+    private void roleDistribution() {
         playerList.forEach(player -> player.setRole(Role.DEFAULT));
         if (gamecounter == 0) {
             dealerpos = new Random(System.currentTimeMillis()).nextInt(playerList.size());
@@ -223,21 +229,21 @@ public class Table extends Thread{
     }
 
     private int betScanner(Player player) {
-        player.sendMessageToClient("bet", null);
-        while(player.playerBet == null) {
+        player.sendMessageToClient("setBet", null);
+        while(player.sendBet == null) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
         }
-        int output = player.playerBet;
-        player.playerBet = null;
+        int output = player.sendBet;
+        player.sendBet = null;
 
         return output;
     }
 
-    void decideWinner() {
+    private void decideWinner() {
         if (pot != 0) {
             if (playerList.stream().filter(Player::isInGame).count() == 1) {
                 for (Player p : playerList)

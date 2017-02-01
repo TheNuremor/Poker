@@ -1,6 +1,5 @@
-package com.company.Game;
+package de.Nuremosh.Game;
 
-import com.company.Game.Card;
 import handChecker.PokerCard;
 
 import java.util.ArrayList;
