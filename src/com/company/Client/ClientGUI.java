@@ -1,5 +1,8 @@
 package com.company.Client;
 
+import com.company.Game.CardStack;
+import com.company.enums.Role;
+
 
 import java.awt.*;
 import javax.imageio.ImageIO;
@@ -21,7 +24,7 @@ public class ClientGUI extends JFrame implements ActionListener {
     private JPanel playerInfoPanel;
     public JPanel betPanel;
     public JTextArea textArea;
-    public JTextArea betTextArea;
+    public JLabel betLabel;
     private JTextField usernameFieldLogin;
     private JTextField usernameFieldReg;
     private JTextField betValueField;
@@ -39,6 +42,9 @@ public class ClientGUI extends JFrame implements ActionListener {
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
+    public CardStack openCards = new CardStack();
+    public CardStack handCards = new CardStack();
+    public Role role;
     public String username;
     private boolean registrationFinished = false;
     private boolean loginFinished = false;
@@ -49,7 +55,6 @@ public class ClientGUI extends JFrame implements ActionListener {
     public boolean isAllIn;
     public boolean isInGame;
     public int pot;
-    public String role;
 
     public int sizePlayerList=0;
 
@@ -69,12 +74,9 @@ public class ClientGUI extends JFrame implements ActionListener {
         gameWindow = new JFrame("Online Poker");
         gameWindow.getContentPane().setBackground(new Color(0,119,14));
         gameWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //gameWindow.setUndecorated(true);
-        //gameWindow.setSize(1280,768);
         gameWindow.setLayout(gridBagLayout);
 
-        /*
-        gameWindow.addKeyListener(new KeyAdapter() {
+        /*gameWindow.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
@@ -82,8 +84,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                     actionPerformed(new ActionEvent(registration,NORMAL,registration.getActionCommand()));
                 }
             }
-        });
-        */
+        });*/
 
         gameWindow.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -421,11 +422,11 @@ public class ClientGUI extends JFrame implements ActionListener {
         interactionPanel.add(betPanel);
 
         //Panel1
-        gridBagConstraints.gridwidth = GridBagConstraints.NORTH;
+        gridBagConstraints.gridwidth = GridBagConstraints.PAGE_START;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.anchor = GridBagConstraints.NORTH;
+        gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         JPanel panel1 = new JPanel();
@@ -440,14 +441,13 @@ public class ClientGUI extends JFrame implements ActionListener {
         gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(10,10,10,10);
-        betTextArea = new JTextArea();
-        gridBagLayout.setConstraints(betTextArea, gridBagConstraints);
-        betTextArea.setBackground(new Color(0x2B2B2B));
-        betTextArea.setCaretColor(new Color(0xD4D4D4));
-        betTextArea.setForeground(new Color(0xD4D4D4));
-        panel1.add(betTextArea);
+        betLabel = new JLabel();
+        gridBagLayout.setConstraints(betLabel, gridBagConstraints);
+        betLabel.setBackground(new Color(0x2B2B2B));
+        betLabel.setForeground(new Color(0xD4D4D4));
+        panel1.add(betLabel);
 
-        betTextArea.append("Bitte geben sie ein Gebot ab.");
+        betLabel.setText("Bitte geben sie ein Gebot ab.");
 
         //Panel2
         gridBagConstraints.gridwidth = GridBagConstraints.CENTER;
@@ -487,11 +487,11 @@ public class ClientGUI extends JFrame implements ActionListener {
         panel2.add(raise);
 
         //Panel3
-        gridBagConstraints.gridwidth = GridBagConstraints.SOUTH;
+        gridBagConstraints.gridwidth = GridBagConstraints.PAGE_END;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.anchor = GridBagConstraints.SOUTH;
+        gridBagConstraints.anchor = GridBagConstraints.PAGE_END;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         JPanel panel3 = new JPanel();

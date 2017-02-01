@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class CardStack {
+public class CardStack {
 
     List<PokerCard> cards;
 
@@ -16,7 +16,7 @@ class CardStack {
     }
 
     //Constructor with shuffle
-    CardStack() {
+    public CardStack() {
         this(52);
         for (PokerCard.Color color : PokerCard.Color.values()) {
             for (PokerCard.Value value : PokerCard.Value.values()) {
