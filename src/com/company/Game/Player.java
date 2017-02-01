@@ -1,6 +1,7 @@
 package com.company.Game;
 
 import com.company.Network.Message;
+import com.company.Server.RegisterHandler;
 import com.company.enums.Role;
 import handChecker.HandChecker;
 import handChecker.HandValue;
@@ -72,11 +73,19 @@ public class Player extends Thread{
     void readMessage(Message message) {
         switch (message.getHeader()) {
             case "registrateClient":
-
+                RegisterHandler registerHandler = new RegisterHandler();
+                registerHandler.createNewUser(message.getObject().toString());
+                sendMessageToClient("userAccept", null);
                 isFinished = true;
                 break;
             case "loginClient":
-
+                RegisterHandler registerHandler1 = new RegisterHandler();
+                if (registerHandler1.isUserInDatabase(message.getObject().toString())) {
+                    sendMessageToClient("userAccept", null);
+                    isFinished = true;
+                }
+                else
+                    sendMessageToClient("userDecline", null);
                 isFinished = true;
                 break;
             case "bet":

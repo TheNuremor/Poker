@@ -413,18 +413,31 @@ public class ClientGUI extends JFrame implements ActionListener {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.anchor = GridBagConstraints.SOUTH;
+        gridBagConstraints.fill = GridBagConstraints.VERTICAL;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
         betPanel = new JPanel();
         gridBagLayout.setConstraints(betPanel, gridBagConstraints);
         betPanel.setBackground(new Color(0x2B2B2B));
         interactionPanel.add(betPanel);
 
+        //Panel1
+        gridBagConstraints.gridwidth = GridBagConstraints.NORTH;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.anchor = GridBagConstraints.NORTH;
+        gridBagConstraints.fill = GridBagConstraints.NONE;
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+        JPanel panel1 = new JPanel();
+        gridBagLayout.setConstraints(panel1, gridBagConstraints);
+        betPanel.setBackground(new Color(0x2B2B2B));
+        betPanel.add(panel1);
         //BetTextArea
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.anchor = GridBagConstraints.NORTH;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(10,10,10,10);
         betTextArea = new JTextArea();
@@ -432,8 +445,22 @@ public class ClientGUI extends JFrame implements ActionListener {
         betTextArea.setBackground(new Color(0x2B2B2B));
         betTextArea.setCaretColor(new Color(0xD4D4D4));
         betTextArea.setForeground(new Color(0xD4D4D4));
-        betPanel.add(betTextArea);
+        panel1.add(betTextArea);
+
         betTextArea.append("Bitte geben sie ein Gebot ab.");
+
+        //Panel2
+        gridBagConstraints.gridwidth = GridBagConstraints.CENTER;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
+        gridBagConstraints.fill = GridBagConstraints.NONE;
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+        JPanel panel2 = new JPanel();
+        gridBagLayout.setConstraints(panel2, gridBagConstraints);
+        panel2.setBackground(new Color(0x2B2B2B));
+        betPanel.add(panel2);
 
         //BetValueField
         gridBagConstraints.gridwidth = 1;
@@ -445,7 +472,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         gridBagConstraints.insets = new Insets(20, 20, 10, 5);
         betValueField = new JTextField(12);
         gridBagLayout.setConstraints(betValueField, gridBagConstraints);
-        betPanel.add(betValueField);
+        panel2.add(betValueField);
         //Raise
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
@@ -457,44 +484,56 @@ public class ClientGUI extends JFrame implements ActionListener {
         raise = new JButton("Raise");
         raise.addActionListener(this);
         gridBagLayout.setConstraints(raise, gridBagConstraints);
-        betPanel.add(raise);
+        panel2.add(raise);
 
+        //Panel3
+        gridBagConstraints.gridwidth = GridBagConstraints.SOUTH;
+        gridBagConstraints.gridheight = 1;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.anchor = GridBagConstraints.SOUTH;
+        gridBagConstraints.fill = GridBagConstraints.NONE;
+        gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+        JPanel panel3 = new JPanel();
+        gridBagLayout.setConstraints(panel3, gridBagConstraints);
+        panel3.setBackground(new Color(0x2B2B2B));
+        betPanel.add(panel3);
         //Fold
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 0.0;
         gridBagConstraints.weighty = 0.0;
-        gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.insets = new Insets(10, 20, 20, 0);
         fold = new JButton("Fold");
         fold.addActionListener(this);
         gridBagLayout.setConstraints(fold, gridBagConstraints);
-        betPanel.add(fold);
+        panel3.add(fold);
         //Call
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.weightx = 0.0;
         gridBagConstraints.weighty = 0.0;
-        gridBagConstraints.anchor = GridBagConstraints.PAGE_END;
+        gridBagConstraints.anchor = GridBagConstraints.CENTER;
         gridBagConstraints.fill = GridBagConstraints.NONE;
         gridBagConstraints.insets = new Insets(10, 0, 20, 0);
         call = new JButton("Call");
         call.addActionListener(this);
         gridBagLayout.setConstraints(call, gridBagConstraints);
-        betPanel.add(call);
+        panel3.add(call);
         //AllIn
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_END;
+        gridBagConstraints.anchor = GridBagConstraints.LINE_END;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new Insets(10, 0, 20, 20);
         allIn = new JButton("All In");
         allIn.addActionListener(this);
         gridBagLayout.setConstraints(allIn, gridBagConstraints);
-        betPanel.add(allIn);
+        panel3.add(allIn);
 
 
         interactionPanel.updateUI();
