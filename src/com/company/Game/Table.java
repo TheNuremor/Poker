@@ -1,6 +1,6 @@
-package de.Nuremosh.Game;
+package com.company.Game;
 
-import de.Nuremosh.enums.Role;
+import com.company.enums.Role;
 import handChecker.HandValue;
 import handChecker.PokerCard;
 

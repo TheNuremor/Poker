@@ -1,4 +1,4 @@
-package de.Nuremosh.Game;
+package com.company.Game;
 
 import handChecker.PokerCard;
 
@@ -13,7 +13,7 @@ class Card implements PokerCard{
     }
 
     public String toString(){
-        return value + " " + color;
+        return value + "_" + color;
     }
 
     @Override

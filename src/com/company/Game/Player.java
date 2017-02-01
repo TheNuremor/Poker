@@ -1,7 +1,7 @@
-package de.Nuremosh.Game;
+package com.company.Game;
 
-import de.Nuremosh.Network.Message;
-import de.Nuremosh.enums.Role;
+import com.company.Network.Message;
+import com.company.enums.Role;
 import handChecker.HandChecker;
 import handChecker.HandValue;
 import handChecker.PokerCard;

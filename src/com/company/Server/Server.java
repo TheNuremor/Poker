@@ -1,7 +1,7 @@
-package de.Nuremosh.Server;
+package com.company.Server;
 
-import de.Nuremosh.Game.Player;
-import de.Nuremosh.Game.Table;
+import com.company.Game.Player;
+import com.company.Game.Table;
 
 import java.io.*;
 import java.net.ServerSocket;

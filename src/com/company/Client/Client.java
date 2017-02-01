@@ -1,11 +1,9 @@
-package de.Nuremosh.Client;
+package com.company.Client;
 
-import de.Nuremosh.Network.Message;
+import com.company.Network.Message;
 
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
-import java.util.Map;
 
 public class Client extends Thread{
 
