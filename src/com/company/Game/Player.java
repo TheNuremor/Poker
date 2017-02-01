@@ -88,7 +88,7 @@ public class Player extends Thread{
                     sendMessageToClient("userDecline", null);
                 isFinished = true;
                 break;
-            case "bet":
+            case "betreturn":
                 sendBet = ((Integer) message.getObject());
                 notify();
                 break;

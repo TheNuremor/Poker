@@ -2,7 +2,7 @@ package com.company.Game;
 
 import handChecker.PokerCard;
 
-class Card implements PokerCard{
+public class Card implements PokerCard{
     private Color color;
     private Value value;
 

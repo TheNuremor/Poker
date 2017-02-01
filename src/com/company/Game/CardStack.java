@@ -37,6 +37,14 @@ public class CardStack {
         return cards.remove(0);
     }
 
+    public void add(PokerCard card){
+        cards.add(card);
+    }
+
+    public void clearCards(){
+        cards.clear();
+    }
+
     public String toString() {
         String output = "";
         for (PokerCard c : cards) {
