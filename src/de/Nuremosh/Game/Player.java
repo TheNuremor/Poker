@@ -1,7 +1,7 @@
-package com.company.Game;
+package de.Nuremosh.Game;
 
-import com.company.Network.Message;
-import com.company.enums.Role;
+import de.Nuremosh.Network.Message;
+import de.Nuremosh.enums.Role;
 import handChecker.HandChecker;
 import handChecker.HandValue;
 import handChecker.PokerCard;
@@ -19,7 +19,7 @@ public class Player extends Thread{
     CardStack handstack;
     public String name;
 
-    public Integer playerBet;
+    public int playerBet;
     public int cash = 10000;
     boolean inGame = true;
     boolean isAllIn = false;
@@ -33,6 +33,8 @@ public class Player extends Thread{
     boolean isFinished = false;
     ObjectInputStream inputStream;
     ObjectOutputStream outputStream;
+
+    Integer sendBet;
 
     public Player(Socket client) {
         this.client = client;
@@ -78,7 +80,7 @@ public class Player extends Thread{
                 isFinished = true;
                 break;
             case "bet":
-                playerBet = ((Integer) message.getObject());
+                sendBet = ((Integer) message.getObject());
                 notify();
                 break;
             case "leave":
@@ -97,15 +99,18 @@ public class Player extends Thread{
             outputStream.close();
             client.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.exit(0);
         }
     }
 
-    public void sendMessageToClient(String header, Object payload) {
+    boolean sendMessageToClient(String header, Object payload) {
         try {
             outputStream.writeObject(new Message(header, payload));
+            return true;
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            return false;
         }
     }
 

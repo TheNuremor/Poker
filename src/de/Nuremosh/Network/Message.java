@@ -1,4 +1,4 @@
-package com.company.Network;
+package de.Nuremosh.Network;
 
 import java.io.Serializable;
 
