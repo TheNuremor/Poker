@@ -1,6 +1,7 @@
 package de.Nuremosh.Game;
 
 import de.Nuremosh.Network.Message;
+import de.Nuremosh.Server.RegisterHandler;
 import de.Nuremosh.enums.Role;
 import handChecker.HandChecker;
 import handChecker.HandValue;
@@ -72,12 +73,19 @@ public class Player extends Thread{
     void readMessage(Message message) {
         switch (message.getHeader()) {
             case "registrateClient":
-
+                RegisterHandler registerHandler = new RegisterHandler();
+                registerHandler.createNewUser(message.getObject().toString());
+                sendMessageToClient("userAccept", null);
                 isFinished = true;
                 break;
             case "loginClient":
-
-                isFinished = true;
+                RegisterHandler registerHandler1 = new RegisterHandler();
+                if (registerHandler1.isUserInDatabase(message.getObject().toString())) {
+                    sendMessageToClient("userAccept", null);
+                    isFinished = true;
+                }
+                else
+                    sendMessageToClient("userDecline", null);
                 break;
             case "bet":
                 sendBet = ((Integer) message.getObject());

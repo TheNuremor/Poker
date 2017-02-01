@@ -82,9 +82,9 @@ public class Client extends Thread{
                 break;
             case "nextGameRound":
                 break;
-            case "loginClient":
+            case "userAccept":
                 break;
-            case "registrateClient":
+            case "userDecline":
                 break;
             case "setBet":
                 break;
