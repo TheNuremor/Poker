@@ -39,6 +39,8 @@ public class Table extends Thread{
         Map<String, Integer> informationChips = new HashMap<>();
         Map<String, Integer> informationBets = new HashMap<>();
         Map<String, Boolean> informationInGame = new HashMap<>();
+        Map<String, Integer> informationPot = new HashMap<>();
+        Map<String, Integer> informationTableBet = new HashMap<>();
 
         for (Player p : playerList) {
             informationChips.put(p.getPlayerName(), p.getCash());
@@ -49,6 +51,8 @@ public class Table extends Thread{
         broadcastToAllPlayers("chips", informationChips);
         broadcastToAllPlayers("bet", informationBets);
         broadcastToAllPlayers("inGame", informationInGame);
+        broadcastToAllPlayers("pot", informationPot.put("Pot", pot));
+        broadcastToAllPlayers("tableBet", informationTableBet.put("MaxBet", maxBet));
     }
 
     private void startGame() {
@@ -181,6 +185,7 @@ public class Table extends Thread{
         }
         if (!finishBetRound()) {
             betRound();
+            System.out.println("Betround is not finish");
         }
     }
 
@@ -200,6 +205,7 @@ public class Table extends Thread{
                 betroundfinished = false;
             }
         }
+        broadcastToAllPlayers("nextRound", null);
         return betroundfinished;
     }
 

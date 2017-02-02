@@ -26,6 +26,7 @@ public class ClientGUI extends JFrame implements ActionListener {
     public JPanel playerListPanel;
     public JPanel playerCardsPanel;
     public JPanel tableCardsPanel;
+    public JPanel tableInfoPanel;
     public JPanel interactionPanel;
     public JPanel betPanel;
     public JTextArea textArea;
@@ -293,26 +294,17 @@ public class ClientGUI extends JFrame implements ActionListener {
             tableCardsPanel.setBackground(new Color(0, 119, 14));
             controlPanel.add(tableCardsPanel);
 
-            //PlayerInfoPanel
-            gridBagConstraints.gridwidth = GridBagConstraints.SOUTH;
-            gridBagConstraints.gridheight = 1;
-            gridBagConstraints.anchor = GridBagConstraints.SOUTH;
-            gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-            JPanel tableInfoPanel = new JPanel();
-            gridBagLayout.setConstraints(tableInfoPanel, gridBagConstraints);
+            //TableInfoPanel
+            tableInfoPanel = new JPanel(new GridLayout(2,2));
+            tableInfoPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0x2B2B2B))));
+            tableInfoPanel.setPreferredSize(new Dimension(300,100));
+            tableInfoPanel.add(new JLabel("Pot:")).setForeground(new Color(0xD4D4D4));
+            tableInfoPanel.add(new JLabel("0")).setForeground(new Color(0xD4D4D4));
+            tableInfoPanel.add(new JLabel("Maximal Gebot:")).setForeground(new Color(0xD4D4D4));
+            tableInfoPanel.add(new JLabel("0")).setForeground(new Color(0xD4D4D4));
             tableInfoPanel.setBackground(new Color(0x2B2B2B));
+            tableInfoPanel.setForeground(new Color(0xD4D4D4));
             controlPanel.add(tableInfoPanel);
-            //Label
-            gridBagConstraints.gridwidth = GridBagConstraints.PAGE_START;
-            gridBagConstraints.gridheight = 1;
-            gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
-            gridBagConstraints.insets = new Insets(20, 20, 20, 20);
-            String tableString =   "<html>Pot: " + pot + "<br>Höchstens Gebot: " + tableBet + "</html>";
-            JLabel tableInfoLabel = new JLabel(tableString);
-            tableInfoLabel.setBackground(new Color(0x2B2B2B));
-            tableInfoLabel.setForeground(new Color(0xD4D4D4));
-            gridBagLayout.setConstraints(tableInfoLabel, gridBagConstraints);
-            tableInfoPanel.add(tableInfoLabel);
 
 
 
@@ -479,8 +471,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("isInRound:")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
-        playerPanel.add(new JLabel("isAll-In:")).setForeground(new Color(0xD4D4D4));
-        playerPanel.add(new JLabel("0")).setForeground(new Color(0xD4D4D4));
+
 
         playerPanel.setBackground(new Color(0x2B2B2B));
         playerPanel.setForeground(new Color(0xD4D4D4));
@@ -569,7 +560,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         }
         else if (actionEvent.getSource() == this.allIn){
             if (betRequestion){
-                client.sendMessageToServer("betreturn", ( ((JPanel) playerInfoPanel.getComponent(0)).getComponent(3)));
+                client.sendMessageToServer("betreturn", ( Integer.parseInt(((JPanel) playerInfoPanel.getComponent(0)).getComponent(3).toString())));
             }
 
         }

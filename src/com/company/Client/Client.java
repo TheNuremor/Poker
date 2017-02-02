@@ -108,6 +108,10 @@ public class Client extends Thread{
                 clientGUI.tableCardsPanel.removeAll();
                 clientGUI.playerCardsPanel.removeAll();
                 break;
+            case  "nextRound":
+                clientGUI.tableCardsPanel.updateUI();
+                clientGUI.playerCardsPanel.updateUI();
+                break;
             case "validateClient":
 
                 break;
@@ -179,6 +183,29 @@ public class Client extends Thread{
                     try {
                         ((JLabel) clientGUI.findPlayerPanel(s).getComponent(5)).setText(integer.toString());
                     } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
+                break;
+            case "pot":
+                Map<String, Integer> Pot = (Map<String, Integer>) message.getObject();
+                //TODO need äquivalent zu foreach
+                Pot.forEach((s,integer) -> {
+                    try {
+                        ((JLabel) clientGUI.tableInfoPanel.getComponent(1)).setText(integer.toString());
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                });
+
+                break;
+            case "tableBet":
+                Map<String, Integer> MaxBet = (Map<String, Integer>) message.getObject();
+                //TODO need äquivalent zu foreach
+                MaxBet.forEach((s,integer) -> {
+                    try {
+                        ((JLabel) clientGUI.tableInfoPanel.getComponent(3)).setText(integer.toString());
+                    }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
                 });
