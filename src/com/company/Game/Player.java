@@ -40,6 +40,7 @@ public class Player extends Thread{
     public Player(Socket client) {
         this.client = client;
         handstack = new CardStack(2);
+        start();
     }
 
     @Override
@@ -59,8 +60,8 @@ public class Player extends Thread{
 
     void establishConnection() {
         try {
-            inputStream = new ObjectInputStream(client.getInputStream());
             outputStream = new ObjectOutputStream(client.getOutputStream());
+            inputStream = new ObjectInputStream(client.getInputStream());
 
             //Validate Username and Password
             sendMessageToClient("validateClient", null);
@@ -86,7 +87,6 @@ public class Player extends Thread{
                 }
                 else
                     sendMessageToClient("userDecline", null);
-                isFinished = true;
                 break;
             case "betreturn":
                 sendBet = ((Integer) message.getObject());

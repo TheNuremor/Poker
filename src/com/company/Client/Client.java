@@ -1,5 +1,6 @@
 package com.company.Client;
 
+import com.company.Game.Player;
 import com.company.Network.Message;
 import com.company.Client.ClientGUI;
 import com.company.Game.Card;
@@ -12,6 +13,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Map;
+import java.util.Objects;
 
 public class Client extends Thread{
 
@@ -23,8 +25,7 @@ public class Client extends Thread{
 
     private ClientGUI clientGUI;
 
-    public Client(ClientGUI clientGUI, String IP) {
-        this.clientGUI = clientGUI;
+    public Client(String IP) {
         try {
             server = new Socket(IP, 1111);
             establishConnection();
@@ -80,20 +81,20 @@ public class Client extends Thread{
     public void messangerServer (Message message) throws IOException{
         switch (message.getHeader()) {
             case "startGame":
-                clientGUI.createPlayerPanel(table.playerList);
+
 
                 break;
             case "endGame":
 
                 break;
             case "handCards":
-                clientGUI.handCards.add(((com.company.Game.Card) message.getObject()));
-                clientGUI.insertImage(clientGUI.playerCardsPanel,clientGUI.handCards);
+                clientGUI.handCards.add(((Card) message.getObject()));
+                clientGUI.insertImage(clientGUI.playerCardsPanel,clientGUI.handCards, 125, 182);
                 clientGUI.playerCardsPanel.updateUI();
                 break;
             case "openCard":
-                clientGUI.openCards.add(((com.company.Game.Card) message.getObject()));
-                clientGUI.insertImage(clientGUI.tableCardsPanel,clientGUI.openCards);
+                clientGUI.openCards.add(((Card) message.getObject()));
+                clientGUI.insertImage(clientGUI.tableCardsPanel, clientGUI.openCards,125, 182);
                 clientGUI.tableCardsPanel.updateUI();
                 break;
             case "disconnect":
@@ -106,31 +107,80 @@ public class Client extends Thread{
                 clientGUI.tableCardsPanel.removeAll();
                 clientGUI.playerCardsPanel.removeAll();
                 break;
+            case "validateClient":
+
+                break;
             case "userAccept":
+                System.out.println("Spiel beigetreten");
                 break;
             case "userDecline":
+                System.out.println("Spiel nicht beigetreten");
                 break;
             case "setBet":
+                clientGUI.textArea.append((String) message.getObject());
+                JOptionPane.showMessageDialog(clientGUI, "Du bist dran", "Zug erforderlich", JOptionPane.INFORMATION_MESSAGE);
+                clientGUI.betRequestion = true;
                 break;
             case "role":
                 Map<String, Integer> playerRoles = (Map<String, Integer>) message.getObject();
 
+
+
                 playerRoles.forEach((s, integer) -> {
                     try {
-                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(7)).setText(Role.values()[integer].name());
+                        if (Objects.equals(s, clientGUI.username)) {
+                            clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(s));
+                            clientGUI.playerInfoPanel.revalidate();
+                        }else {
+                            clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(s));
+                            clientGUI.playerListPanel.revalidate();
+                        }
+
+                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(5)).setText(Role.values()[integer].name());
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
+                clientGUI.playerListPanel.updateUI();
+                break;
+            case "chips":
+                Map<String, Integer> playerChips = (Map<String, Integer>) message.getObject();
+
+                String names[] = new String[playerChips.keySet().size()];
+                playerChips.keySet().toArray(names);
+                for (int i = 0; i < names.length; i++) {
+                    if (Objects.equals(names[i], clientGUI.username)) {
+                        if (clientGUI.playerInfoPanel.getComponents().length < names.length)
+                            //clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(names[i]));
+                        //clientGUI.playerInfoPanel.revalidate();
+                        ((JLabel) ((JPanel) clientGUI.playerInfoPanel.getComponent(i)).getComponent(1)).setText(playerChips.get(names[i]).toString());
+                        clientGUI.playerInfoPanel.updateUI();
+                    }
+                    else {
+                        if (clientGUI.playerListPanel.getComponents().length < names.length)
+                            //clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(names[i]));
+                        //clientGUI.playerListPanel.revalidate();
+                        ((JLabel) ((JPanel) clientGUI.playerListPanel.getComponent(i)).getComponent(1)).setText(playerChips.get(names[i]).toString());
+                        clientGUI.playerListPanel.updateUI();
+                    }
+
+                }
+                break;
+            case "inGame":
+                break;
+            case "bet":
+                Map<String, Integer> playerBets = (Map<String, Integer>) message.getObject();
+
+                playerBets.forEach((s, integer) -> {
+                    try {
+                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(3)).setText(integer.toString());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                 });
                 break;
-            case "cash":
-                break;
-            case "inGame":
-                break;
-            case "bet":
-                break;
             default:
-                clientGUI.textArea.append("Es ist in der Message: "+ message.getHeader() + "ein Fehler aufgetreten!");
+                System.out.println("Es ist in der Message: " + message.getHeader() + " ein Fehler aufgetreten!");
                 break;
         }
     }

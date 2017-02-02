@@ -60,7 +60,6 @@ public class Table extends Thread{
         }
         broadcastToAllPlayers("startGame", null);
         nextRound();
-
         broadcastToAllPlayers("endGame", null);
     }
 
@@ -121,7 +120,6 @@ public class Table extends Thread{
     }
 
     public void addPlayer(Player p) {
-        p.start();
         playerList.add(p);
     }
 
@@ -221,9 +219,9 @@ public class Table extends Thread{
         }
 
         //Server
-        Map<String, Role> information = new HashMap<>();
+        Map<String, Integer> information = new HashMap<>();
         for (Player player : playerList) {
-            information.put(player.getPlayerName(), player.getRole());
+            information.put(player.getPlayerName(), player.getRole().ordinal());
         }
         broadcastToAllPlayers("role", information);
     }

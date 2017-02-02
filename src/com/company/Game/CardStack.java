@@ -29,7 +29,7 @@ public class CardStack {
         Collections.shuffle(cards);
     }
 
-    List<PokerCard> getCards() {
+    public List<PokerCard> getCards() {
         return cards;
     }
 

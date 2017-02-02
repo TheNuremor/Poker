@@ -11,17 +11,18 @@ import com.company.Client.Client;
 import java.awt.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.Objects;
 
 
 public class ClientGUI extends JFrame implements ActionListener {
     private JFrame gameWindow;
     private JPanel controlPanel;
+    public JPanel playerInfoPanel;
     public JPanel playerListPanel;
     public JPanel playerCardsPanel;
     public JPanel tableCardsPanel;
@@ -47,16 +48,9 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     public CardStack openCards = new CardStack();
     public CardStack handCards = new CardStack();
-    public Role role;
-    private Client client;
     public boolean betRequestion = false;
-
+    private static Client client;
     public String username;
-    public String name;
-    public int cash;
-    public int playerBet;
-    public boolean isAllIn;
-    public boolean isInGame;
     public int tableBet;
     public int pot;
 
@@ -68,10 +62,13 @@ public class ClientGUI extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
+        client = new Client("localHost");
         ClientGUI clientGUI = new ClientGUI();
-        //clientGUI.showLoginWindow();
+        client.start();
+
+        clientGUI.showLoginWindow();
         //clientGUI.showRegistrationWindow();
-        clientGUI.showGameWindow();
+        //clientGUI.showGameWindow();
     }
 
     private void prepareGUI() {
@@ -327,6 +324,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         JPanel notePanel = new JPanel();
         gridBagLayout.setConstraints(notePanel, gridBagConstraints);
         notePanel.setBackground(new Color(77,77,77));
+        notePanel.setPreferredSize(new Dimension(500,250));
             //TextArea
             gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
             gridBagConstraints.gridheight = 1;
@@ -343,8 +341,10 @@ public class ClientGUI extends JFrame implements ActionListener {
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setAutoscrolls(true);
+            textArea.setAutoscrolls(true);
             gridBagLayout.setConstraints(scrollPane, gridBagConstraints);
             textArea.setPreferredSize(new Dimension(500,250));
+            textArea.setMaximumSize(new Dimension(500,250));
             textArea.setCaretPosition(textArea.getDocument().getLength());
             notePanel.add(scrollPane);
             notePanel.updateUI();
@@ -449,10 +449,6 @@ public class ClientGUI extends JFrame implements ActionListener {
         interactionPanel.updateUI();
 
 
-        insertImage(tableCardsPanel,openCards);
-        insertImage(playerCardsPanel, handCards);
-
-
         gameWindow.add(playerListPanel);
         gameWindow.add(controlPanel);
         gameWindow.add(notePanel);
@@ -461,11 +457,9 @@ public class ClientGUI extends JFrame implements ActionListener {
         gameWindow.setVisible(true);
     }
 
-    public void insertImage(JPanel imagePanel, CardStack cardStack) {
-        for (Card card : cardStack) {
-
+    public void insertImage(JPanel imagePanel, CardStack cardStack, int width, int height) {
+        for (PokerCard card : cardStack.getCards()) {
             String cardName = card.toString();
-
             URL resource = getClass().getClassLoader().getResource("CardTexture/"+ cardName +".png");
 
             try {
@@ -477,9 +471,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 @Override
                 public void paint(Graphics g) {
                     Graphics2D g2D = (Graphics2D) g;
-                    AffineTransform transform = new AffineTransform();
-                    transform.scale(0.25, 0.25);
-                    g2D.drawImage(img, transform, null);
+                    g2D.drawImage(img.getScaledInstance(width,height,Image.SCALE_SMOOTH),0,0,null);
                 }
                 @Override
                 public Dimension getPreferredSize() {
@@ -490,20 +482,10 @@ public class ClientGUI extends JFrame implements ActionListener {
         }
     }
 
-    public void createPlayerPanel(LinkedList playerList){
+    /*public void createPlayerPanel(LinkedList playerList, String name, int cash, int playerBet, Role role, boolean isInGame, boolean isAllIn){
 
         for (Player player : playerList) {
             if(!Objects.equals(player.getPlayerName(), username)) {
-
-                //PlayerPanel
-                gridBagConstraints.gridwidth = GridBagConstraints.LINE_START;
-                gridBagConstraints.gridheight = 1;
-                gridBagConstraints.weightx = 0.0;
-                gridBagConstraints.weighty = 0.0;
-                gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-                gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-                JPanel playerPanel = new JPanel();
-                playerPanel.setBackground(new Color(0x2B2B2B));
                 gridBagLayout.setConstraints(playerPanel, gridBagConstraints);
                 playerPanel.setSize(500, 500);
                 playerListPanel.add(playerPanel);
@@ -513,12 +495,12 @@ public class ClientGUI extends JFrame implements ActionListener {
                 gridBagConstraints.gridheight = 1;
                 gridBagConstraints.anchor = GridBagConstraints.LINE_START;
                 gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-                String str = "<html>Name: " + player.getPlayerName() +
-                        "<br>Geld: " + player.getCash() +
-                        "<br>Spielergebot: " + player.getPlayerBet() +
-                        "<br>Rolle: " + player.getRole() +
-                        "<br>isInGame: " + player.isInGame() +
-                        "<br>isAllIn: " + player.isAllIn() + "</html>";
+                String str = "<html>Name: " + name +
+                        "<br>Geld: " + cash +
+                        "<br>Spielergebot: " + playerBet +
+                        "<br>Rolle: " + role +
+                        "<br>isInGame: " + isInGame +
+                        "<br>isAllIn: " + isAllIn + "</html>";
                 JLabel label = new JLabel(str);
                 label.setBackground(new Color(0x2B2B2B));
                 label.setForeground(new Color(0xD4D4D4));
@@ -532,7 +514,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 gridBagConstraints.gridheight = 1;
                 gridBagConstraints.anchor = GridBagConstraints.NORTH;
                 gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-                JPanel playerInfoPanel = new JPanel();
+                playerInfoPanel = new JPanel();
                 gridBagLayout.setConstraints(playerInfoPanel, gridBagConstraints);
                 playerInfoPanel.setBackground(new Color(0x2B2B2B));
                 interactionPanel.add(playerInfoPanel);
@@ -550,17 +532,62 @@ public class ClientGUI extends JFrame implements ActionListener {
                 gridBagLayout.setConstraints(label, gridBagConstraints);
                 playerInfoPanel.add(label);
             }
-
         }
 
+    }*/
+    public JPanel createPlayerPanel(String name) {
+        JPanel playerPanel = new JPanel(new GridLayout(6,2));
+
+
+        playerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0x2B2B2B)),name));
+        playerPanel.setPreferredSize(new Dimension(300,100));
+        playerPanel.setBackground(new Color(0x2B2B2B));
+
+        playerPanel.add(new JLabel("Cash:"));
+        playerPanel.add(new JLabel("1"));
+        playerPanel.add(new JLabel("Bet:"));
+        playerPanel.add(new JLabel("1"));
+        playerPanel.add(new JLabel("Role:"));
+        playerPanel.add(new JLabel("1"));
+        playerPanel.add(new JLabel("isInRound:"));
+        playerPanel.add(new JLabel("1"));
+        playerPanel.add(new JLabel("isAll-In:"));
+        playerPanel.add(new JLabel("0"));
+
+        if (Objects.equals(name, username)){
+            playerInfoPanel.add(playerPanel);
+        }
+        else {
+            playerListPanel.add(playerPanel);
+        }
+
+
+        return playerPanel;
     }
-    public void upDatePlayerPanel() {
+
+    public JPanel findPlayerPanel(String name) throws Exception {
+        Component[] components;
+        if (Objects.equals(name, username)){
+            components = playerInfoPanel.getComponents();
+        }
+        else {
+            components = playerListPanel.getComponents();
+        }
+        for (Component component : components) {
+            if (Objects.equals(((TitledBorder) ((JPanel) component).getBorder()).getTitle(), name))
+                return ((JPanel) component);
+        }
+        throw new Exception("Element Not Found");
+    }
+
+    public void findPlayerPanel() {
 
     }
 
     public void actionPerformed(ActionEvent actionEvent){
         if(actionEvent.getSource() == this.login){
             controlPanel.removeAll();
+            client.sendMessageToServer("loginClient", usernameFieldLogin.getText()+":"+String.valueOf(passwordFieldLogin.getPassword()));
             showGameWindow();
         }
         else if(actionEvent.getSource() == this.gotoRegistration){
@@ -570,7 +597,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         else if (actionEvent.getSource() == this.registration){
             username = usernameFieldReg.getText();
             String password = String.valueOf(passwordFieldReg.getPassword());
-            String passwordCheck = String.valueOf(passwordFieldReg.getPassword());
+            String passwordCheck = String.valueOf(passwordFieldCheck.getPassword());
             client.sendMessageToServer("registrateClient", username+":"+password);
 
             if (Objects.equals(password, passwordCheck) && password.length()!=0 && passwordCheck.length() !=0 && username.length()!=0){
