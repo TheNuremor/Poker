@@ -525,6 +525,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         playerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0x2B2B2B)),name));
         playerPanel.setPreferredSize(new Dimension(300,100));
 
+        playerPanel.add(new JLabel("Name:")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("Cash:")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("Bet:")).setForeground(new Color(0xD4D4D4));
@@ -557,19 +559,19 @@ public class ClientGUI extends JFrame implements ActionListener {
         else {
             components = playerListPanel.getComponents();
         }
+        int i=0;
         for (Component component : components) {
-            if (Objects.equals(((TitledBorder) ((JPanel) component).getBorder()).getTitle(), name))
+            i++;
+            if (Objects.equals((JLabel) ((JPanel) component).getComponent(1), name))
                 return ((JPanel) component);
         }
         throw new Exception("Element Not Found");
     }
 
-    public void findPlayerPanel() {
-
-    }
 
     public void actionPerformed(ActionEvent actionEvent){
         if(actionEvent.getSource() == this.login){
+            username = usernameFieldLogin.getText();
             controlPanel.removeAll();
             client.sendMessageToServer("loginClient", usernameFieldLogin.getText()+":"+String.valueOf(passwordFieldLogin.getPassword()));
             showGameWindow();
@@ -620,10 +622,10 @@ public class ClientGUI extends JFrame implements ActionListener {
             }
 
         }
-        else if (actionEvent.getSource() == this.call){
-
-        }
         else if (actionEvent.getSource() == this.allIn){
+            if (betRequestion){
+                client.sendMessageToServer("betreturn", ( ((JPanel) playerInfoPanel.getComponent(0)).getComponent(1)));
+            }
 
         }
     }

@@ -126,6 +126,8 @@ public class Client extends Thread{
                 Map<String, Integer> playerRoles = (Map<String, Integer>) message.getObject();
                 playerRoles.forEach((s, integer) -> {
                     try {
+                        System.out.println(clientGUI.username);
+
                         if (Objects.equals(s, clientGUI.username)) {
                             clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(s));
                             clientGUI.playerInfoPanel.revalidate();
@@ -135,7 +137,7 @@ public class Client extends Thread{
                             clientGUI.playerListPanel.revalidate();
                             clientGUI.playerListPanel.updateUI();
                         }
-                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(5)).setText(Role.values()[integer].name());
+                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(7)).setText(Role.values()[integer].name());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -144,21 +146,34 @@ public class Client extends Thread{
             case "chips":
                 Map<String, Integer> playerChips = (Map<String, Integer>) message.getObject();
 
+
                 String names[] = new String[playerChips.keySet().size()];
                 playerChips.keySet().toArray(names);
-                for (int i = 0; i < names.length; i++) {
-                    if (Objects.equals(names[i], clientGUI.username)) {
+                int i=0;
+                for (String currentPlayer : names) {
+                    i++;
+                    if (Objects.equals(currentPlayer, clientGUI.username)) {
                         if (clientGUI.playerInfoPanel.getComponents().length < names.length)
                             //clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(names[i]));
                         clientGUI.playerInfoPanel.revalidate();
-                        ((JLabel) ((JPanel) clientGUI.playerInfoPanel.getComponent(i)).getComponent(1)).setText(playerChips.get(names[i]).toString());
+                        try {
+                            ((JLabel) ((JPanel) clientGUI.findPlayerPanel(currentPlayer)).getComponent(3)).setText(playerChips.get(currentPlayer).toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         clientGUI.playerInfoPanel.updateUI();
                     }
                     else {
+                        //TODO access compnent through search algorithm
                         if (clientGUI.playerListPanel.getComponents().length < names.length)
                             //clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(names[i]));
                         clientGUI.playerListPanel.revalidate();
-                        ((JLabel) ((JPanel) clientGUI.playerListPanel.getComponent(i)).getComponent(1)).setText(playerChips.get(names[i]).toString());
+
+                        try {
+                            ((JLabel) ((JPanel) clientGUI.findPlayerPanel(currentPlayer)).getComponent(3)).setText(playerChips.get(currentPlayer).toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         clientGUI.playerListPanel.updateUI();
                     }
 
@@ -171,7 +186,7 @@ public class Client extends Thread{
 
                 playerBets.forEach((s, integer) -> {
                     try {
-                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(3)).setText(integer.toString());
+                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(5)).setText(integer.toString());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
