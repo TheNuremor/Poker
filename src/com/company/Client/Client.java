@@ -89,13 +89,13 @@ public class Client extends Thread{
 
                 break;
             case "handCard":
-                clientGUI.handCards.add(((Card) message.getObject()));
-                clientGUI.insertImage(clientGUI.playerCardsPanel,clientGUI.handCards, 125, 182);
+                PokerCard handCard = (Card) message.getObject();
+                clientGUI.insertImage(clientGUI.playerCardsPanel, handCard, 125, 182);
                 clientGUI.playerCardsPanel.updateUI();
                 break;
             case "openCard":
-                clientGUI.openCards.add(((Card) message.getObject()));
-                clientGUI.insertImage(clientGUI.tableCardsPanel, clientGUI.openCards,125, 182);
+                PokerCard openCard = (Card) message.getObject();
+                clientGUI.insertImage(clientGUI.tableCardsPanel, openCard,125, 182);
                 clientGUI.tableCardsPanel.updateUI();
                 break;
             case "disconnect":
@@ -124,24 +124,17 @@ public class Client extends Thread{
                 break;
             case "role":
                 Map<String, Integer> playerRoles = (Map<String, Integer>) message.getObject();
-
-
-
                 playerRoles.forEach((s, integer) -> {
                     try {
-
                         if (Objects.equals(s, clientGUI.username)) {
                             clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(s));
                             clientGUI.playerInfoPanel.revalidate();
                             clientGUI.playerInfoPanel.updateUI();
-
                         }else {
                             clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(s));
                             clientGUI.playerListPanel.revalidate();
                             clientGUI.playerListPanel.updateUI();
-
                         }
-
                         ((JLabel) clientGUI.findPlayerPanel(s).getComponent(5)).setText(Role.values()[integer].name());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
@@ -157,14 +150,14 @@ public class Client extends Thread{
                     if (Objects.equals(names[i], clientGUI.username)) {
                         if (clientGUI.playerInfoPanel.getComponents().length < names.length)
                             //clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(names[i]));
-                        //clientGUI.playerInfoPanel.revalidate();
+                        clientGUI.playerInfoPanel.revalidate();
                         ((JLabel) ((JPanel) clientGUI.playerInfoPanel.getComponent(i)).getComponent(1)).setText(playerChips.get(names[i]).toString());
                         clientGUI.playerInfoPanel.updateUI();
                     }
                     else {
                         if (clientGUI.playerListPanel.getComponents().length < names.length)
                             //clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(names[i]));
-                        //clientGUI.playerListPanel.revalidate();
+                        clientGUI.playerListPanel.revalidate();
                         ((JLabel) ((JPanel) clientGUI.playerListPanel.getComponent(i)).getComponent(1)).setText(playerChips.get(names[i]).toString());
                         clientGUI.playerListPanel.updateUI();
                     }

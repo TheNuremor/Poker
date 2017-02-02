@@ -19,6 +19,7 @@ public class Table extends Thread{
     private int dealerpos;
 
     public Table() {
+        super("Server");
         playerList = new LinkedList<>();
         winnerList = new LinkedList<>();
         tablestack = new CardStack(5);

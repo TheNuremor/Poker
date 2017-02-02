@@ -19,6 +19,7 @@ public class Server {
 
         List<Player> playerQueue = new LinkedList<>();
         List<Table> games = new LinkedList<>();
+        int playerName = 1; //Just for debugging
 
         while (true) {
             Socket client;
@@ -26,7 +27,7 @@ public class Server {
             try {
                 if (playerQueue.size() < 2) {
                     client = server.accept();
-                    playerQueue.add(new Player(client));
+                    playerQueue.add(new Player(client, playerName++));
                 }
                 if (playerQueue.size() == 2) {
                     Table game = new Table();

@@ -37,7 +37,8 @@ public class Player extends Thread{
 
     Integer sendBet;
 
-    public Player(Socket client) {
+    public Player(Socket client, int playerPosition) {
+        super("Player " + playerPosition);
         this.client = client;
         handstack = new CardStack(2);
         start();
@@ -77,12 +78,14 @@ public class Player extends Thread{
                 RegisterHandler registerHandler = new RegisterHandler();
                 registerHandler.createNewUser(message.getObject().toString());
                 sendMessageToClient("userAccept", null);
+                name = message.getObject().toString().split(":")[0];
                 isFinished = true;
                 break;
             case "loginClient":
                 RegisterHandler registerHandler1 = new RegisterHandler();
                 if (registerHandler1.isUserInDatabase(message.getObject().toString())) {
                     sendMessageToClient("userAccept", null);
+                    name = message.getObject().toString().split(":")[0];
                     isFinished = true;
                 }
                 else

@@ -466,29 +466,11 @@ public class ClientGUI extends JFrame implements ActionListener {
         gameWindow.setVisible(true);
     }
 
-    public void insertImage(JPanel imagePanel, CardStack cardStack, int width, int height) {
-        for (PokerCard card : cardStack.getCards()) {
-            String cardName = card.toString();
-            URL resource = getClass().getClassLoader().getResource("CardTexture/"+ cardName +".png");
+    public void insertImage(JPanel imagePanel, PokerCard card, int width, int height) {
+        String cardName = card.toString();
 
-            try {
-                img = ImageIO.read(resource);
-            } catch (IOException ex) { ex.printStackTrace(); }
-
-
-            final JPanel panel = new JPanel() {
-                @Override
-                public void paint(Graphics g) {
-                    Graphics2D g2D = (Graphics2D) g;
-                    g2D.drawImage(img.getScaledInstance(width,height,Image.SCALE_SMOOTH),0,0,null);
-                }
-                @Override
-                public Dimension getPreferredSize() {
-                    return new Dimension(img.getWidth(null) / 4, img.getHeight(null) / 4);
-                }
-            };
-            imagePanel.add(panel);
-        }
+        imagePanel.add(new Texture(cardName, 125, 182));
+        imagePanel.revalidate();
     }
 
     /*public void createPlayerPanel(LinkedList playerList, String name, int cash, int playerBet, Role role, boolean isInGame, boolean isAllIn){
@@ -542,20 +524,20 @@ public class ClientGUI extends JFrame implements ActionListener {
 
         playerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0x2B2B2B)),name));
         playerPanel.setPreferredSize(new Dimension(300,100));
+
+        playerPanel.add(new JLabel("Cash:")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("Bet:")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("Role:")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("isInRound:")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("isAll-In:")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("0")).setForeground(new Color(0xD4D4D4));
+
         playerPanel.setBackground(new Color(0x2B2B2B));
-        playerPanel.setForeground(new Color(255,255,255));
-
-        playerPanel.add(new JLabel("Cash:"));
-        playerPanel.add(new JLabel("1"));
-        playerPanel.add(new JLabel("Bet:"));
-        playerPanel.add(new JLabel("1"));
-        playerPanel.add(new JLabel("Role:"));
-        playerPanel.add(new JLabel("1"));
-        playerPanel.add(new JLabel("isInRound:"));
-        playerPanel.add(new JLabel("1"));
-        playerPanel.add(new JLabel("isAll-In:"));
-        playerPanel.add(new JLabel("0"));
-
+        playerPanel.setForeground(new Color(0xD4D4D4));
         if (Objects.equals(name, username)){
             playerInfoPanel.add(playerPanel);
         }
@@ -646,16 +628,12 @@ public class ClientGUI extends JFrame implements ActionListener {
         }
     }
 
-    public void actionPerformedGame(ActionEvent gameActionEvent){
-
-    }
-
     public void pressedEnter (){
         if (betRequestion) {
             if (!Objects.equals(betValueField.getText(), "")) {
                 try {
                     Integer.parseInt(betValueField.getText());
-                    client.sendMessageToServer("betreturn", betValueField.getText());
+                    client.sendMessageToServer("betreturn", (Integer.parseInt(betValueField.getText())));
                     betValueField.setText("");
                     betRequestion = false;
                 } catch (Exception e) {
