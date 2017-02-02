@@ -46,8 +46,8 @@ public class ClientGUI extends JFrame implements ActionListener {
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-    public CardStack openCards = new CardStack();
-    public CardStack handCards = new CardStack();
+    public CardStack openCards = new CardStack(5);
+    public CardStack handCards = new CardStack(2);
     public boolean betRequestion = false;
     private static Client client;
     public String username;
@@ -62,8 +62,8 @@ public class ClientGUI extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        client = new Client("localHost");
         ClientGUI clientGUI = new ClientGUI();
+        client = new Client(clientGUI, "localHost");
         client.start();
 
         clientGUI.showLoginWindow();
@@ -372,6 +372,15 @@ public class ClientGUI extends JFrame implements ActionListener {
         gridBagLayout.setConstraints(interactionPanel, gridBagConstraints);
         interactionPanel.setBackground(new Color(0,119,14));
         interactionPanel.setPreferredSize(new Dimension(500, 250));
+            //PlayerInfoPanel
+            gridBagConstraints.gridwidth = GridBagConstraints.NORTH;
+            gridBagConstraints.gridheight = 1;
+            gridBagConstraints.anchor = GridBagConstraints.NORTH;
+            gridBagConstraints.insets = new Insets(0, 0, 0, 0);
+            playerInfoPanel = new JPanel();
+            gridBagLayout.setConstraints(playerInfoPanel, gridBagConstraints);
+            playerInfoPanel.setBackground(new Color(0x2B2B2B));
+            interactionPanel.add(playerInfoPanel);
 
             //BetPanel
             gridBagConstraints.gridwidth = GridBagConstraints.SOUTH;
@@ -509,15 +518,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 playerListPanel.updateUI();
             }
             if(Objects.equals(player.getPlayerName(), username)) {
-                //PlayerInfoPanel
-                gridBagConstraints.gridwidth = GridBagConstraints.NORTH;
-                gridBagConstraints.gridheight = 1;
-                gridBagConstraints.anchor = GridBagConstraints.NORTH;
-                gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-                playerInfoPanel = new JPanel();
-                gridBagLayout.setConstraints(playerInfoPanel, gridBagConstraints);
-                playerInfoPanel.setBackground(new Color(0x2B2B2B));
-                interactionPanel.add(playerInfoPanel);
+
                 //Label
                 gridBagConstraints.gridwidth = GridBagConstraints.PAGE_START;
                 gridBagConstraints.gridheight = 1;
@@ -542,6 +543,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         playerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0x2B2B2B)),name));
         playerPanel.setPreferredSize(new Dimension(300,100));
         playerPanel.setBackground(new Color(0x2B2B2B));
+        playerPanel.setForeground(new Color(255,255,255));
 
         playerPanel.add(new JLabel("Cash:"));
         playerPanel.add(new JLabel("1"));
@@ -616,10 +618,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 }
             }
         }
-    }
-
-    public void actionPerformedGame(ActionEvent gameActionEvent){
-        if (gameActionEvent.getSource() == this.betValueField){
+        if (actionEvent.getSource() == this.betValueField){
             betValueField.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
@@ -630,21 +629,25 @@ public class ClientGUI extends JFrame implements ActionListener {
                 }
             });
         }
-        if (gameActionEvent.getSource() == this.raise){
+        if (actionEvent.getSource() == this.raise){
             pressedEnter();
         }
-        else if (gameActionEvent.getSource() == this.fold){
+        else if (actionEvent.getSource() == this.fold){
             if (betRequestion){
                 client.sendMessageToServer("betreturn", "-1");
             }
 
         }
-        else if (gameActionEvent.getSource() == this.call){
+        else if (actionEvent.getSource() == this.call){
 
         }
-        else if (gameActionEvent.getSource() == this.allIn){
+        else if (actionEvent.getSource() == this.allIn){
 
         }
+    }
+
+    public void actionPerformedGame(ActionEvent gameActionEvent){
+
     }
 
     public void pressedEnter (){

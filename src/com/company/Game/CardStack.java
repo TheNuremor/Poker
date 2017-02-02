@@ -11,7 +11,7 @@ public class CardStack {
     List<PokerCard> cards;
 
     //Constructor
-    CardStack(int STACK_SIZE) {
+    public CardStack(int STACK_SIZE) {
         cards = new ArrayList<>(STACK_SIZE);
     }
 

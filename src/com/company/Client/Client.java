@@ -25,7 +25,8 @@ public class Client extends Thread{
 
     private ClientGUI clientGUI;
 
-    public Client(String IP) {
+    public Client(ClientGUI clientGUI, String IP) {
+        this.clientGUI = clientGUI;
         try {
             server = new Socket(IP, 1111);
             establishConnection();
@@ -87,7 +88,7 @@ public class Client extends Thread{
             case "endGame":
 
                 break;
-            case "handCards":
+            case "handCard":
                 clientGUI.handCards.add(((Card) message.getObject()));
                 clientGUI.insertImage(clientGUI.playerCardsPanel,clientGUI.handCards, 125, 182);
                 clientGUI.playerCardsPanel.updateUI();
@@ -128,12 +129,17 @@ public class Client extends Thread{
 
                 playerRoles.forEach((s, integer) -> {
                     try {
+
                         if (Objects.equals(s, clientGUI.username)) {
                             clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(s));
                             clientGUI.playerInfoPanel.revalidate();
+                            clientGUI.playerInfoPanel.updateUI();
+
                         }else {
                             clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(s));
                             clientGUI.playerListPanel.revalidate();
+                            clientGUI.playerListPanel.updateUI();
+
                         }
 
                         ((JLabel) clientGUI.findPlayerPanel(s).getComponent(5)).setText(Role.values()[integer].name());
@@ -141,7 +147,6 @@ public class Client extends Thread{
                         System.out.println(e.getMessage());
                     }
                 });
-                clientGUI.playerListPanel.updateUI();
                 break;
             case "chips":
                 Map<String, Integer> playerChips = (Map<String, Integer>) message.getObject();

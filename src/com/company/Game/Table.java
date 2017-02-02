@@ -226,11 +226,11 @@ public class Table extends Thread{
         broadcastToAllPlayers("role", information);
     }
 
-    private int betScanner(Player player) {
+    private synchronized int betScanner(Player player) {
         player.sendMessageToClient("setBet", null);
         while(player.sendBet == null) {
             try {
-                wait();
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }

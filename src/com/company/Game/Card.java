@@ -2,7 +2,9 @@ package com.company.Game;
 
 import handChecker.PokerCard;
 
-public class Card implements PokerCard{
+import java.io.Serializable;
+
+public class Card implements PokerCard, Serializable{
     private Color color;
     private Value value;
 
