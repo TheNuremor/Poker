@@ -80,8 +80,11 @@ public class Client extends Thread{
     public void messangerServer (Message message) throws IOException{
         switch (message.getHeader()) {
             case "startGame":
+                clientGUI.createPlayerPanel(table.playerList);
+
                 break;
             case "endGame":
+
                 break;
             case "handCards":
                 clientGUI.handCards.add(((com.company.Game.Card) message.getObject()));
@@ -114,7 +117,7 @@ public class Client extends Thread{
 
                 playerRoles.forEach((s, integer) -> {
                     try {
-                        ((JLabel) PlayerPanel(s).getComponent(7)).setText(Role.values()[integer].name());
+                        ((JLabel) clientGUI.findPlayerPanel(s).getComponent(7)).setText(Role.values()[integer].name());
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }

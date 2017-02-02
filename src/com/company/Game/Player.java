@@ -131,9 +131,15 @@ public class Player extends Thread{
         this.name = name;
     }
 
+    public int getPlayerBet() {
+        return playerBet;
+    }
+
     public boolean isInGame() {
         return inGame;
     }
+
+    public boolean isAllIn() { return  isAllIn; }
 
     public Role getRole() {
         return role;
