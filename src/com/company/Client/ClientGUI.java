@@ -430,18 +430,6 @@ public class ClientGUI extends JFrame implements ActionListener {
                 fold.addActionListener(this);
                 gridBagLayout.setConstraints(fold, gridBagConstraints);
                 betPanel.add(fold);
-                //Call
-                gridBagConstraints.gridwidth = 1;
-                gridBagConstraints.gridheight = 1;
-                gridBagConstraints.weightx = 0.0;
-                gridBagConstraints.weighty = 0.0;
-                gridBagConstraints.anchor = GridBagConstraints.CENTER;
-                gridBagConstraints.fill = GridBagConstraints.NONE;
-                gridBagConstraints.insets = new Insets(10, 0, 20, 0);
-                call = new JButton("Call");
-                call.addActionListener(this);
-                gridBagLayout.setConstraints(call, gridBagConstraints);
-                betPanel.add(call);
                 //AllIn
                 gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
                 gridBagConstraints.gridheight = 3;
@@ -473,51 +461,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         imagePanel.revalidate();
     }
 
-    /*public void createPlayerPanel(LinkedList playerList, String name, int cash, int playerBet, Role role, boolean isInGame, boolean isAllIn){
 
-        for (Player player : playerList) {
-            if(!Objects.equals(player.getPlayerName(), username)) {
-                gridBagLayout.setConstraints(playerPanel, gridBagConstraints);
-                playerPanel.setSize(500, 500);
-                playerListPanel.add(playerPanel);
-
-                //Label
-                gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-                gridBagConstraints.gridheight = 1;
-                gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-                gridBagConstraints.insets = new Insets(0, 0, 5, 0);
-                String str = "<html>Name: " + name +
-                        "<br>Geld: " + cash +
-                        "<br>Spielergebot: " + playerBet +
-                        "<br>Rolle: " + role +
-                        "<br>isInGame: " + isInGame +
-                        "<br>isAllIn: " + isAllIn + "</html>";
-                JLabel label = new JLabel(str);
-                label.setBackground(new Color(0x2B2B2B));
-                label.setForeground(new Color(0xD4D4D4));
-                gridBagLayout.setConstraints(label, gridBagConstraints);
-                playerPanel.add(label);
-                playerListPanel.updateUI();
-            }
-            if(Objects.equals(player.getPlayerName(), username)) {
-
-                //Label
-                gridBagConstraints.gridwidth = GridBagConstraints.PAGE_START;
-                gridBagConstraints.gridheight = 1;
-                gridBagConstraints.anchor = GridBagConstraints.PAGE_START;
-                gridBagConstraints.insets = new Insets(20, 20, 20, 20);
-                String str2 =   "<html><table><tr><th>Name: " + player.getPlayerName() + "</th>" + "<th>Geld: " + player.getCash() +"</th></tr>" +
-                        "<tr><th>Rolle: " + player.getRole() + "</th>" + "<th>Spielergebot: " + player.getPlayerBet() + "</th></tr>" +
-                        "<tr><th>isInGame: " + player.isInGame() + "</th>" + "<th>isAllIn: " + player.isAllIn() + "</th></tr></table></html>";
-                JLabel label = new JLabel(str2);
-                label.setBackground(new Color(0x2B2B2B));
-                label.setForeground(new Color(0xD4D4D4));
-                gridBagLayout.setConstraints(label, gridBagConstraints);
-                playerInfoPanel.add(label);
-            }
-        }
-
-    }*/
     public JPanel createPlayerPanel(String name) {
         JPanel playerPanel = new JPanel(new GridLayout(6,2));
 
@@ -526,7 +470,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         playerPanel.setPreferredSize(new Dimension(300,100));
 
         playerPanel.add(new JLabel("Name:")).setForeground(new Color(0xD4D4D4));
-        playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
+        playerPanel.add(new JLabel("")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("Cash:")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("Bet:")).setForeground(new Color(0xD4D4D4));
@@ -562,7 +506,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         int i=0;
         for (Component component : components) {
             i++;
-            if (Objects.equals((JLabel) ((JPanel) component).getComponent(1), name))
+            if (Objects.equals(((JLabel) ((JPanel) component).getComponent(1)).getText().toString(), name))
+                //(Objects.equals(((TitledBorder) ((JPanel) component).getBorder()).getTitle(), name))
                 return ((JPanel) component);
         }
         throw new Exception("Element Not Found");
@@ -624,7 +569,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         }
         else if (actionEvent.getSource() == this.allIn){
             if (betRequestion){
-                client.sendMessageToServer("betreturn", ( ((JPanel) playerInfoPanel.getComponent(0)).getComponent(1)));
+                client.sendMessageToServer("betreturn", ( ((JPanel) playerInfoPanel.getComponent(0)).getComponent(3)));
             }
 
         }

@@ -126,14 +126,17 @@ public class Client extends Thread{
                 Map<String, Integer> playerRoles = (Map<String, Integer>) message.getObject();
                 playerRoles.forEach((s, integer) -> {
                     try {
-                        System.out.println(clientGUI.username);
-
                         if (Objects.equals(s, clientGUI.username)) {
                             clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(s));
+                            ((JLabel) ((JPanel) clientGUI.playerInfoPanel.getComponent(0)).getComponent(1)).setText(s);
                             clientGUI.playerInfoPanel.revalidate();
                             clientGUI.playerInfoPanel.updateUI();
                         }else {
                             clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(s));
+                            for (int i = 0; i  < clientGUI.playerListPanel.getComponentCount();i++) {
+                                if (((JLabel) ((JPanel) clientGUI.playerListPanel.getComponent(i)).getComponent(1)).getText()== "")
+                                ((JLabel) ((JPanel) clientGUI.playerListPanel.getComponent(i)).getComponent(1)).setText(s);
+                            }
                             clientGUI.playerListPanel.revalidate();
                             clientGUI.playerListPanel.updateUI();
                         }
@@ -146,37 +149,25 @@ public class Client extends Thread{
             case "chips":
                 Map<String, Integer> playerChips = (Map<String, Integer>) message.getObject();
 
-
                 String names[] = new String[playerChips.keySet().size()];
                 playerChips.keySet().toArray(names);
-                int i=0;
                 for (String currentPlayer : names) {
-                    i++;
                     if (Objects.equals(currentPlayer, clientGUI.username)) {
                         if (clientGUI.playerInfoPanel.getComponents().length < names.length)
-                            //clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(names[i]));
-                        clientGUI.playerInfoPanel.revalidate();
-                        try {
-                            ((JLabel) ((JPanel) clientGUI.findPlayerPanel(currentPlayer)).getComponent(3)).setText(playerChips.get(currentPlayer).toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                            clientGUI.playerInfoPanel.revalidate();
                         clientGUI.playerInfoPanel.updateUI();
                     }
                     else {
-                        //TODO access compnent through search algorithm
-                        if (clientGUI.playerListPanel.getComponents().length < names.length)
-                            //clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(names[i]));
-                        clientGUI.playerListPanel.revalidate();
 
-                        try {
-                            ((JLabel) ((JPanel) clientGUI.findPlayerPanel(currentPlayer)).getComponent(3)).setText(playerChips.get(currentPlayer).toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        if (clientGUI.playerListPanel.getComponents().length < names.length)
+                            clientGUI.playerListPanel.revalidate();
                         clientGUI.playerListPanel.updateUI();
                     }
-
+                    try {
+                        ((JLabel)  clientGUI.findPlayerPanel(currentPlayer).getComponent(3)).setText(playerChips.get(currentPlayer).toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case "inGame":
