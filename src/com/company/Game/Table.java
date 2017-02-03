@@ -41,6 +41,11 @@ public class Table extends Thread{
         Map<String, Boolean> informationInGame = new HashMap<>();
         Map<String, Integer> informationPot = new HashMap<>();
         Map<String, Integer> informationTableBet = new HashMap<>();
+        Map<String, LinkedList> informationWinners = new HashMap<>();
+
+        informationPot.put("pot", pot);
+        informationTableBet.put("maxBet", maxBet);
+        informationWinners.put("winners", (LinkedList) winnerList);
 
         for (Player p : playerList) {
             informationChips.put(p.getPlayerName(), p.getCash());
@@ -51,8 +56,10 @@ public class Table extends Thread{
         broadcastToAllPlayers("chips", informationChips);
         broadcastToAllPlayers("bet", informationBets);
         broadcastToAllPlayers("inGame", informationInGame);
-        broadcastToAllPlayers("pot", informationPot.put("Pot", pot));
-        broadcastToAllPlayers("tableBet", informationTableBet.put("MaxBet", maxBet));
+        broadcastToAllPlayers("pot", informationPot);
+        broadcastToAllPlayers("tableBet", informationTableBet);
+        broadcastToAllPlayers("winners", informationWinners);
+
     }
 
     private void startGame() {
@@ -64,7 +71,10 @@ public class Table extends Thread{
             }
         }
         broadcastToAllPlayers("startGame", null);
-        nextRound();
+        while (playerList.size()!=0) {
+            nextRound();
+
+        }
         broadcastToAllPlayers("endGame", null);
     }
 
@@ -73,6 +83,7 @@ public class Table extends Thread{
             if (roundcounter == 0)
                 roleDistribution();
             distributeCards();
+
             betRound();
             roundcounter++;
             nextRound();
@@ -97,6 +108,7 @@ public class Table extends Thread{
         gamecounter++;
 
         broadcastToAllPlayers("nextGameRound", null);
+
     }
 
     private void distributeCards() {
@@ -250,15 +262,21 @@ public class Table extends Thread{
     }
 
     private void decideWinner() {
+        HandValue maxValue = playerList.get(0).getHandValue(playerList.get(0).getCompleteHandstack(tablestack));
         if (pot != 0) {
+            //Was macht die if??
             if (playerList.stream().filter(Player::isInGame).count() == 1) {
                 for (Player p : playerList)
                     if (p.isInGame())
                         winnerList.add(p);
             } else {
-                //Spieler im Spiel und Handvalue
-                HandValue maxValue = playerList.get(0).getHandValue(playerList.get(0).getCompleteHandstack(tablestack));
                 winnerList.clear();
+                //Spieler im Spiel und Handvalue
+                for (Player p : playerList) {
+                    if (p.inGame) {
+                        maxValue = p.getHandValue(p.getCompleteHandstack(tablestack));
+                    }
+                }
 
                 for (Player p : playerList) {
                     if ((p.hv.compareTo(maxValue) == 1) && (p.inGame)) {
@@ -279,6 +297,7 @@ public class Table extends Thread{
             broadcastToAllPlayers("winners", winnerList);
         }
     }
+
 
     private void potDistribution() {
         int playerAllIn = 0;

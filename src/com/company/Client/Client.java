@@ -12,6 +12,7 @@ import handChecker.PokerCard;
 import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 
@@ -107,6 +108,12 @@ public class Client extends Thread{
                 clientGUI.openCards.clearCards();
                 clientGUI.tableCardsPanel.removeAll();
                 clientGUI.playerCardsPanel.removeAll();
+
+                clientGUI.tableInfoPanel.updateUI();
+                clientGUI.playerCardsPanel.updateUI();
+                clientGUI.playerListPanel.updateUI();
+                clientGUI.playerInfoPanel.updateUI();
+                clientGUI.tableCardsPanel.updateUI();
                 break;
             case  "nextRound":
                 clientGUI.tableCardsPanel.updateUI();
@@ -131,11 +138,13 @@ public class Client extends Thread{
                 playerRoles.forEach((s, integer) -> {
                     try {
                         if (Objects.equals(s, clientGUI.username)) {
+                            clientGUI.playerInfoPanel.removeAll();
                             clientGUI.playerInfoPanel.add(clientGUI.createPlayerPanel(s));
                             ((JLabel) ((JPanel) clientGUI.playerInfoPanel.getComponent(0)).getComponent(1)).setText(s);
                             clientGUI.playerInfoPanel.revalidate();
                             clientGUI.playerInfoPanel.updateUI();
                         }else {
+                            clientGUI.playerListPanel.removeAll();
                             clientGUI.playerListPanel.add(clientGUI.createPlayerPanel(s));
                             for (int i = 0; i  < clientGUI.playerListPanel.getComponentCount();i++) {
                                 if (((JLabel) ((JPanel) clientGUI.playerListPanel.getComponent(i)).getComponent(1)).getText()== "")
@@ -188,38 +197,26 @@ public class Client extends Thread{
                 });
                 break;
             case "pot":
-               /* Map<String, Integer> Pot = (Map<String, Integer>) message.getObject();
-                //TODO need äquivalent zu foreach
-                Pot.forEach((s,integer) -> {
+                Map<String, Integer> pot = (Map<String, Integer>) message.getObject();
                     try {
-                        ((JLabel) clientGUI.tableInfoPanel.getComponent(1)).setText(integer.toString());
+                        ((JLabel) clientGUI.tableInfoPanel.getComponent(1)).setText(pot.get("pot").toString());
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
-                });*/
 
                 break;
             case "tableBet":
-                /*Map<String, Integer> MaxBet = (Map<String, Integer>) message.getObject();
-                //TODO need äquivalent zu foreach
-                MaxBet.forEach((s,integer) -> {
+                Map<String, Integer> maxBet = (Map<String, Integer>) message.getObject();
+
                     try {
-                        ((JLabel) clientGUI.tableInfoPanel.getComponent(3)).setText(integer.toString());
+                        ((JLabel) clientGUI.tableInfoPanel.getComponent(3)).setText(maxBet.get("maxBet").toString());
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
-                });*/
+
                 break;
             case "winners":
-                Map<String, String> winners = (Map<String, String>) message.getObject();
 
-                winners.forEach((s, name) -> {
-                    try {
-                        clientGUI.textArea.append("Der Spieler " + name.toString()+ " hat gewonnen!\n");
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                });
                 break;
             default:
                 System.out.println("Es ist in der Message: " + message.getHeader() + " ein Fehler aufgetreten!");

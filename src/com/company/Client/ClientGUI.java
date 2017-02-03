@@ -401,11 +401,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 gridBagLayout.setConstraints(raise, gridBagConstraints);
                 betPanel.add(raise);
 
-
-
         interactionPanel.updateUI();
-
-
         gameWindow.add(playerListPanel);
         gameWindow.add(controlPanel);
         gameWindow.add(notePanel);
@@ -416,16 +412,13 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     public void insertImage(JPanel imagePanel, PokerCard card, int width, int height) {
         String cardName = card.toString();
-
         imagePanel.add(new Texture(cardName, 125, 182));
         imagePanel.revalidate();
     }
 
 
     public JPanel createPlayerPanel(String name) {
-        JPanel playerPanel = new JPanel(new GridLayout(6,2));
-
-
+        JPanel playerPanel = new JPanel(new GridLayout(5,2));
         playerPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0x2B2B2B)),name));
         playerPanel.setPreferredSize(new Dimension(300,100));
 
@@ -440,7 +433,6 @@ public class ClientGUI extends JFrame implements ActionListener {
         playerPanel.add(new JLabel("isInRound:")).setForeground(new Color(0xD4D4D4));
         playerPanel.add(new JLabel("1")).setForeground(new Color(0xD4D4D4));
 
-
         playerPanel.setBackground(new Color(0x2B2B2B));
         playerPanel.setForeground(new Color(0xD4D4D4));
         if (Objects.equals(name, username)){
@@ -449,8 +441,6 @@ public class ClientGUI extends JFrame implements ActionListener {
         else {
             playerListPanel.add(playerPanel);
         }
-
-
         return playerPanel;
     }
 
@@ -520,9 +510,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         else if (actionEvent.getSource() == this.raise){
             pressedEnter();
         }
-
     }
-
     public void pressedEnter (){
         if (betRequestion) {
             if (!Objects.equals(betValueField.getText(), "")) {
