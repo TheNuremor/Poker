@@ -69,12 +69,13 @@ public class Table extends Thread{
     }
 
     private void nextRound() {
-        if (roundcounter < 4) {
+        if (roundcounter <= 3) {
             if (roundcounter == 0)
                 roleDistribution();
             distributeCards();
             betRound();
             roundcounter++;
+            nextRound();
         } else
             nextGameRound();
     }
@@ -275,7 +276,7 @@ public class Table extends Thread{
             }
             potDistribution();
             //TODO optional send packet
-            //broadcastToAllPlayers("winners", winnerList);
+            broadcastToAllPlayers("winners", winnerList);
         }
     }
 

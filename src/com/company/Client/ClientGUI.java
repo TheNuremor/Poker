@@ -9,13 +9,8 @@ import com.company.Client.Client;
 
 
 import java.awt.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
 
 
@@ -28,6 +23,7 @@ public class ClientGUI extends JFrame implements ActionListener {
     public JPanel tableCardsPanel;
     public JPanel tableInfoPanel;
     public JPanel interactionPanel;
+    public JPanel notePanel;
     public JPanel betPanel;
     public JTextArea textArea;
     private JTextField usernameFieldLogin;
@@ -40,10 +36,6 @@ public class ClientGUI extends JFrame implements ActionListener {
     private JButton login;
     private JButton registration;
     private JButton raise;
-    private JButton call;
-    private JButton fold;
-    private JButton allIn;
-    private Image img;
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
@@ -52,8 +44,7 @@ public class ClientGUI extends JFrame implements ActionListener {
     public boolean betRequestion = false;
     private static Client client;
     public String username;
-    public int tableBet;
-    public int pot;
+
 
 
     public int sizePlayerList=0;
@@ -102,8 +93,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         gridBagConstraints.anchor = GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new Insets(20, 20, 20, 20);
         textArea = new JTextArea();
-        textArea.setText(   "Bitte melden sie sich an, oder registrieren sich!\n\n" +
-                "Auf dem Server befinden sich " + sizePlayerList + "/6 Spieler");
+        textArea.setText(   "Bitte melden sie sich an, oder registrieren sich!\n");
         textArea.setBackground(gameWindow.getBackground());
         gridBagLayout.setConstraints(textArea, gridBagConstraints);
         controlPanel.add(textArea);
@@ -313,7 +303,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         gridBagConstraints.gridheight = 1;
         gridBagConstraints.anchor = GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.insets = new Insets(0, 0, 0, 0);
-        JPanel notePanel = new JPanel();
+        notePanel = new JPanel();
         gridBagLayout.setConstraints(notePanel, gridBagConstraints);
         notePanel.setBackground(new Color(77,77,77));
         notePanel.setPreferredSize(new Dimension(500,250));
@@ -406,34 +396,12 @@ public class ClientGUI extends JFrame implements ActionListener {
                 gridBagConstraints.anchor = GridBagConstraints.LINE_END;
                 gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
                 gridBagConstraints.insets = new Insets(20, 0, 10, 20);
-                raise = new JButton("Raise");
+                raise = new JButton("Send");
                 raise.addActionListener(this);
                 gridBagLayout.setConstraints(raise, gridBagConstraints);
                 betPanel.add(raise);
-                //Fold
-                gridBagConstraints.gridwidth = 1;
-                gridBagConstraints.gridheight = 1;
-                gridBagConstraints.weightx = 0.0;
-                gridBagConstraints.weighty = 0.0;
-                gridBagConstraints.anchor = GridBagConstraints.LINE_START;
-                gridBagConstraints.fill = GridBagConstraints.NONE;
-                gridBagConstraints.insets = new Insets(10, 20, 20, 0);
-                fold = new JButton("Fold");
-                fold.addActionListener(this);
-                gridBagLayout.setConstraints(fold, gridBagConstraints);
-                betPanel.add(fold);
-                //AllIn
-                gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-                gridBagConstraints.gridheight = 3;
-                gridBagConstraints.weightx = 1.0;
-                gridBagConstraints.weighty = 1.0;
-                gridBagConstraints.anchor = GridBagConstraints.LINE_END;
-                gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-                gridBagConstraints.insets = new Insets(10, 0, 20, 20);
-                allIn = new JButton("All In");
-                allIn.addActionListener(this);
-                gridBagLayout.setConstraints(allIn, gridBagConstraints);
-                betPanel.add(allIn);
+
+
 
         interactionPanel.updateUI();
 
@@ -498,7 +466,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         for (Component component : components) {
             i++;
             if (Objects.equals(((JLabel) ((JPanel) component).getComponent(1)).getText().toString(), name))
-                //(Objects.equals(((TitledBorder) ((JPanel) component).getBorder()).getTitle(), name))
+
                 return ((JPanel) component);
         }
         throw new Exception("Element Not Found");
@@ -549,21 +517,10 @@ public class ClientGUI extends JFrame implements ActionListener {
                 }
             });
         }
-        if (actionEvent.getSource() == this.raise){
+        else if (actionEvent.getSource() == this.raise){
             pressedEnter();
         }
-        else if (actionEvent.getSource() == this.fold){
-            if (betRequestion){
-                client.sendMessageToServer("betreturn", "-1");
-            }
 
-        }
-        else if (actionEvent.getSource() == this.allIn){
-            if (betRequestion){
-                client.sendMessageToServer("betreturn", ( Integer.parseInt(((JPanel) playerInfoPanel.getComponent(0)).getComponent(3).toString())));
-            }
-
-        }
     }
 
     public void pressedEnter (){

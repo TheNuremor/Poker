@@ -188,7 +188,7 @@ public class Client extends Thread{
                 });
                 break;
             case "pot":
-                Map<String, Integer> Pot = (Map<String, Integer>) message.getObject();
+               /* Map<String, Integer> Pot = (Map<String, Integer>) message.getObject();
                 //TODO need äquivalent zu foreach
                 Pot.forEach((s,integer) -> {
                     try {
@@ -196,16 +196,27 @@ public class Client extends Thread{
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
-                });
+                });*/
 
                 break;
             case "tableBet":
-                Map<String, Integer> MaxBet = (Map<String, Integer>) message.getObject();
+                /*Map<String, Integer> MaxBet = (Map<String, Integer>) message.getObject();
                 //TODO need äquivalent zu foreach
                 MaxBet.forEach((s,integer) -> {
                     try {
                         ((JLabel) clientGUI.tableInfoPanel.getComponent(3)).setText(integer.toString());
                     }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                });*/
+                break;
+            case "winners":
+                Map<String, String> winners = (Map<String, String>) message.getObject();
+
+                winners.forEach((s, name) -> {
+                    try {
+                        clientGUI.textArea.append("Der Spieler " + name.toString()+ " hat gewonnen!\n");
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                 });

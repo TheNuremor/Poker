@@ -25,11 +25,11 @@ public class Server {
             Socket client;
 
             try {
-                if (playerQueue.size() < 4) {
+                if (playerQueue.size() < 2) {
                     client = server.accept();
                     playerQueue.add(new Player(client, playerName++));
                 }
-                if (playerQueue.size() == 4) {
+                if (playerQueue.size() == 2) {
                     Table game = new Table();
                     playerQueue.forEach(game::addPlayer);
                     playerQueue.clear();
